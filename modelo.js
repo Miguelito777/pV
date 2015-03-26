@@ -4,5 +4,5 @@ function saludarr(){
 }
 
 saludarr.prototype.saludamiguelito = function (){
-	alert("Jesus es el Salvador del mundo. Att. "+this.nombre);
+	alert("Jesus es el Salvador del mundo, y lo voy a proclamar. Att. "+this.nombre);
 }
