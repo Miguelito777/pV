@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Reporte de ventas</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<hr>
+		<header style="text-align:center">
+			<h1>Reporte de ventas INIT</h1>
+		<br>
+			<div class="row">
+				<div class="col-xs-4">
+					
+				</div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+			</div>
+		</header>
+		<section>
+			<div class="row" id="espacioReportes">
+			</div>
+
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4" id ="totalVentaDia"></div>
+			</div>
+		</section>
+		<footer>
+			
+		</footer>
+	</div>
+
+
+
+
+					<div class="modal fade" id="updateCantidadVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="exampleModalLabel">Número de Productos vendidos</h4>
+					      </div>
+					      <div class="modal-body">
+					        <form>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="cantidadProductos" class="control-label">Cantidad productos :</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="cantidadProductos" >	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+					        </form>
+					      </div>
+					      <div class="modal-footer">
+					      	<button type="button" class="btn btn-	danger" data-dismiss="modal">Cancelar</button>
+        					<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="modificarCantidadVenta()">Agregar</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+
+		
+	<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/modelo.js"></script>
+	<script type="text/javascript" src="js/controlador.js"></script>
+	<script>reporteVentas();</script>
+</body>
+</html>

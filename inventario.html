@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Inicio</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<header>
+			<hr>
+			<div class="row">
+				<div class="col-xs-3"></div>
+				<div class="col-xs-6" style="text-align:center">
+					<h2>SISTEMA DE INVENTARIO</h2>
+				<h3>INIT</h3>
+				</div>
+				<div class="col-xs-3"></div>
+			</div>				
+		</header>
+		<section>
+			<div class="row">
+				<div class="col-xs-4">
+					<input class ="form-control" type="text" placeholder="Coincidencia" id="coincidencia" onkeyup="coincidenciaProducto(this.value)">
+					<br>
+				</div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="nuevoPro">Nuevo producto</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<select id="categoria" class="form-control"></select>
+					<br>
+				</div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<select name="" id="marca" class="form-control"></select>
+					<br>
+				</div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<select name="" id="proveedor" class="form-control"></select>
+					<br>
+				</div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="resultadosInventario"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4" style="text-align:center">
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+		</section>
+		<footer>
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4" style="text-align:center">
+					<h6>(c) Librería init, Webapps, Totonicapan,Guatemala</h6>
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+
+					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="exampleModalLabel">Crear Producto en Inventario</h4>
+					      </div>
+					      <div class="modal-body">
+					        <form>
+					          <div class="form-group">
+					          	<div class="row">
+					          	<div class="col-xs-4">
+					          		<label for="codigoProducto" class="control-label">Codigo producto</label>
+					          	</div>
+					          	<div class="col-xs-6">
+					          		<input type="text" class="form-control" id="codigoProducto" placeholder="numeros">
+					          	</div>
+					          	<div class="col-xs-2"></div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          	<div class="col-xs-12">
+					          		<label for="descripcionProducto" class="control-label">Descripción Producto</label>
+					            <textarea class="form-control" id="descripcionProducto" placeholder="Todo lo relacionado con el producto"></textarea>
+					          	</div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="categoriaProductoNuevo" class="control-label">Categoria</label>
+					          		</div>
+					          		<div class="col-xs-6">
+					          			<select class="form-control input-sm" type="text" id="categoriaProductoNuevo"></select>
+					          		</div>
+					          		<div class="col-xs-2"></div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="marcaNuevoProducto">Marca del Producto</label>	
+					          		</div>
+					          		<div class="col-xs-6">
+					          			<select class="form-control input-sm" type="text" id="marcaNuevoProducto"></select>
+					          		</div>
+					          		<div class="col-xs-2"></div>
+								</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="proveedorNuevoProducto">Proveedor</label>	
+					          		</div>
+					          		<div class="col-xs-6">
+					          			<select class="form-control input-sm" type="text" placeholder="Seleccione Marca" id="proveedorNuevoProducto"></select>
+					          		</div>
+					          		<div class="col-xs-2"></div>
+								</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="totalInicial" class="control-label" placeholder="Q.">Cantidad Inicial :</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="totalInicial" placeholder="Numeros">	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="precioCosto" class="control-label">Precio Costo:</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="precioCosto" placeholder="Q.">	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="precioVenta" class="control-label">Precio Venta:</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="precioVenta" placeholder="Q.">	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+
+					        </form>
+					      </div>
+					      <div class="modal-footer">
+					      	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        					<button type="button" class="btn btn-primary" data-dismiss="modal" id="crearProducto">Guardar Producto</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+
+
+
+					<div class="modal fade" id="updateProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="exampleModalLabel">Modificar Producto</h4>
+					      </div>
+					      <div class="modal-body">
+					        <form>
+					          <div class="form-group">
+					          	<div class="row">
+					          	<div class="col-xs-12">
+					          		<label for="descripcionProductoU" class="control-label">Descripción Producto</label>
+					            <textarea class="form-control" id="descripcionProductoU" placeholder="Todo lo relacionado con el producto"></textarea>
+					          	</div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="totalInicialU" class="control-label" placeholder="Q.">Cantida nueva a ingresar:</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="totalInicialU" placeholder="Numeros">	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="precioCostoU" class="control-label">Precio Costo:</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="precioCostoU" placeholder="Q.">	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+					          <div class="form-group">
+					          	<div class="row">
+					          		<div class="col-xs-4">
+					          			<label for="precioVentaU" class="control-label">Precio Venta:</label>
+					          		</div>
+					          		<div class="col-xs-3">
+					          			<input type="text" class="form-control" id="precioVentaU" placeholder="Q.">	
+					          		</div>
+					          		<div class="col-xs-5"></div>
+					          	</div>
+					          </div>
+
+					        </form>
+					      </div>
+					      <div class="modal-footer">
+					      	<button type="button" class="btn btn-	danger" data-dismiss="modal">Cancelar</button>
+        					<button type="button" class="btn btn-primary" data-dismiss="modal" id="updateProductoConfirm">Guardar Cambios</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+
+
+		</footer>
+	</div>
+	<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/modelo.js"></script>
+	<script type="text/javascript" src="js/controlador.js"></script>
+	<script>criterios();</script>
+</body>
+</html>

@@ -2,30 +2,38 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Cargar documento</title>
+	<title>Menu Principal</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 </head>
 <body>
-	
-
-	<table border = "1" id="tableId">
-		<tbody>
-			<tr>
-				<td>Item one</td>
-			</tr>
-			<tr>
-				<td>item dwo</td>
-			</tr>
-			<tr>
-				<td>item tre</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<div id="midiv"></div>
-	<button type="button">OK</button>
-	<br> <br> <br>
-	<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
-	<script type="text/javascript" src="modelo.js"></script>
-	<script type="text/javascript" src="controlador2.js"></script>
+	<div class="container">
+		<header>
+			<div class="row" style="text-align:center">
+				<div class="col-xs-12">
+					<h1>Bienvenidos</h1>
+					<h2>Sistema Libreria</h2>
+				</div>		
+			</div>
+		</header>
+		<section>
+			<div class="row">
+				<div class="col-xs-4 alert  alert-info" style="text-align:center">
+					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='inventario.html'">Control de inventario</button>
+				</div>
+				<div class="col-xs-4 alert  alert-info" style="text-align:center">
+					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='ventas.html'">Punto de venta</button>
+				</div>
+				<div class="col-xs-4 alert  alert-info" style="text-align:center">
+					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='reportes.html'">Reporte de ventas</button>
+				</div>
+			</div>
+			
+		</section>
+		<footer style="text-align:center">
+			<h5>(c) Derechos Reservados INIT WebApps, Guatemala</h5>
+		</footer>
+	</div>
+	<script type="text/javascript" src="js/modelo.js"></script>
+	<script type="text/javascript" src="js/controlador.js"></script>
 </body>
 </html>
