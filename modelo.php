@@ -84,6 +84,26 @@ class Tienda extends Conexion
 		}
 		return $this->reportesA;
 	}
+
+	function getReporteDiarioCompras($fecha){
+		parent:: __construct();
+		if (!$this->conexion)
+			echo "Error al conectar a la Base de Datos";
+		else
+		{
+			$query = "call getReporteComprasDia('$fecha')";
+			$reportes = $this->conexion->query($query);
+			$this->conexion->close();
+			while ($reporte = $reportes->fetch_assoc()) {
+				$reporteA = array();
+				foreach ($reporte as $key => $value) {
+					$reporteA[$key] = $value;
+				}
+				array_unshift($this->reportesA, $reporteA);
+			}
+		}
+		return $this->reportesA;
+	}
 }
 
 ?>

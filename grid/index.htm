@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<!--jQuery dependencies-->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>    
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<!--PQ Grid files-->
+    <link rel="stylesheet" href="pqgrid.min.css" />
+    <script src="pqgrid.min.js"></script>
+<!--PQ Grid Office theme-->
+    <link rel="stylesheet" href="themes/office/pqgrid.css" />
+
+<script>
+    $(function () {
+        var data = [[, '', '', ''],
+            [, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', ''],
+			[, '', '', '']];
+
+
+        var obj = { width: 975, height: 447, title: "Operaciones del anio 2015", align: "center",resizable:false,draggable:true };
+        obj.colModel = [{ title: "Saldos", width: 75, dataType: "integer" },
+        { title: "Crecimiento Mensual", width: 75, dataType: "integer" },
+        { title: "Total Casos", width: 75, dataType: "integer", align: "center" },
+        { title: "Nuevos", width: 75, dataType: "integer", align: "center"},
+        { title: "Recreditos", width: 75, dataType: "integer", align: "center" },
+        { title: "Retiros", width: 75, dataType: "integer", align: "center"},
+        { title: "Saldo Nuevos", width: 75, dataType: "integer", align: "center"},
+        { title: "saldo Recurrentes", width: 75, dataType: "integer", align: "center"},
+        { title: "Saldos", width: 75, dataType: "integer", align: "center"},
+        { title: "Desembolsos", width: 75, dataType: "integer", align: "center"},
+        { title: "Recuperacion", width: 75, dataType: "integet", align: "center"},
+        { title: "Crecimiento Mensual", width: 75, dataType: "integer", align: "center"}];
+        obj.dataModel = { data: data };
+        $("#grid_array").pqGrid(obj);
+
+    });
+        
+</script>    
+</head>
+<body>
+<div id="grid_array" style="margin:100px;"></div>
+</body>
+
+</html>

@@ -13,6 +13,13 @@
 		$reportes = $libreria->getReporteDiario($diaReporte);
 		echo json_encode($reportes);
 	}
+	if (isset($_GET['diaReporteCompra'])) {
+		$libreria = $_SESSION["libreriaa"];
+		$diaReporte = date("Y-m-d");
+		$reportes = $libreria->getReporteDiarioCompras($diaReporte);
+		echo json_encode($reportes);
+	}
+	
 
 	if (isset($_GET["deleteReporte"])) {
 		$libreria = $_SESSION["libreriaa"];

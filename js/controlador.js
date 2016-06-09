@@ -12,6 +12,12 @@ var carritoCompra = [];
 var elementoAAgregar;
 var reportes;
 var reportesDia;
+var crudCategorias = [];
+var obj;// Objeto para mostrar las categorias 
+var crudMarcas = [];
+var objM;// Objeto para mostrar las categorias 
+var crudProveedores = [];
+var objP;// Objeto para mostrar las categorias 
 
 function criteriosVentas(){
 	selects = 2;
@@ -230,19 +236,65 @@ function crearProducto(){
 	var codigoProducto = document.getElementById("codigoProducto").value;
 	var descripcionProducto = document.getElementById("descripcionProducto").value;
 	var codigoCategoria = document.getElementsByTagName("select")[3].value;
+	var categoriaNueva = document.getElementById("nuevaCategoria").value;
 	var codigoMarca = document.getElementsByTagName("select")[4].value;
+	var marcaNueva = document.getElementById("nuevaMarca").value;
 	var codigoProveedor = document.getElementsByTagName("select")[5].value;
+	var proveedorNuevo = document.getElementById("nuevoProveedor").value;
 	var totalInicial = document.getElementById("totalInicial").value;
 	var precioCosto = document.getElementById("precioCosto").value;
 	var precioVenta = document.getElementById("precioVenta").value;	
 
-	if (codigoProducto != '' && descripcionProducto != '' && codigoCategoria != '' && codigoMarca != '' && codigoProveedor != '') {
+	if (categoriaNueva == '' && marcaNueva == '' && proveedorNuevo == '') { //Verifico que los campos para ingresar nueva categoria, marca y proveedor sean vacias
+		if (codigoProducto != '' && descripcionProducto != '' && codigoCategoria != '' && codigoMarca != '' && codigoProveedor != '') {
+			nuevoProducto = new Producto();
+			nuevoProducto._id = codigoProducto;
+			nuevoProducto.descripcion = descripcionProducto;
+			nuevoProducto.codigoCategoria = parseInt(libreria.categorias[codigoCategoria].getId());
+			nuevoProducto.codigoMarca = parseInt(libreria.marcas[codigoMarca].getId());
+			nuevoProducto.codigoProveedor = parseInt(libreria.proveedores[codigoProveedor].getId());
+			nuevoProducto.cantidadTotal = totalInicial;
+			nuevoProducto.precioCosto = precioCosto;
+			nuevoProducto.precioVenta = precioVenta;
+			posicionModificar = libreria.productos.length;
+			libreria.productos.push(nuevoProducto);
+			libreria.productos[posicionModificar].crearNuevo();
+		}
+		else
+			alert("Por favor de llenar todos los campos disponibles");
+	}// Si alguna opcion de los campos para ingresar nuevo no esta vacia entonces
+	else{
+		//Creo un nuevo producto con los datos únicos
 		nuevoProducto = new Producto();
 		nuevoProducto._id = codigoProducto;
 		nuevoProducto.descripcion = descripcionProducto;
-		nuevoProducto.codigoCategoria = libreria.categorias[codigoCategoria].getId();
-		nuevoProducto.codigoMarca = libreria.marcas[codigoMarca].getId();
-		nuevoProducto.codigoProveedor = libreria.proveedores[codigoProveedor].getId();
+		if (categoriaNueva != '' && codigoCategoria != '') //Verifico que el usuario no haya seleccionado las dos opciones para ingresar una categoria al producto
+			alert("Solo debe seleccionar una opcion para categoria"); 
+		else{
+			//El usuario solo ingreso una opcion para ingresar la categoria
+			if (categoriaNueva != '')//Si el usuario desea ingresar la categoria por medio del imput 
+				nuevoProducto.codigoCategoria = categoriaNueva;
+			else//De lo contrario ingresamos el codigo de la categoria seleccionada en el select
+				nuevoProducto.codigoCategoria = parseInt(libreria.categorias[codigoCategoria].getId());
+		} 
+		if(marcaNueva != '' && codigoMarca != '') // Verifico que el usuario no haya seleccionado las dos opciones para ingresar una marca al producto
+			alert("Solo debe seleccionar una opcion para Marca");
+		else{
+			//el usuario solo ingreso una opcion para ingresar la marca
+			if (marcaNueva != '')// si el usuario desea ingresar la marca por medio del imput
+				nuevoProducto.codigoMarca = marcaNueva;
+			else//De lo contrario ingresamos el codigo de la marca seleccionada en el select
+				nuevoProducto.codigoMarca = parseInt(libreria.marcas[codigoMarca].getId());
+		}
+		if (proveedorNuevo != '' && codigoProveedor != '')//Verifico que no se haya seleccionado las dos opciones para ingresar un proveedor al producto
+			alert("Solo debe seleccionar una opcion para proveedor");
+		else{
+			//Solo se ha seleccionada una de las dos opciones para ingresar un proveedor al producto
+			if (proveedorNuevo != '')//Se desea almacenar un proveedor nuevo 
+				nuevoProducto.codigoProveedor = proveedorNuevo;
+			else//Se desea almacenar un proveedor existente
+				nuevoProducto.codigoProveedor = parseInt(libreria.proveedores[codigoProveedor].getId());
+		}
 		nuevoProducto.cantidadTotal = totalInicial;
 		nuevoProducto.precioCosto = precioCosto;
 		nuevoProducto.precioVenta = precioVenta;
@@ -250,8 +302,6 @@ function crearProducto(){
 		libreria.productos.push(nuevoProducto);
 		libreria.productos[posicionModificar].crearNuevo();
 	}
-	else
-		alert("Por favor de llenar todos los campos disponibles");
 }
 
 function insertarNuevoProductoTabla(productoAlmacenadoNuevo){
@@ -357,6 +407,7 @@ function reporteVentas(){
 	reportes.getReporteDia();
 }
 
+// Muestra el reporte de Ventas diaria
 function mostrarReportes(){
 	reportesDia = reportes.obtenerReportes();
 	document.getElementById("espacioReportes").innerHTML = "";
@@ -417,6 +468,182 @@ function resultadoDeleteReporte(){
 	}
 
 	document.getElementById("totalVentaDia").innerHTML = "<h1>Total: Q. "+reportes.totalVentaDiaria+"</h1>";
+}
+
+
+
+
+
+/**
+*------------ Script para controlar los crud de Categoria, Marca y proveedor---------------------------------------------------
+*/
+function getCategorias(){
+	selects = 3;
+	libreria = new Tienda();
+	//apuntadorParametro = libreria;
+	libreria.getCategorias(selects);
+}
+
+function rCategorias(){
+	// Creo un array con las categorias(objetos) de la libreria(objeto)
+	for(var i in libreria.categorias){
+		var categoria = [];
+		categoria.push(libreria.categorias[i].getId());
+		categoria.push(libreria.categorias[i].getNombre());
+		categoria.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteCategoria(this.id)'>borrar</button>");
+		crudCategorias.push(categoria);
+	}
+
+	// Creo una nueva ventana editable para los datos
+	obj = { width: 675, height: 447, title: "Categorias",resizable:false,draggable:false };
+	// Establesco la estructura de las columnas
+	obj.colModel = 
+		[
+			{ title: "Codigo", width: 25, dataType: "string", align: "center", editable: false},
+			{ title: "Categoria", width: 273, dataType: "string", align: "center", editable: true},
+			{ title: "Opcion", width: 100, dataType: "string", align: "center", editable: false}
+		];
+	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
+	obj.dataModel = { data: crudCategorias};
+
+	// Muestro la tabla con los datos
+	var $grid = $("#rCategorias").pqGrid(obj);
+	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+
+	$grid.on( "pqgridcellsave", function(){
+		console.log();
+		/*obj.dataModel = { data: curso.tareas_array};
+		var $grid = $("#tareasAsignadas").pqGrid(obj);
+		$("#tareasAsignadas").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});*/
+	});
 
 }
 
+function deleteCategoria(categoriaEliminar){
+	console.log(libreria.categorias[categoriaEliminar].getNombre());
+}
+
+/**
+* Control de marcas
+*/
+function getMarcas(){
+	selects = 3;
+	libreria = new Tienda();
+	//apuntadorParametro = libreria;
+	libreria.getMarcas(selects);
+}
+
+function rMarcas(){
+	// Creo un array con las categorias(objetos) de la libreria(objeto)
+	for(var i in libreria.marcas){
+		var marca = [];
+		marca.push(libreria.marcas[i].getId());
+		marca.push(libreria.marcas[i].getNombre());
+		marca.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteCategoria(this.id)'>borrar</button>");
+		crudMarcas.push(marca);
+	}
+
+	// Creo una nueva ventana editable para los datos
+	objM = { width: 675, height: 447, title: "Marcas",resizable:false,draggable:false };
+	// Establesco la estructura de las columnas
+	objM.colModel = 
+		[
+			{ title: "Codigo", width: 25, dataType: "string", align: "center", editable: false},
+			{ title: "Marca", width: 273, dataType: "string", align: "center", editable: true},
+			{ title: "Opcion", width: 100, dataType: "string", align: "center", editable: false}
+		];
+	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
+	objM.dataModel = { data: crudMarcas};
+
+	// Muestro la tabla con los datos
+	var $grid = $("#rCategorias").pqGrid(objM);
+	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+
+	$grid.on( "pqgridcellsave", function(){
+		console.log('click en las marcas');
+		/*obj.dataModel = { data: curso.tareas_array};
+		var $grid = $("#tareasAsignadas").pqGrid(obj);
+		$("#tareasAsignadas").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});*/
+	});
+
+}
+
+function deleteCategoria(categoriaEliminar){
+	console.log(libreria.categorias[categoriaEliminar].getNombre());
+}
+
+
+
+/**
+* Control de Proveedores
+*/
+function getProveedores(){
+	selects = 3;
+	libreria = new Tienda();
+	//apuntadorParametro = libreria;
+	libreria.getProveedores(selects);
+}
+
+function rProveedor(){
+	// Creo un array con las categorias(objetos) de la libreria(objeto)
+	for(var i in libreria.proveedores){
+		var proveedor = [];
+		proveedor.push(libreria.proveedores[i].getId());
+		proveedor.push(libreria.proveedores[i].getNombre());
+		proveedor.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteCategoria(this.id)'>borrar</button>");
+		crudProveedores.push(proveedor);
+	}
+
+	// Creo una nueva ventana editable para los datos
+	objP = { width: 675, height: 447, title: "Proveedores",resizable:false,draggable:false };
+	// Establesco la estructura de las columnas
+	objP.colModel = 
+		[
+			{ title: "Codigo", width: 25, dataType: "string", align: "center", editable: false},
+			{ title: "Proveedor", width: 273, dataType: "string", align: "center", editable: true},
+			{ title: "Opcion", width: 100, dataType: "string", align: "center", editable: false}
+		];
+	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
+	objP.dataModel = { data: crudProveedores};
+
+	// Muestro la tabla con los datos
+	var $grid = $("#rCategorias").pqGrid(objP);
+	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+
+	$grid.on( "pqgridcellsave", function(){
+		console.log('click en las marcas');
+		/*obj.dataModel = { data: curso.tareas_array};
+		var $grid = $("#tareasAsignadas").pqGrid(obj);
+		$("#tareasAsignadas").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});*/
+	});
+
+}
+
+function deleteCategoria(categoriaEliminar){
+	console.log(libreria.categorias[categoriaEliminar].getNombre());
+}
+
+
+
+/**
+*	--------------------Compras-------------------
+*/
+
+function getComprasDia(){
+	libreria = new Tienda();
+	libreria.iniciarTiendaServidor();
+	libreria.getReporteDiaCompras();
+
+}
+
+// Muestra el reporte de compras diaria
+function mostrarReportesCompras(){
+	reportesDia = libreria.reportes;
+	document.getElementById("comprasDia").innerHTML = "";
+	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th></tr></table>");
+	for(var i in reportesDia){
+		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td></tr>");
+	}
+
+	document.getElementById("totalCompra").innerHTML = "<h1>Total: Q. "+libreria.totalVentaDiaria+"</h1>";
+}

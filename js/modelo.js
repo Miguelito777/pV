@@ -24,6 +24,35 @@ Tienda.prototype.iniciarTiendaServidor = function(){
 	})
 }
 
+Tienda.prototype.getReporteDiaCompras = function(){
+	_this = this;
+	$.ajax({
+		data : {"diaReporteCompra" : true},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			var reportes = $.parseJSON(data);
+			for(var i in reportes){
+				var reporte = new Reporte();
+				reporte.hora = reportes[i]['hora'];
+				reporte.cantidadComprada = reportes[i]['cantidadComprada'];
+				reporte.producto = reportes[i]['descripcionCompra'];
+				reporte.marca = reportes[i]['MarcaNombre'];
+				reporte.proveedor = reportes[i]['ProveedoresNombre'];
+				reporte.categoria = reportes[i]['CategoriaNombre'];
+				reporte.precioCosto = reportes[i]['precioCostoCompra'];
+				reporte.idDetalle = reportes[i]['idDetalleCompra'];
+				var CantidadComprada = parseInt(reportes[i]['cantidadComprada']);
+				var PrecioCosto = parseFloat(reportes[i]['precioCostoCompra']);
+				reporte.totalCompra = CantidadComprada * PrecioCosto;
+				_this.totalVentaDiaria = _this.totalVentaDiaria + reporte.totalCompra;
+				_this.reportes.push(reporte);
+			}
+			mostrarReportesCompras();
+		}
+	})
+}
+
 Tienda.prototype.getReporteDia = function(){
 	_this = this;
 	$.ajax({
@@ -68,6 +97,9 @@ Tienda.prototype.getCategorias = function (selects){
 				categoria.setNombre(categoriasTodas[i][1]);
 				_this.categorias.push(categoria);
 			}
+			if (selects == 3) {
+				rCategorias();
+			};
 			if (selects == 1) {
 				//LLeno el select de categorias con los nombre e ids de los objetos categorias
 				for (var i = 0; i < _this.categorias.length; i++) {
@@ -109,6 +141,9 @@ Tienda.prototype.getMarcas = function (selects){
 				marca.setNombre(marcasTodas[i][1]);
 				_this.marcas.push(marca);
 			}
+			if (selects == 3) {
+				rMarcas();
+			};
 			if (selects == 1) {
 				//Lleno el select de marcas
 				for (var i = 0; i < _this.marcas.length; i++) {
@@ -135,7 +170,7 @@ Tienda.prototype.getMarcas = function (selects){
 		}
 	})
 }
-Tienda.prototype.getProveedores = function (){
+Tienda.prototype.getProveedores = function (select){
 	_this = this;
 	$.ajax({
 		data : {"getProveedores":true},
@@ -151,18 +186,23 @@ Tienda.prototype.getProveedores = function (){
 				proveedor.setNombre(proveedoresTodos[i][1]);
 				_this.proveedores.push(proveedor);
 			}
-			//Lleno el select de proveedores
-			for (var i = 0; i < _this.proveedores.length; i++) {
-				$("#proveedor").append("<option value="+i+">"+_this.proveedores[i].getNombre()+"</option>")
-			};
-			// Agrego un seleccione proveedor al minal del select marcas
-			$("#proveedor").append("<option value='' selected>Seleccione Proveedor</option>");
-			//Lleno el select de nuevo producto de proveedores
-			for (var i = 0; i < _this.proveedores.length; i++) {
-				$("#proveedorNuevoProducto").append("<option value="+i+">"+_this.proveedores[i].getNombre()+"</option>")
-			};
-			// Agrego un seleccione proveedor al minal del select marcas
-			$("#proveedorNuevoProducto").append("<option value='' selected>Seleccione Proveedor</option>");
+			if (select == 3) {
+				rProveedor();
+			}
+			else{
+				//Lleno el select de proveedores
+				for (var i = 0; i < _this.proveedores.length; i++) {
+					$("#proveedor").append("<option value="+i+">"+_this.proveedores[i].getNombre()+"</option>")
+				};
+				// Agrego un seleccione proveedor al minal del select marcas
+				$("#proveedor").append("<option value='' selected>Seleccione Proveedor</option>");
+				//Lleno el select de nuevo producto de proveedores
+				for (var i = 0; i < _this.proveedores.length; i++) {
+					$("#proveedorNuevoProducto").append("<option value="+i+">"+_this.proveedores[i].getNombre()+"</option>")
+				};
+				// Agrego un seleccione proveedor al minal del select marcas
+				$("#proveedorNuevoProducto").append("<option value='' selected>Seleccione Proveedor</option>");
+			}
 		}
 	})
 }
@@ -731,7 +771,7 @@ Producto.prototype.crearNuevo = function(){
 				_this.precioCosto = productoNuevo[i]["ProductocoPrecioCosto"];
 				_this.precioVenta = productoNuevo[i]["ProductocoPrecioVenta"];			
 			};	
-			insertarNuevoProductoTabla();		
+			insertarNuevoProductoTabla();
 		}
 	})
 }
@@ -741,10 +781,15 @@ Producto.prototype.updateProducto = function(){
 	var updateProducto = {};
 	updateProducto.codigoProducto = this._id;
 	updateProducto.descripcionProducto = this.descripcion;
+
 	if (this.cantidadTotal != '' || this.cantidadTotal != '<br>' || parseInt(this.cantidadTotal) > 0)
 		updateProducto.totalInicial = this.cantidadTotal;
 	else
 		updateProducto.totalInicial = 0;
+
+	if (this.cantidadTotal == '')
+		updateProducto.totalInicial = 0;
+
 	updateProducto.precioCosto = this.precioCosto;
 	updateProducto.precioVenta = this.precioVenta;
 	var updateProductoJson = JSON.stringify(updateProducto);
@@ -753,6 +798,7 @@ Producto.prototype.updateProducto = function(){
 		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
 		type : "POST",
 		success : function (data){
+			console.log(data);
 			var productoModificado = $.parseJSON(data);
 			for (var i in productoModificado) {
 				_this._id = productoModificado[i]["idProducto"];
@@ -843,8 +889,11 @@ function Reporte(){
 	this.producto;
 	this.marca;
 	this.precioVenta;
+	this.precioCosto;
 	this.existencia;
 	this.idDetalle;
+	this.proveedor;
+	this.categoria;
 }
 Reporte.prototype.deleteReporte = function(posicionActual){
 	_this = this;

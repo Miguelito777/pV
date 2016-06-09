@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Categorias</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+</head>
+<body>
+	<div class="container">
+		<header>
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<h1>Compras del dia</h1>
+				</div>
+				<div class="col-xs-4">
+					<div class="categorias"></div>
+				</div>
+			</div>
+		</header>
+		<section>
+			<div class="row">
+				<div class="col-xs-12" id="comprasDia"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4" id="totalCompra"></div>
+			</div>
+		</section>
+		<footer></footer>
+	</div>
+
+
+	<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="pqgrid.min.css" />
+    <script type='text/javascript' src="pqgrid.min.js"></script>
+
+    <!--PQ Grid Office theme-->
+    <link rel="stylesheet" href="grid/themes/office/pqgrid.css" />
+
+	<script type="text/javascript" src="js/modelo.js"></script>
+	<script type="text/javascript" src="js/controlador.js"></script>
+
+	<script>getComprasDia();</script>
+</body>
+</html>
