@@ -85,7 +85,7 @@ Tienda.prototype.getCategorias = function (selects){
 	_this	 = this;
 	$.ajax({
 		data : {"getCategorias":true},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -129,7 +129,7 @@ Tienda.prototype.getMarcas = function (selects){
 	_this = this;
 	$.ajax({
 		data : {"getMarcas":true},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -174,7 +174,7 @@ Tienda.prototype.getProveedores = function (select){
 	_this = this;
 	$.ajax({
 		data : {"getProveedores":true},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -211,7 +211,7 @@ Tienda.prototype.getProductos = function (){
 	_this.productos = [];
 	$.ajax({
 		data : {"getProductos":true},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		Cache : false,
 		//dataType: "json",
@@ -243,7 +243,7 @@ Tienda.prototype.getProductosCategoriaMarca = function (idCategoria, idMarca){
 	_this.productos = [];
 	$.ajax({
 		data : {"getPCC":idCategoria, "getPMM": idMarca},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		Cache : false,
 		//dataType: "json",
@@ -274,7 +274,7 @@ Tienda.prototype.getProductosMarcaProveedor = function (idMarca, idProveedor){
 	_this.productos = [];
 	$.ajax({
 		data : {"idMarcaGPMP":idMarca, "idProveedorGPMP": idProveedor},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		Cache : false,
 		//dataType: "json",
@@ -305,7 +305,7 @@ Tienda.prototype.getProductosCategoriaMarcaProveedor = function (idCategoria, id
 	_this.productos = [];
 	$.ajax({
 		data : {"getPCC3":idCategoria, "getPMM3": idMarca, "getPPP":idProveedor},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		Cache : false,
 		//dataType: "json",
@@ -337,7 +337,7 @@ Tienda.prototype.getProductosCategoriaProveedor = function (idCategoria, idProve
 	_this.productos = [];
 	$.ajax({
 		data : {"idCategoriaGPCP":idCategoria, "idProveedorGPCP": idProveedor},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		Cache : false,
 		//dataType: "json",
@@ -394,7 +394,7 @@ Categoria.prototype.getProductosCategoria = function (selects){
 	if (selects == 1) {
 		$.ajax({
 			data : {"getProductosCategoria":_this._id},
-			url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+			url : "pruebaConexionAnterior/controlador.php",
 			type : "GET",
 			//dataType: "json",
 			success : function (data){
@@ -421,7 +421,7 @@ Categoria.prototype.getProductosCategoria = function (selects){
 	if (selects == 2) {
 		$.ajax({
 			data : {"getProductosCategoriaVenta":_this._id},
-			url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+			url : "controladorK.php",
 			type : "GET",
 			//dataType: "json",
 			success : function (data){
@@ -441,6 +441,21 @@ Categoria.prototype.getProductosCategoria = function (selects){
 		})
 	}
 }
+Categoria.prototype.deleteCategoria = function (){
+	_this = this;
+	$.ajax({
+		data : {"deleteCategoria":_this._id},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				updateTableCategoria();
+			else
+				alert("Error al eliminar la categoria "+_this._nombre);
+		}
+	})
+}
+
 
 /**
 *Clase marca
@@ -473,7 +488,7 @@ Marca.prototype.getProductosMarca = function (modulo){
 	if (modulo == 1) {
 		$.ajax({
 			data : {"getProductosMarca":_this._id},
-			url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+			url : "controladorK.php",
 			type : "GET",
 			//dataType: "json",
 			success : function (data){
@@ -500,7 +515,7 @@ Marca.prototype.getProductosMarca = function (modulo){
 	if (modulo == 2) {
 		$.ajax({
 			data : {"getProductosMarcaVenta":_this._id},
-			url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+			url : "controladorK.php",
 			type : "GET",
 			//dataType: "json",
 			success : function (data){
@@ -519,6 +534,20 @@ Marca.prototype.getProductosMarca = function (modulo){
 			}
 		})
 	}
+}
+Marca.prototype.deleteMarca = function (){
+	_this = this;
+	$.ajax({
+		data : {"deleteMarca":_this._id},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				updateTableMarcas();
+			else
+				alert("Error al eliminar la Marca "+_this._nombre);
+		}
+	})
 }
 
 /**
@@ -550,7 +579,7 @@ Proveedor.prototype.getProductosProveedor = function (){
 	_this.productos = [];
 	$.ajax({
 		data : {"getProductosProveedor":_this._id},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -574,6 +603,21 @@ Proveedor.prototype.getProductosProveedor = function (){
 		}
 	})
 }
+Proveedor.prototype.deleteProveedor = function (){
+	_this = this;
+	$.ajax({
+		data : {"deleteProveedor":_this._id},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				updateTableProveedores();
+			else
+				alert("Error al eliminar al proveedor "+_this._nombre);
+		}
+	})
+}
+
 /**
 *Clase Coincidencia
 */
@@ -601,7 +645,7 @@ Coincidencia.prototype.getProductosCoincidencia = function (str){
 	_this.productos = [];
 	$.ajax({
 		data : {"getProductosCoincidencia":str},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -630,7 +674,7 @@ Coincidencia.prototype.getProductosCoincidenciaVenta = function (str){
 	_this.productos = [];
 	$.ajax({
 		data : {"getProductosCoincidenciaVenta":str},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -654,7 +698,7 @@ Coincidencia.prototype.getProductosCategoriaMarcaVenta = function (idCategoria, 
 	_this.productos = [];
 	$.ajax({
 		data : {"categoriaVenta":idCategoria, "marcaVenta":idMarca},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -678,7 +722,7 @@ Coincidencia.prototype.getProductosCategoriaMarcaVentaC = function (idCategoria,
 	_this.productos = [];
 	$.ajax({
 		data : {"categoriaVentaC":idCategoria, "marcaVentaC":idMarca, "coincidenciaC" : str},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		//dataType: "json",
 		success : function (data){
@@ -707,7 +751,7 @@ Coincidencia.prototype.realizarCotizacionCarrito = function(carrito){
 	var carritoJson = JSON.stringify(ventaJS);
 	$.ajax({
 		data : {"cotizacionCarritoCompra":carrito},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "POST",
 		success : function (datos){
 			console.log(datos);
@@ -722,7 +766,7 @@ Coincidencia.prototype.realizarVentaCarrito = function(carrito){
 	var carritoJson = JSON.stringify(ventaJS);
 	$.ajax({
 		data : {"ventaCarritoCompra":carritoJson},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "POST",
 		success : function (datos){
 			console.log(datos);
@@ -759,7 +803,7 @@ Producto.prototype.crearNuevo = function(){
 	var producto_json = JSON.stringify(nuevoProducto);
 	$.ajax({
 		data : {"nuevoProducto":producto_json},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "POST",
 		success : function(data){
 			var productoNuevo = $.parseJSON(data);
@@ -795,7 +839,7 @@ Producto.prototype.updateProducto = function(){
 	var updateProductoJson = JSON.stringify(updateProducto);
 	$.ajax({
 		data : {"updateProducto" : updateProductoJson},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "POST",
 		success : function (data){
 			console.log(data);
@@ -816,7 +860,7 @@ Producto.prototype.updateProducto = function(){
 Producto.prototype.deleteProducto = function(){
 	$.ajax({
 		data : {"deleteProducto" : this._id},
-		url : "http://192.168.43.72/pruebaConexionAnterior/controlador.php",
+		url : "controladorK.php",
 		type : "GET",
 		success : function(data){
 			var valorEntero = parseInt(data);

@@ -42,4 +42,29 @@
 
 		echo json_encode($resultado);
 	}
+
+	if (isset($_GET["deleteCategoria"])) {
+		$idCategoriaDelete = (int)$_GET["deleteCategoria"];
+		$libreria = new Tienda();
+
+		$statusDelete = $libreria->deleteCategoria($idCategoriaDelete);
+
+		echo "$statusDelete";
+	}
+	if (isset($_GET["deleteMarca"])) {
+		$idMarcaDelete = (int)$_GET["deleteMarca"];
+		$libreria = new Tienda();
+
+		$statusDelete = $libreria->deleteMarca($idMarcaDelete);
+
+		echo "$statusDelete";
+	}
+	if (isset($_GET["deleteProveedor"])) {
+		$idProveedorDelete = (int)$_GET["deleteProveedor"];
+		$libreria = new Tienda();
+
+		$statusDelete = $libreria->deleteProveedor($idProveedorDelete);
+
+		echo "$statusDelete";
+	}
 ?>

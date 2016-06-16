@@ -520,8 +520,23 @@ function rCategorias(){
 }
 
 function deleteCategoria(categoriaEliminar){
-	console.log(libreria.categorias[categoriaEliminar].getNombre());
+	posicionModificar = categoriaEliminar;
+	var statusDelete = confirm("¿Eliminar la categoria "+libreria.categorias[categoriaEliminar].getNombre()+"?");
+	if (statusDelete)
+		libreria.categorias[categoriaEliminar].deleteCategoria();
 }
+function updateTableCategoria(){
+	crudCategorias.splice(posicionModificar,1);
+
+	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
+	obj.dataModel = { data: crudCategorias};
+
+	// Muestro la tabla con los datos
+	var $grid = $("#rCategorias").pqGrid(obj);
+	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+
+}
+
 
 /**
 * Control de marcas
@@ -539,7 +554,7 @@ function rMarcas(){
 		var marca = [];
 		marca.push(libreria.marcas[i].getId());
 		marca.push(libreria.marcas[i].getNombre());
-		marca.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteCategoria(this.id)'>borrar</button>");
+		marca.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteMarca(this.id)'>borrar</button>");
 		crudMarcas.push(marca);
 	}
 
@@ -568,8 +583,22 @@ function rMarcas(){
 
 }
 
-function deleteCategoria(categoriaEliminar){
-	console.log(libreria.categorias[categoriaEliminar].getNombre());
+function deleteMarca(marcaDelete){
+	posicionModificar = marcaDelete;
+	var statusDelete = confirm("¿Eliminar la marca "+libreria.marcas[posicionModificar].getNombre()+"?");
+	if (statusDelete)
+		libreria.marcas[posicionModificar].deleteMarca();
+}
+function updateTableMarcas(){
+	crudMarcas.splice(posicionModificar,1);
+
+	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
+	objM.dataModel = { data: crudMarcas};
+
+	// Muestro la tabla con los datos
+	var $grid = $("#rCategorias").pqGrid(objM);
+	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+
 }
 
 
@@ -590,7 +619,7 @@ function rProveedor(){
 		var proveedor = [];
 		proveedor.push(libreria.proveedores[i].getId());
 		proveedor.push(libreria.proveedores[i].getNombre());
-		proveedor.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteCategoria(this.id)'>borrar</button>");
+		proveedor.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteProveedor(this.id)'>borrar</button>");
 		crudProveedores.push(proveedor);
 	}
 
@@ -619,10 +648,23 @@ function rProveedor(){
 
 }
 
-function deleteCategoria(categoriaEliminar){
-	console.log(libreria.categorias[categoriaEliminar].getNombre());
+function deleteProveedor(proveedorDelete){
+	posicionModificar = proveedorDelete;
+	var statusDelete = confirm("¿Eliminar la marca "+libreria.proveedores[posicionModificar].getNombre()+"?");
+	if (statusDelete)
+		libreria.proveedores[posicionModificar].deleteProveedor();
 }
+function updateTableProveedores(){
+	crudProveedores.splice(posicionModificar,1);
 
+	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
+	objP.dataModel = { data: crudProveedores};
+
+	// Muestro la tabla con los datos
+	var $grid = $("#rCategorias").pqGrid(objP);
+	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+
+}
 
 
 /**

@@ -9,7 +9,7 @@ class Conexion
 
 	function __construct()
 	{
-		$this->conexion = new mysqli("192.168.43.140","root","","puntoventalibreria");		
+		$this->conexion = new mysqli("localhost","root","Jesus8","puntoventalibreria");		
 	}
 }
 
@@ -104,6 +104,30 @@ class Tienda extends Conexion
 		}
 		return $this->reportesA;
 	}
+
+	function deleteCategoria($idCategoria){
+		$query = "DELETE from categoria where idCategorias = $idCategoria";
+		parent:: __construct();
+		$statusDelete = $this->conexion->query($query);
+		$this->conexion->close();
+		return $statusDelete;
+	}
+
+	function deleteMarca($idMarca){
+		$query = "DELETE from marca where idMarcas = $idMarca";
+		parent:: __construct();
+		$statusDelete = $this->conexion->query($query);
+		$this->conexion->close();
+		return $statusDelete;
+	}
+
+	function deleteProveedor($idProveedor){
+		$query = "DELETE from proveedores where idProveedores = $idProveedor";
+		parent:: __construct();
+		$statusDelete = $this->conexion->query($query);
+		$this->conexion->close();
+		return $statusDelete;
+	}	
 }
 
 ?>
