@@ -25,6 +25,17 @@ class Tienda extends Conexion
 		
 	}
 
+	function loginUsuario($usuario, $password){
+		$query = "SELECT * from usuarios where nombreUsuario = '$usuario' and passwordUsuario = '$password'";
+		parent:: __construct();
+		$result = $this->conexion->query($query);
+		$usuarioEncontrado = $result->num_rows;
+		if($usuarioEncontrado > 0)
+			return true;
+		else
+			false;
+	}
+
 	function updateReporte($id, $cantidadModificar){
 		$idDetalle = (int)$id;
 		$cant = (int)$cantidadModificar;

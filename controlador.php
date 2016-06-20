@@ -2,6 +2,35 @@
 	include 'modelo.php';
 	session_start();
 
+	if (isset($_GET["desabilitarSis"])) {
+		$resultadoDestuccion = session_destroy();
+		if ($resultadoDestuccion)
+			echo true;
+		else
+			echo false;
+	}
+
+	if (isset($_GET["usuario"]) && isset($_GET["password"])) {
+		 
+		$libreria = new Tienda();
+
+		$result = $libreria->loginUsuario($_GET["usuario"], $_GET["password"]);
+
+		if ($result){
+			$_SESSION["usuarioValido"] = true;
+			echo true;
+		}
+		else
+			echo false;
+	}
+
+	if (isset($_GET["verificar"])) {
+		if (isset($_SESSION["usuarioValido"]))
+			echo true;
+		else 
+			echo false;
+	}
+
 	if (isset($_GET['iniciarTienda'])) {
 		$libreria = new Tienda();
 		$_SESSION["libreriaa"] = $libreria;

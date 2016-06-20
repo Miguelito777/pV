@@ -383,8 +383,6 @@ $("#realizarVenta").click(realizarVenta);
 
 function realizarVenta(){
 	var ventas = [];
-	var almacenarCliente =  confirm("¿Desea almacenar cliente?");
-	if (!almacenarCliente) {
 		for(var i in carritoCompra){
 			var venta = {};
 			venta._id = carritoCompra[i]._id;
@@ -396,7 +394,6 @@ function realizarVenta(){
 		document.getElementById("carritoCompra").innerHTML = "";
 		carritoCompra = [];
 		document.getElementById("totalCompra").innerHTML = "<h1>Q.</h1>";
-	};
 }
 
 function reporteVentas(){
@@ -682,10 +679,34 @@ function getComprasDia(){
 function mostrarReportesCompras(){
 	reportesDia = libreria.reportes;
 	document.getElementById("comprasDia").innerHTML = "";
-	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th></tr></table>");
+	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th><th>Opcion 1</th><th>Opcion 2</th></tr></table>");
 	for(var i in reportesDia){
-		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td></tr>");
+		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadVentaa(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrar</button></td></tr>");
 	}
-
 	document.getElementById("totalCompra").innerHTML = "<h1>Total: Q. "+libreria.totalVentaDiaria+"</h1>";
+}
+
+
+
+/*
+* Logins
+*/
+
+$("#loginUsuario").click(loginUser);
+function loginUser(){
+	var usuario = document.getElementById("nombreUsuario").value;
+	var passwordUsuario = document.getElementById("passwordUsuario").value;
+
+	var libreria = new Tienda();
+	libreria.loginUsuario(usuario, passwordUsuario);
+}
+
+function verificaCredencialesUsuario(opcion){
+	var libreria = new Tienda();
+	libreria.verificaLogin(opcion);
+}
+
+function desabSistema(){
+	var libreria = new Tienda();
+	libreria.desabilitarSistema();
 }

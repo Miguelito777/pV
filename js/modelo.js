@@ -9,6 +9,54 @@ function Tienda(){
 	this.reportes = [];
 	this.totalVentaDiaria = 0;
 }
+Tienda.prototype.loginUsuario = function(usuario, password){
+	$.ajax({
+		data : {"usuario":usuario, "password": password},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				alert("Sistema Habilitado exitosamente");
+			else
+				alert("Usuario y contrasenia Invalida");
+		}
+	})
+}
+
+Tienda.prototype.verificaLogin = function(opcionV){
+	var opcion = opcionV;
+	$.ajax({
+		data : {"verificar" : true},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1'){
+				if (opcion == 1)
+					window.location = 'inventario.html';
+				else
+					window.location = 'ventas.html';		
+			}
+			else
+				alert("Ingresar credenciales");
+		}
+	})
+}
+
+Tienda.prototype.desabilitarSistema = function(){
+	$.ajax({
+		data : {"desabilitarSis" : true},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				alert("Desabilitado Exitosamente");
+			else
+				alert("Error al desabilitar sistema");
+		}
+	})
+}
+
+
 Tienda.prototype.obtenerReportes = function(){
 	return this.reportes;
 }
