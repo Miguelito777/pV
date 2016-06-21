@@ -233,7 +233,6 @@ function limpiarFormulario(){
 }
 
 function crearProducto(){
-	var codigoProducto = document.getElementById("codigoProducto").value;
 	var descripcionProducto = document.getElementById("descripcionProducto").value;
 	var codigoCategoria = document.getElementsByTagName("select")[3].value;
 	var categoriaNueva = document.getElementById("nuevaCategoria").value;
@@ -246,9 +245,8 @@ function crearProducto(){
 	var precioVenta = document.getElementById("precioVenta").value;	
 
 	if (categoriaNueva == '' && marcaNueva == '' && proveedorNuevo == '') { //Verifico que los campos para ingresar nueva categoria, marca y proveedor sean vacias
-		if (codigoProducto != '' && descripcionProducto != '' && codigoCategoria != '' && codigoMarca != '' && codigoProveedor != '') {
+		if (descripcionProducto != '' && codigoCategoria != '' && codigoMarca != '' && codigoProveedor != '') {
 			nuevoProducto = new Producto();
-			nuevoProducto._id = codigoProducto;
 			nuevoProducto.descripcion = descripcionProducto;
 			nuevoProducto.codigoCategoria = parseInt(libreria.categorias[codigoCategoria].getId());
 			nuevoProducto.codigoMarca = parseInt(libreria.marcas[codigoMarca].getId());
@@ -266,7 +264,6 @@ function crearProducto(){
 	else{
 		//Creo un nuevo producto con los datos únicos
 		nuevoProducto = new Producto();
-		nuevoProducto._id = codigoProducto;
 		nuevoProducto.descripcion = descripcionProducto;
 		if (categoriaNueva != '' && codigoCategoria != '') //Verifico que el usuario no haya seleccionado las dos opciones para ingresar una categoria al producto
 			alert("Solo debe seleccionar una opcion para categoria"); 
@@ -397,11 +394,21 @@ function realizarVenta(){
 }
 
 function reporteVentas(){
-	document.getElementById("espacioReportes").innerHTML = "<img src='img/ajax-loader.gif'>";
+	
+	$('#example1').datepicker({
+		format: "yyyy/mm/dd",
+		startDate: '-3d',
+		language: 'es' 
+	})
+	.on("changeDate", function(e){
+		$('#example1').datepicker('hide');
 
-	reportes = new Tienda();
-	reportes.iniciarTiendaServidor();
-	reportes.getReporteDia();
+		document.getElementById("espacioReportes").innerHTML = "<img src='img/ajax-loader.gif'>";
+		reportes = new Tienda();
+		reportes.iniciarTiendaServidor();
+		var fecha = document.getElementById("example1").value;
+		reportes.getReporteDia(fecha);
+	});
 }
 
 // Muestra el reporte de Ventas diaria
@@ -669,21 +676,31 @@ function updateTableProveedores(){
 */
 
 function getComprasDia(){
-	libreria = new Tienda();
-	libreria.iniciarTiendaServidor();
-	libreria.getReporteDiaCompras();
+	$('#example1').datepicker({
+		format: "yyyy/mm/dd",
+		startDate: '-3d',
+		language: 'es' 
+	})
+	.on("changeDate", function(e){
+		$('#example1').datepicker('hide');
 
+		document.getElementById("comprasDia").innerHTML = "<img src='img/ajax-loader.gif'>";
+		reportes = new Tienda();
+		reportes.iniciarTiendaServidor();
+		var fecha = document.getElementById("example1").value;
+		reportes.getReporteDiaCompras(fecha);
+	});
 }
 
 // Muestra el reporte de compras diaria
 function mostrarReportesCompras(){
-	reportesDia = libreria.reportes;
+	reportesDia = reportes.reportes;
 	document.getElementById("comprasDia").innerHTML = "";
 	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th><th>Opcion 1</th><th>Opcion 2</th></tr></table>");
 	for(var i in reportesDia){
 		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadVentaa(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrar</button></td></tr>");
 	}
-	document.getElementById("totalCompra").innerHTML = "<h1>Total: Q. "+libreria.totalVentaDiaria+"</h1>";
+	document.getElementById("totalCompra").innerHTML = "<h1>Total: Q. "+reportes.totalVentaDiaria+"</h1>";
 }
 
 

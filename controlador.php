@@ -38,13 +38,13 @@
 
 	if (isset($_GET['diaReporte'])) {
 		$libreria = $_SESSION["libreriaa"];
-		$diaReporte = date("Y-m-d");
+		$diaReporte = $_GET['diaReporte'];
 		$reportes = $libreria->getReporteDiario($diaReporte);
 		echo json_encode($reportes);
 	}
 	if (isset($_GET['diaReporteCompra'])) {
 		$libreria = $_SESSION["libreriaa"];
-		$diaReporte = date("Y-m-d");
+		$diaReporte = $_GET['diaReporteCompra'];
 		$reportes = $libreria->getReporteDiarioCompras($diaReporte);
 		echo json_encode($reportes);
 	}

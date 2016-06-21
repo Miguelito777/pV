@@ -72,10 +72,10 @@ Tienda.prototype.iniciarTiendaServidor = function(){
 	})
 }
 
-Tienda.prototype.getReporteDiaCompras = function(){
+Tienda.prototype.getReporteDiaCompras = function(fecha){
 	_this = this;
 	$.ajax({
-		data : {"diaReporteCompra" : true},
+		data : {"diaReporteCompra" : fecha},
 		url : "controlador.php",
 		type : "GET",
 		success : function(data){
@@ -101,10 +101,10 @@ Tienda.prototype.getReporteDiaCompras = function(){
 	})
 }
 
-Tienda.prototype.getReporteDia = function(){
+Tienda.prototype.getReporteDia = function(fecha){
 	_this = this;
 	$.ajax({
-		data : {"diaReporte" : true},
+		data : {"diaReporte" : fecha},
 		url : "controlador.php",
 		type : "GET",
 		success : function(data){
@@ -840,7 +840,6 @@ function Producto(){
 Producto.prototype.crearNuevo = function(){
 	var _this = this;
 	var nuevoProducto = {};
-	nuevoProducto.codigoProducto = this._id;
 	nuevoProducto.descripcionProducto = this.descripcion;
 	nuevoProducto.codigoCategoria = this.codigoCategoria;
 	nuevoProducto.codigoMarca = this.codigoMarca;

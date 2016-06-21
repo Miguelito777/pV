@@ -222,7 +222,6 @@
         }      
         
         function crearNuevoProducto($arrayProducto){
-            $codigoProducto=$arrayProducto['codigoProducto'];
             $descripcionProducto=$arrayProducto['descripcionProducto'];
             $codCategoria=$arrayProducto['codigoCategoria'];
             if (is_string($codCategoria)) {
@@ -259,7 +258,7 @@
             $query= ("setNames utf8");
             parent:: __construct();
             $this->conn->query($query);
-            $query = "call setNuevoProducto($codigoProducto, '$descripcionProducto', $codCategoria, $codMarca, $totalInicial, $precioCosto, $precioVenta, $codProveedor)";
+            $query = "call ingresarProducto('$descripcionProducto', $codCategoria, $codMarca, $totalInicial, $precioCosto, $precioVenta, $codProveedor)";
             $this->productos = $this->conn->query($query);
             $this->conn->close();
             $productos = array();
