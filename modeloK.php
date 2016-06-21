@@ -258,7 +258,7 @@
             $query= ("setNames utf8");
             parent:: __construct();
             $this->conn->query($query);
-            $query = "call ingresarProducto('$descripcionProducto', $codCategoria, $codMarca, $totalInicial, $precioCosto, $precioVenta, $codProveedor)";
+            $query = "call ingresarProducto('$descripcionProducto', $totalInicial, $precioCosto, $precioVenta, $codCategoria, $codMarca, $codProveedor)";
             $this->productos = $this->conn->query($query);
             $this->conn->close();
             $productos = array();
