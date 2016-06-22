@@ -10,27 +10,35 @@
 			echo false;
 	}
 
-	if (isset($_GET["usuario"]) && isset($_GET["password"]) && isset($_GET["tipo"])) {
-		$typeUser = (int)$_GET["tipo"]; 
+	if (isset($_POST["usuario"]) && isset($_POST["password"]) && isset($_POST["tipo"])) {
+		$typeUser = (int)$_POST["tipo"]; 
 		$libreria = new Tienda();
 
-		$result = $libreria->loginUsuario($_GET["usuario"], $_GET["password"], $typeUser);
+		$result = $libreria->loginUsuario($_POST["usuario"], $_POST["password"], $typeUser);
 
 		if ($result == 1){
 			$_SESSION["usuarioValido"] = true;
 			echo 1;
 		}
-		if ($result == 2){
+		else if ($result == 2){
 			$_SESSION["usuarioValidoAdmin"] = true;
 			echo 2;
 		}
+		else 0;
 	}
 
 	if (isset($_GET["verificar"])) {
 		if (isset($_SESSION["usuarioValido"]))
 			echo true;
-		else 
+		else
 			echo false;
+	}
+
+	if (isset($_GET["verificarAdmin"])){
+		if (isset($_SESSION["usuarioValidoAdmin"]))
+			echo true;
+		else
+			false;
 	}
 
 	if (isset($_GET['iniciarTienda'])) {

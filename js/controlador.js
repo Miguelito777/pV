@@ -737,6 +737,10 @@ function verificaCredencialesUsuario(opcion){
 	var libreria = new Tienda();
 	libreria.verificaLogin(opcion);
 }
+function verificaCredencialesUsuarioAdmin(){
+	var libreria = new Tienda();
+	libreria.verificaLoginAdmin();
+}
 
 function desabSistema(){
 	var libreria = new Tienda();
@@ -744,7 +748,7 @@ function desabSistema(){
 }
 
 /*
-* Logins
+* Login admin 
 */
 
 $("#loginUsuarioAdmin").click(loginUserAdmin);

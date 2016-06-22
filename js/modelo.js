@@ -13,9 +13,8 @@ Tienda.prototype.loginUsuario = function(usuario, password, tipo){
 	$.ajax({
 		data : {"usuario":usuario, "password": password, "tipo" : tipo},
 		url : "controlador.php",
-		type : "GET",
+		type : "POST",
 		success : function(data){
-			console.log(data);
 			if (data == '1')
 				alert("Sistema Habilitado exitosamente");
 			else if (data == '2')
@@ -41,6 +40,22 @@ Tienda.prototype.verificaLogin = function(opcionV){
 			}
 			else
 				alert("Ingresar credenciales");
+		}
+	})
+}
+Tienda.prototype.verificaLoginAdmin = function(){
+	console.log("Jesucrito");
+	$.ajax({
+		data : {"verificarAdmin" : true},
+		url : "../controlador.php",
+		type : "GET",
+		success : function(data){
+			console.log("Hola mundo"+data);
+			if (data == '1')
+				console.log("Bienvenido administrador");
+			else{
+				window.location = '../index.html';
+			}
 		}
 	})
 }
