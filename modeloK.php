@@ -259,9 +259,14 @@
             parent:: __construct();
             $this->conn->query($query);
             $query = "call ingresarProducto($totalInicial, '$descripcionProducto', $totalInicial, $precioCosto, $precioVenta, $codCategoria, $codMarca, $codProveedor)";
-            $this->productos = $this->conn->query($query);
+            if (!$this->productos = $this->conn->query($query)){
+                printf("Errormessage: %s\n", $this->conn->error);
+            }
             $this->conn->close();
             $productos = array();
+            if (!$this->productos) {
+                
+            }
             $filaProductos = $this->productos->fetch_assoc();
             $producto=array();
             foreach ($filaProductos as $key => $value) {
