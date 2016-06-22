@@ -1055,18 +1055,22 @@ Reporte.prototype.updateReporteCompra = function(posicionActual, nuevaCantidad){
 		success : function(data){
 			var reportes = $.parseJSON(data);
 			for(var i in reportes){
-				_this.hora = reportes[i]['hora'];
-				_this.cantidadComprada = reportes[i]['cantidadComprada'];
-				_this.producto = reportes[i]['descripcionCompra'];
-				_this.marca = reportes[i]['MarcaNombre'];
-				_this.precioVenta = reportes[i]['ProductocoPrecioVenta'];
-				_this.existencia = reportes[i]['ProductoExistencia'];
-				_this.idDetalle = reportes[i]['idDetalleVenta'];
+				var reporte = new Reporte();
+				reporte.hora = reportes[i]['hora'];
+				reporte.cantidadComprada = reportes[i]['cantidadComprada'];
+				reporte.producto = reportes[i]['descripcionCompra'];
+				reporte.marca = reportes[i]['MarcaNombre'];
+				reporte.proveedor = reportes[i]['ProveedoresNombre'];
+				reporte.categoria = reportes[i]['CategoriaNombre'];
+				reporte.precioCosto = reportes[i]['precioCostoCompra'];
+				reporte.idDetalle = reportes[i]['idDetalleCompra'];
 				var CantidadComprada = parseInt(reportes[i]['cantidadComprada']);
-				var PrecioVenta = parseFloat(reportes[i]['ProductocoPrecioVenta']);
-				_this.totalCompra = CantidadComprada * PrecioVenta;
+				var PrecioCosto = parseFloat(reportes[i]['precioCostoCompra']);
+				reporte.totalCompra = CantidadComprada * PrecioCosto;
+				_this.totalVentaDiaria = _this.totalVentaDiaria + reporte.totalCompra;
+				_this.reportes.push(reporte);
 			}
-			resultadoUpdateReporte();
+			mostrarReportesCompras();
 		}
 	});
 }

@@ -718,7 +718,6 @@ function mostrarReportesCompras(){
 }
 
 
-
 /*
 * Login usuario Administrador
 */

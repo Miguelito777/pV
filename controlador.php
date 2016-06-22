@@ -59,7 +59,6 @@
 		echo json_encode($reportes);
 	}
 	
-
 	if (isset($_GET["deleteReporte"])) {
 		$libreria = $_SESSION["libreriaa"];
 		$posicionEliminar = (int)$_GET["deleteReporte"];
@@ -86,7 +85,7 @@
 		$libreria = $_SESSION["libreriaa"];
 		$posicionModificar = (int)$_GET["updateReporteCompra"];
 		$cantidadModificar = (int)$_GET["nuevaCantidadComprada"];
-		$resultado = $libreria->updateReporteCompra($libreria->reportesA[$posicionModificar]['idDetalleVenta'], $cantidadModificar);
+		$resultado = $libreria->updateReporteCompra($libreria->reportesA[$posicionModificar]['idDetalleCompra'], $cantidadModificar);
 
 		echo json_encode($resultado);
 	}
