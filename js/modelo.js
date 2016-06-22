@@ -871,7 +871,8 @@ Producto.prototype.crearNuevo = function(){
 		url : "controladorK.php",
 		type : "POST",
 		success : function(data){
-			var productoNuevo = $.parseJSON(data);
+			console.log(data);
+			/*var productoNuevo = $.parseJSON(data);
 			for (var i in productoNuevo) {
 				_this._id = productoNuevo[i]["idProducto"];
 				_this.existencia = productoNuevo[i]["ProductoExistencia"];
@@ -881,7 +882,7 @@ Producto.prototype.crearNuevo = function(){
 				_this.precioVenta = productoNuevo[i]["ProductocoPrecioVenta"];			
 			};	
 			insertarNuevoProductoTabla();
-		}
+		*/}
 	})
 }
 

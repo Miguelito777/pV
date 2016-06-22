@@ -6,9 +6,21 @@
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 </head>
 <body>
-	<script></script>
 	<div class="container">
 		<header>
+			<hr>
+			<div class="row">
+				<div class="col-xs-2">
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-1" data-whatever="@mdo">Cambiar contrasenia de Punto de venta</button>
+				</div>
+				<div class="col-xs-2" style='text-align: left;'>
+					<button type="button" class="btn btn-success" id="administracion" data-toggle="modal" data-target="#loginAdmon" data-whatever="@mdo">Cambiar contrasenia de administrador</button>
+				</div>
+				<div class="col-xs-2">
+					<button type="button" class="btn btn-danger" onclick="desabSistema()">Cerrar session Usuario</button>
+				</div>
+				<div class="col-xs-6"></div>
+			</div>
 			<div class="row" style="text-align:center">
 				<div class="col-xs-12">
 					<h1>Bienvenidos</h1>
