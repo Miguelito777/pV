@@ -871,8 +871,7 @@ Producto.prototype.crearNuevo = function(){
 		url : "controladorK.php",
 		type : "POST",
 		success : function(data){
-			console.log(data);
-			/*var productoNuevo = $.parseJSON(data);
+			var productoNuevo = $.parseJSON(data);
 			for (var i in productoNuevo) {
 				_this._id = productoNuevo[i]["idProducto"];
 				_this.existencia = productoNuevo[i]["ProductoExistencia"];
@@ -882,7 +881,7 @@ Producto.prototype.crearNuevo = function(){
 				_this.precioVenta = productoNuevo[i]["ProductocoPrecioVenta"];			
 			};	
 			insertarNuevoProductoTabla();
-		*/}
+		}
 	})
 }
 
@@ -1055,20 +1054,17 @@ Reporte.prototype.updateReporteCompra = function(posicionActual, nuevaCantidad){
 		success : function(data){
 			var reportes = $.parseJSON(data);
 			for(var i in reportes){
-				var reporte = new Reporte();
-				reporte.hora = reportes[i]['hora'];
-				reporte.cantidadComprada = reportes[i]['cantidadComprada'];
-				reporte.producto = reportes[i]['descripcionCompra'];
-				reporte.marca = reportes[i]['MarcaNombre'];
-				reporte.proveedor = reportes[i]['ProveedoresNombre'];
-				reporte.categoria = reportes[i]['CategoriaNombre'];
-				reporte.precioCosto = reportes[i]['precioCostoCompra'];
-				reporte.idDetalle = reportes[i]['idDetalleCompra'];
+				_this.hora = reportes[i]['hora'];
+				_this.cantidadComprada = reportes[i]['cantidadComprada'];
+				_this.producto = reportes[i]['descripcionCompra'];
+				_this.marca = reportes[i]['MarcaNombre'];
+				_this.proveedor = reportes[i]['ProveedoresNombre'];
+				_this.categoria = reportes[i]['CategoriaNombre'];
+				_this.precioCosto = reportes[i]['precioCostoCompra'];
+				_this.idDetalle = reportes[i]['idDetalleCompra'];
 				var CantidadComprada = parseInt(reportes[i]['cantidadComprada']);
 				var PrecioCosto = parseFloat(reportes[i]['precioCostoCompra']);
-				reporte.totalCompra = CantidadComprada * PrecioCosto;
-				_this.totalVentaDiaria = _this.totalVentaDiaria + reporte.totalCompra;
-				_this.reportes.push(reporte);
+				_this.totalCompra = CantidadComprada * PrecioCosto;
 			}
 			mostrarReportesCompras();
 		}
