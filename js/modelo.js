@@ -282,7 +282,8 @@ Tienda.prototype.getProductos = function (){
 		Cache : false,
 		//dataType: "json",
 		success : function (data){
-			var productosTodos = $.parseJSON(data);
+			console.log(data);
+			/*var productosTodos = $.parseJSON(data);
 			// Obtengo los productos y los almaceno en un arrya
 			document.getElementById("resultadosInventario").innerHTML = "";
 			for( var i in productosTodos){
@@ -300,7 +301,7 @@ Tienda.prototype.getProductos = function (){
 			for (var i = 0; i < _this.productos.length; i++) {
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
-		}
+		*/}
 	})
 }
 
