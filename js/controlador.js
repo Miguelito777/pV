@@ -18,6 +18,7 @@ var crudMarcas = [];
 var objM;// Objeto para mostrar las categorias 
 var crudProveedores = [];
 var objP;// Objeto para mostrar las categorias 
+var tipoUser // Tipo de usuario a logearse
 
 function criteriosVentas(){
 	selects = 2;
@@ -436,6 +437,19 @@ function modificarCantidadVenta(){
 		reportesDia[posicionModificar].updateReporteReporte(posicionModificar,nuevaCantidadVenta);
 }
 
+function updateCantidadCompra(posicionModificarV){
+	posicionModificar = posicionModificarV;
+	document.getElementById("cantidadProductos").value = reportesDia[posicionModificar].cantidadComprada;
+}
+
+function modificarCantidadCompra(){
+	var nuevaCantidadVenta = parseInt(document.getElementById("cantidadProductos").value);
+	if (nuevaCantidadVenta == reportesDia[posicionModificar].cantidadComprada || nuevaCantidadVenta > reportesDia[posicionModificar].cantidadComprada)
+		alert("Ingresar valores inferiores a cantidad comprada");
+	else
+		reportesDia[posicionModificar].updateReporteCompra(posicionModificar,nuevaCantidadVenta);
+}
+
 function resultadoUpdateReporte(){
 	console.log(reportesDia);
 	document.getElementById("espacioReportes").innerHTML = "";
@@ -698,7 +712,7 @@ function mostrarReportesCompras(){
 	document.getElementById("comprasDia").innerHTML = "";
 	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th><th>Opcion 1</th><th>Opcion 2</th></tr></table>");
 	for(var i in reportesDia){
-		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadVentaa(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrar</button></td></tr>");
+		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadCompra(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrar</button></td></tr>");
 	}
 	document.getElementById("totalCompra").innerHTML = "<h1>Total: Q. "+reportes.totalVentaDiaria+"</h1>";
 }
@@ -706,16 +720,41 @@ function mostrarReportesCompras(){
 
 
 /*
-* Logins
+* Login usuario Administrador
 */
 
 $("#loginUsuario").click(loginUser);
 function loginUser(){
+	tipoUser = 1;
 	var usuario = document.getElementById("nombreUsuario").value;
 	var passwordUsuario = document.getElementById("passwordUsuario").value;
 
 	var libreria = new Tienda();
-	libreria.loginUsuario(usuario, passwordUsuario);
+	libreria.loginUsuario(usuario, passwordUsuario, tipoUser);
+}
+
+function verificaCredencialesUsuario(opcion){
+	var libreria = new Tienda();
+	libreria.verificaLogin(opcion);
+}
+
+function desabSistema(){
+	var libreria = new Tienda();
+	libreria.desabilitarSistema();
+}
+
+/*
+* Logins
+*/
+
+$("#loginUsuarioAdmin").click(loginUserAdmin);
+function loginUserAdmin(){
+	tipoUser = 2;
+	var usuario = document.getElementById("nombreUsuarioAdmin").value;
+	var passwordUsuario = document.getElementById("passwordUsuarioAdmin").value;
+
+	var libreria = new Tienda();
+	libreria.loginUsuario(usuario, passwordUsuario, tipoUser);
 }
 
 function verificaCredencialesUsuario(opcion){

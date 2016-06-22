@@ -10,18 +10,24 @@
 			echo false;
 	}
 
-	if (isset($_GET["usuario"]) && isset($_GET["password"])) {
-		 
+	if (isset($_GET["usuario"]) && isset($_GET["password"]) && isset($_GET["tipo"])) {
+		$typeUser = (int)$_GET["tipo"]; 
 		$libreria = new Tienda();
 
-		$result = $libreria->loginUsuario($_GET["usuario"], $_GET["password"]);
+		$result = $libreria->loginUsuario($_GET["usuario"], $_GET["password"], $typeUser);
 
-		if ($result){
+		if ($result == 1){
 			$_SESSION["usuarioValido"] = true;
-			echo true;
+			echo 1;
 		}
 		else
-			echo false;
+			echo 0;
+		if ($result == 2){
+			$_SESSION["usuarioValidoAdmin"] = true;
+			echo 2;
+		}
+		else
+			echo 0;
 	}
 
 	if (isset($_GET["verificar"])) {
@@ -68,6 +74,15 @@
 		$posicionModificar = (int)$_GET["updateReporte"];
 		$cantidadModificar = (int)$_GET["nuevaCantidadComprada"];
 		$resultado = $libreria->updateReporte($libreria->reportesA[$posicionModificar]['idDetalleVenta'], $cantidadModificar);
+
+		echo json_encode($resultado);
+	}
+
+	if (isset($_GET["updateReporteCompra"]) && isset($_GET["nuevaCantidadComprada"])) {
+		$libreria = $_SESSION["libreriaa"];
+		$posicionModificar = (int)$_GET["updateReporteCompra"];
+		$cantidadModificar = (int)$_GET["nuevaCantidadComprada"];
+		$resultado = $libreria->updateReporteCompra($libreria->reportesA[$posicionModificar]['idDetalleVenta'], $cantidadModificar);
 
 		echo json_encode($resultado);
 	}

@@ -8,6 +8,19 @@
 <body>
 	<div class="container">
 		<header>
+			<hr>
+			<div class="row">
+				<div class="col-xs-2">
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-1" data-whatever="@mdo">Habilitar Sistema</button>
+				</div>
+				<div class="col-xs-2" style='text-align: left;'>
+					<button type="button" class="btn btn-success" id="administracion" data-toggle="modal" data-target="#loginAdmon" data-whatever="@mdo">Administración</button>
+				</div>
+				<div class="col-xs-2">
+					<button type="button" class="btn btn-danger" onclick="desabSistema()">Desabilitar Sistema</button>
+				</div>
+				<div class="col-xs-6"></div>
+			</div>
 			<div class="row" style="text-align:center">
 				<div class="col-xs-12" style="text-align:center">
 					<h1>Bienvenidos</h1>
@@ -17,13 +30,6 @@
 		</header>
 		<section>
 			<br><br>
-			<div class="row">
-				<div class="col-xs-4"></div>
-				<div class="col-xs-4"></div>
-				<div class="col-xs-4" style="text-align: center;">
-					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-1" data-whatever="@mdo">Habilitar Sistema</button>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-xs-4 alert  alert-info" style="text-align:center">
 					<button type="button btn-primary" class="btn btn-primary btn-lg" id="1" onclick="verificaCredencialesUsuario(this.id)">Control de inventario</button>
@@ -53,7 +59,7 @@
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4" style="text-align: center;">
-					<button type="button" class="btn btn-danger" onclick="desabSistema()">Desabilitar Sistema</button>
+					
 				</div>
 			</div>
 
@@ -83,7 +89,32 @@
 						</div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->
 	
-					
+					<div class="modal fade" id="loginAdmon">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<h4 class="modal-title">Login Usuario Administrador</h4>
+								</div>
+								<div class="modal-body">
+									<label for="nombreUsuarioAdmin">Nombre de Administrador: </label>
+									<input class="form-control {2:form-control-{1:sm|lg}}" type="text" placeholder="Usuario" id="nombreUsuarioAdmin">
+
+									<label for="passwordUsuarioAdmin"> Contraseña: </label>
+									<input type="password" name="" id="passwordUsuarioAdmin" class="form-control" required="required" title="">
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal" id="loginUsuarioAdmin">Ingresar</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+						
 		</section>
 		<footer style="text-align:center">
 			<h5>(c) Derechos Reservados INIT WebApps, Guatemala</h5>

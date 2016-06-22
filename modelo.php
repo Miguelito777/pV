@@ -25,15 +25,27 @@ class Tienda extends Conexion
 		
 	}
 
-	function loginUsuario($usuario, $password){
-		$query = "SELECT * from usuarios where nombreUsuario = '$usuario' and passwordUsuario = '$password'";
-		parent:: __construct();
-		$result = $this->conexion->query($query);
-		$usuarioEncontrado = $result->num_rows;
-		if($usuarioEncontrado > 0)
-			return true;
-		else
-			false;
+	function loginUsuario($usuario, $password, $typeUser){
+		if ($typeUser == 1) {
+			$query = "SELECT * from usuarios where nombreUsuario = '$usuario' and passwordUsuario = '$password'";
+			parent:: __construct();
+			$result = $this->conexion->query($query);
+			$usuarioEncontrado = $result->num_rows;
+			if($usuarioEncontrado > 0)
+				return 1;
+			else
+				false;
+		}
+		if ($typeUser == 2) {
+			$query = "SELECT * from usersadmin where nombre = '$usuario' and password = '$password'";
+			parent:: __construct();
+			$result = $this->conexion->query($query);
+			$usuarioEncontrado = $result->num_rows;
+			if($usuarioEncontrado > 0)
+				return 2;
+			else
+				false;
+		}
 	}
 
 	function updateReporte($id, $cantidadModificar){
@@ -46,6 +58,29 @@ class Tienda extends Conexion
 		{
 			$reportesA = array();
 			$query = "call updateCantCompDetalleVenta($idDetalle,$cant)";
+			$reportes = $this->conexion->query($query);
+			$this->conexion->close();
+			while ($reporte = $reportes->fetch_assoc()) {
+				$reporteA = array();
+				foreach ($reporte as $key => $value) {
+					$reporteA[$key] = $value;
+				}
+				array_unshift($reportesA, $reporteA);
+			}
+			return $reportesA;
+		}
+	}
+
+	function updateReporteCompra($id, $cantidadModificar){
+		$idDetalle = (int)$id;
+		$cant = (int)$cantidadModificar;
+		parent:: __construct();
+		if (!$this->conexion)
+			echo "Error al conectar a la Base de Datos";
+		else
+		{
+			$reportesA = array();
+			$query = "call updateDetalleCompra($idDetalle,$cant)";
 			$reportes = $this->conexion->query($query);
 			$this->conexion->close();
 			while ($reporte = $reportes->fetch_assoc()) {

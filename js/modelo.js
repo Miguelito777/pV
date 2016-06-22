@@ -9,16 +9,18 @@ function Tienda(){
 	this.reportes = [];
 	this.totalVentaDiaria = 0;
 }
-Tienda.prototype.loginUsuario = function(usuario, password){
+Tienda.prototype.loginUsuario = function(usuario, password, tipo){
 	$.ajax({
-		data : {"usuario":usuario, "password": password},
+		data : {"usuario":usuario, "password": password, "tipo" : tipo},
 		url : "controlador.php",
 		type : "GET",
 		success : function(data){
 			if (data == '1')
 				alert("Sistema Habilitado exitosamente");
-			else
-				alert("Usuario y contrasenia Invalida");
+			if (data == '2')
+				window.location = 'administracion/index.html';
+			if (data == '0')
+				alert('Nombre de usuario y contrasenia incorrectos');
 		}
 	})
 }
@@ -1012,7 +1014,6 @@ Reporte.prototype.updateReporteReporte = function(posicionActual, nuevaCantidad)
 			var reportes = $.parseJSON(data);
 			for(var i in reportes){
 				_this.hora = reportes[i]['ventaHora'];
-				console.log(_this.hora);
 				_this.cantidadComprada = reportes[i]['cantidadComprada'];
 				_this.producto = reportes[i]['ProductoDescripcion'];
 				_this.marca = reportes[i]['MarcaNombre'];
@@ -1028,3 +1029,27 @@ Reporte.prototype.updateReporteReporte = function(posicionActual, nuevaCantidad)
 	});
 }
 
+Reporte.prototype.updateReporteCompra = function(posicionActual, nuevaCantidad){
+	_this = this;
+	$.ajax({
+		data : {"updateReporteCompra" : posicionActual, "nuevaCantidadComprada" : nuevaCantidad},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			var reportes = $.parseJSON(data);
+			for(var i in reportes){
+				_this.hora = reportes[i]['hora'];
+				_this.cantidadComprada = reportes[i]['cantidadComprada'];
+				_this.producto = reportes[i]['descripcionCompra'];
+				_this.marca = reportes[i]['MarcaNombre'];
+				_this.precioVenta = reportes[i]['ProductocoPrecioVenta'];
+				_this.existencia = reportes[i]['ProductoExistencia'];
+				_this.idDetalle = reportes[i]['idDetalleVenta'];
+				var CantidadComprada = parseInt(reportes[i]['cantidadComprada']);
+				var PrecioVenta = parseFloat(reportes[i]['ProductocoPrecioVenta']);
+				_this.totalCompra = CantidadComprada * PrecioVenta;
+			}
+			resultadoUpdateReporte();
+		}
+	});
+}
