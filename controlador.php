@@ -20,14 +20,10 @@
 			$_SESSION["usuarioValido"] = true;
 			echo 1;
 		}
-		else
-			echo 0;
 		if ($result == 2){
 			$_SESSION["usuarioValidoAdmin"] = true;
 			echo 2;
 		}
-		else
-			echo 0;
 	}
 
 	if (isset($_GET["verificar"])) {

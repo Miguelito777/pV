@@ -15,11 +15,12 @@ Tienda.prototype.loginUsuario = function(usuario, password, tipo){
 		url : "controlador.php",
 		type : "GET",
 		success : function(data){
+			console.log(data);
 			if (data == '1')
 				alert("Sistema Habilitado exitosamente");
-			if (data == '2')
+			else if (data == '2')
 				window.location = 'administracion/index.html';
-			if (data == '0')
+			else
 				alert('Nombre de usuario y contrasenia incorrectos');
 		}
 	})
