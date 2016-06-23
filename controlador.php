@@ -2,6 +2,10 @@
 	include 'modelo.php';
 	session_start();
 
+	if (isset($_GET["factura"])) {
+		echo "<h1>Ahora voy a imprimir su factura</h1>";
+	}
+
 	if (isset($_GET["user"])) {
 		$user = (int)$_GET["user"];
 		if ($user == 1){
@@ -76,6 +80,7 @@
 		echo json_encode($reportes);
 	}
 	if (isset($_GET['diaReporteCompra'])) {
+
 		$libreria = $_SESSION["libreriaa"];
 		$diaReporte = $_GET['diaReporteCompra'];
 		$reportes = $libreria->getReporteDiarioCompras($diaReporte);
@@ -97,9 +102,9 @@
 	if (isset($_GET["deleteReporteCompra"])){
 		$libreria = $_SESSION["libreriaa"];
 		$posicionEliminar = (int)$_GET["deleteReporteCompra"];
-		$resultado = $libreria->deleteReporteCompra($libreria->reportesA[$posicionEliminar]['idDetalleCompra']);
+		$resultado = $libreria->deleteReporteCompra($libreria->reportesCompras[$posicionEliminar]['idDetalleCompra']);
 		if ($resultado){
-			unset($libreria->reportesA[$posicionEliminar]);
+			unset($libreria->reportesCompras[$posicionEliminar]);
 			$_SESSION["libreriaa"] = $libreria;
 			echo true;
 		} 	

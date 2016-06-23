@@ -19,6 +19,7 @@ class Conexion
 class Tienda extends Conexion
 {
 	public $reportesA = array();
+	public $reportesCompras = array();
 
 	function __construct()
 	{
@@ -135,7 +136,9 @@ class Tienda extends Conexion
 		else
 		{
 			$query = "call reporteDia('$fecha')";
-			$reportes = $this->conexion->query($query);
+			if(!$reportes = $this->conexion->query($query))
+				printf("Error: %s\n",$this->conexion->error);
+			
 			$this->conexion->close();
 			while ($reporte = $reportes->fetch_assoc()) {
 				$reporteA = array();
@@ -162,10 +165,10 @@ class Tienda extends Conexion
 				foreach ($reporte as $key => $value) {
 					$reporteA[$key] = $value;
 				}
-				array_unshift($this->reportesA, $reporteA);
+				array_unshift($this->reportesCompras, $reporteA);
 			}
 		}
-		return $this->reportesA;
+		return $this->reportesCompras;
 	}
 
 	function deleteCategoria($idCategoria){

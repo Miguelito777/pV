@@ -1,5 +1,7 @@
 <?php
     header ("access-control-allow-origin: *");
+    session_start();
+    require 'fpdf.php';
     include 'modeloK.php';
 
    if (isset($_GET["getProductos"])) {
@@ -433,129 +435,48 @@ if (isset($_GET["idCategorias"]) && isset($_GET["idMarca"]) && isset($_GET["coin
             $cantidadComprada = $carrito[$i]["cantidad"];
             $tienda->detalleVenta($cantidadComprada,$idProducto,$idNV);
         }
+        $_SESSION["carritoCompraFacturar"] = $carrito;
+        echo true;
+    }
 
-       
-
-
-
-
-
-
-
-       /*     
-        if (isset($_POST["updateCategoria"])) {
-        $categoriaActualizada = json_decode($_POST["updateCategoria"],true);
-        $sistema = new sistema();
-        $sistema->modificarCategorias($categoriaActualizada);
-        // a partir de aca es pura prueba
-        $categorias=array();
-        $i=0;
-        while ($filaCategorias=$sistema->obtenerModificarNuevaCategoria()){
-        $categoria=array();
-        foreach ($filaCategorias as $key => $value) {
-            $categoria[$key] = $value;
+    if (isset($_GET["factura"])) {
+        if (!isset($_SESSION["carritoCompraFacturar"])) {
+            echo "<h1>Ocurrio un error durante la facturacion :( reintentar... de lo contrario consultar a INIT, WebApps</h1>";
         }
-        array_unshift($categorias,$categoria);
-    }
-    echo json_encode($categorias);
-} 
-
-
-        if (isset($_GET["deleteCategoria"])) {
-        $idCategoriaEliminar = $_GET["deleteCategoria"];
-        $sistema = new Sistema();
-        $estadoEliminar = $sistema->deleteCategoria($idCategoriaEliminar);
-        echo "$estadoEliminar";
-    }
-
-if (isset($_POST["updateProveedores"])) {
-        $actualizadaProveedores = json_decode($_POST["updateProveedores"],true);
-        $sistema = new sistema();
-        $sistema->modificarProveedores($actualizadaProveedores);
-        // a partir de aca es pura prueba
-        $proveedores=array();
-        $i=0;
-        while ($filaProveedores=$sistema->obtenerNuevoProveedor()){
-        $proveedor=array();
-        foreach ($filaProveedores as $key => $value) {
-            $proveedor[$key] = $value;
+        else{
+            $libreria = new Tienda();
+            $carrito = $_SESSION["carritoCompraFacturar"];
+            for ($i=0; $i < count($carrito); $i++) { 
+                $libreria->getDatosProducto($carrito[$i]["_id"],$carrito[$i]["cantidad"]);
+            }
+            $pdf = new PDF();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,10,'Cliente:   ');
+            $pdf->Ln(5);
+            $pdf->Cell(125,10,"Nit:      ");
+            $pdf->Ln(5);
+            $pdf->Cell(50,10,"Direccion:  ");
+            $pdf->Ln(5);
+            $pdf->Cell(50,10,"Monto:    ");
+            $pdf->Ln(15);
+            $headerArray = array('Codigo','Producto','Marca', 'Precio Unitario','Cantidad', 'Sub Total');
+            $pdf->BasicTable($headerArray,$libreria->carritoCompra);
+            $pdf->Ln(3);
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,10,'Total Compra_______________________________________________________________ Q. '.$libreria->totalVenta);
+            $pdf->Ln(15);
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,10,'Observaciones______________________________________');
+            $pdf->Ln(5);
+            $pdf->Cell(0,10,'___________________________________________________');
+            $pdf->Ln(20); 
+            $pdf->SetFont('Arial','i',10);
+            $pdf->Cell(0,10,'INIT WebApps, Totonicapan, Guatemala',0,0,'C');
+            $pdf->Ln(5); 
         }
-        array_unshift($proveedores,$proveedor);
+        $pdf->Output();
     }
-    echo json_encode($proveedores);
-} 
-
-
-        if (isset($_GET["deletePreoveedores"])) {
-        $idProveedoresEliminar = $_GET["deletePreoveedores"];
-        $sistema = new Sistema();
-        $estadoEliminar = $sistema->deleteProveedores($idProveedoresEliminar);
-        echo "$estadoEliminar";
-    }
-
-if (isset($_POST["updateMarcas"])) {
-        $actualizadaProveedores = json_decode($_POST["updateMarcas"],true);
-        $sistema = new sistema();
-        $sistema->modificarMarcas($actualizadaProveedores);
-        // a partir de aca es pura prueba
-        $marcas=array();
-        $i=0;
-        while ($filaMarcas=$sistema->obtenerNuevaMarca()){
-        $marca=array();
-        foreach ($filaMarca as $key => $value) {
-            $marca[$key] = $value;
-        }
-        array_unshift($marcas,$marca);
-    }
-    echo json_encode($marcas);
-} 
-
-
-        if (isset($_GET["deleteMarcas"])) {
-        $idMarcasEliminar = $_GET["deleteMarcas"];
-        $sistema = new Sistema();
-        $estadoEliminar = $sistema->deleteMarcas($idMarcasEliminar);
-        echo "$estadoEliminar";
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>

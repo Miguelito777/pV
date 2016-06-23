@@ -429,16 +429,16 @@
         }
 
         function crearVenta($descripcion,$fecha, $hora,$usuario,$idCliente){
-        parent::__construct();
-        $idProducto = $this->conn->query("call nuevaVenta('$descripcion','$fecha','$hora','$usuario',$idCliente)");
-        $this->conn->close();  
-      //  echo "$descripcion,$fecha,$hora,$usuario,2";
+            parent::__construct();
+            if(!$idProducto = $this->conn->query("call nuevaVenta('$descripcion','$fecha','$hora','$usuario',$idCliente)"))
+                printf("Error: %s\n",$this->conn->error);
+            $this->conn->close();  
 
-        if($idNuevoProducto = $idProducto->fetch_assoc())
+            if($idNuevoProducto = $idProducto->fetch_assoc())
                 return $idNuevoProducto;
-        else
+            else
                 return false;
-     }  
+        }  
 
 
         function detalleVenta($cantidad,$idProductos,$idVentas){
@@ -447,10 +447,9 @@
             $tipoIdVenta = (int)$idVentas;
             parent::__construct();
             $query = ("call getAlmacenaDetalle($tipoCantidad,$tipoIdProducto,$tipoIdVenta)");
-            $this->productos= $this->conn->query($query);
-            if ($this->productos) 
-                echo "Detalle de venta almacenado exitosamente";
-            else
+            if(!$this->productos= $this->conn->query($query))
+                printf("Error %s\n ",$this->conn->error);
+            if (!$this->productos) 
                 echo "Error al almacenar el detalle de venta";
             $this->conn->close();
             }
@@ -646,54 +645,105 @@ class Proveedores extends connection{
     }
 }
 
-
 /**
-* Clase Producto
-**/
-/**
-* 
+* Tienda
 */
-
-/*class ProductoP
+class Tienda extends connection
 {
-    public $id;
-    public $nombre;
-    public $precioCosto;
-
+    public $carritoCompra = array();
+    public $totalVenta = 0; 
     function __construct()
     {
         
     }
 
-    function getId(){
-        return $this->id;
+    public function getDatosProducto($idProducto,$cantidad){
+        $idInt = (int)$idProducto;
+        $query = "call getDatosProductoFactura($idInt)";
+        parent:: __construct();
+        if(!$datosProducto = $this->conn->query($query)){
+            printf("Error : %s\n",$this->conn->error);  
+            $this->conn->close();          
+        }
+        else{
+            $this->conn->close();
+            $datosProducto = $datosProducto->fetch_assoc();
+            $datosProductoA = array();
+            $datosProductoA[0] = $datosProducto["idProducto"];
+            $datosProductoA[1] = $datosProducto["ProductoDescripcion"];
+            $datosProductoA[2] = $datosProducto["marcaNombre"];
+            $datosProductoA[3] = $datosProducto["ProductocoPrecioVenta"];
+            $datosProductoA[4] = $cantidad;
+            $subTotal = (float)$datosProductoA[3] * (int)$cantidad;
+            $datosProductoA[5] = $subTotal;
+            $this->totalVenta = $this->totalVenta + $subTotal;
+            array_push($this->carritoCompra, $datosProductoA);
+        }
     }
-    function getMombre(){
-        return $this->nombre;
-    }
-    function getPrecioCosto(){
-        return $this->precioCosto;
-    }
+}
 
-    function setId($id){
-        $this->id = $id;
+class PDF extends FPDF
+{
+    // Cabecera de página
+    function Header()
+    {
+        // Logo
+        //$this->Image('images/headindex.png',10,8,33);
+        // Arial bold 15
+        $this->SetFont('Arial','B',15);
+        // Movernos a la derecha
+        $this->Cell(50);
+        // Título
+        $this->Cell(100,10,'Multi Servicios 200',0,0,'C');
+        $this->Ln(5);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(50);
+        $this->Cell(100,10,'Direccion',0,0,'C');
+        $this->Ln(5);
+        $this->SetFont('Arial','B',7);
+        $this->Cell(50);
+        $this->Cell(100,10,'Tel. 7766-7184 / 5699-0471',0,0,'C');
+        $this->Ln(10);
+        $this->SetFont('Arial','B',18);
+        $this->Cell(50);
+        $this->Cell(100,10,'Factura electronica',0,0,'C');
+        // Salto de línea
+        $this->Ln(11);
     }
-    function setMombre($nombre){
-        $this->nombre = $nombre;
+    function BasicTable($header, $data)
+    {
+        // Cabecera
+        $this->SetFont('Arial','B',8);
+        for ($i = 0; $i < count($header); $i++){
+            if ($i == 0)
+                $this->Cell(23,7,$header[$i],1,0,'C');
+            else if ($i == 1) {
+                $this->Cell(50,7,$header[$i],1,0,'C');
+            }
+            else
+                $this->Cell(23,7,$header[$i],1,0,'C');
+        } 
+        $this->Ln();
+        // Datos
+        $this->SetFont('Arial','',7);
+        $unidadesUsadas = count($data);
+        for ($i = 0; $i < count($data); $i++) { 
+            for ($j = 0; $j < count($data[$i]); $j++){
+                if ($j == 0)
+                    $this->Cell(23,7,$data[$i][$j],1,0,'C');
+                else if($j == 1) {
+                    $this->Cell(50,7,$data[$i][$j],1,0,'C');
+                }
+                else if($j == 5) {
+                    $this->Cell(23,7,"Q. ".$data[$i][$j],1,0,'C');
+                }
+                else
+                    $this->Cell(23,7,$data[$i][$j],1,0,'C');
+            }
+            $this->Ln();
+        }
     }
-    function setPrecioCosto($precioCosto){
-        $this->precioCosto = $precioCosto;
-    }
-
-    function saludar(){
-        echo "Hola soy el producto $this->nombre";
-    }
-    function updateProducto(){
-        echo "Me voy a actualizar, soy el pructo $this->nombre";
-    }
-*/
-//}
-
+}
 ?>
 
 

@@ -861,7 +861,17 @@ Coincidencia.prototype.realizarVentaCarrito = function(carrito){
 		url : "controladorK.php",
 		type : "POST",
 		success : function (datos){
-			console.log(datos);
+			var dato = parseInt(datos);
+			if (dato == 1){
+				var imprimirFactura = confirm("Desa imprimir su Factura");
+				if (imprimirFactura)
+					window.location = 'controladorK.php?factura=true';
+				else{
+					document.getElementById("carritoCompra").innerHTML = "<div class='alert alert-success' style='text-align:center;'><p class='lead'>¡ Venta realizada con exito !</p></div>";
+					carritoCompra = [];
+					document.getElementById("totalCompra").innerHTML = "<h1>Q.</h1>";
+				}
+			}
 		} 
 	})
 }
@@ -891,6 +901,7 @@ Producto.prototype.crearNuevo = function(){
 	nuevoProducto.totalInicial = this.cantidadTotal;
 	nuevoProducto.precioCosto = this.precioCosto;
 	nuevoProducto.precioVenta = this.precioVenta;
+	console.log(nuevoProducto);
 	var producto_json = JSON.stringify(nuevoProducto);
 	$.ajax({
 		data : {"nuevoProducto":producto_json},
@@ -1053,7 +1064,7 @@ Reporte.prototype.deleteReporteCompra = function(posicionActual){
 		type : "GET",
 		success : function(data){
 			if (data == '1') {
-				resultadoDeleteReporteCompra();
+				resultadoReportesCompras();
 			}
 			else
 				alert("Error al borrar reporte de compra");
