@@ -11,38 +11,39 @@
 			<hr>
 			<div class="row">
 				<div class="col-xs-3">
-					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-1" data-whatever="@mdo">Cambiar contrasenia de Punto de venta</button>
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-1" data-whatever="@mdo">Change password point of sale</button>
 				</div>
 				<div class="col-xs-3" style='text-align: left;'>
-					<button type="button" class="btn btn-success" id="administracion" data-toggle="modal" data-target="#loginAdmon" data-whatever="@mdo">Cambiar contrasenia de administrador</button>
+					<button type="button" class="btn btn-success" id="administracion" data-toggle="modal" data-target="#loginAdmon" data-whatever="@mdo">Change password Admin</button>
 				</div>
 				<div class="col-xs-3">
-					<button type="button" class="btn btn-danger" onclick="desabSistema()">Cerrar session Usuario</button>
+					<button type="button" class="btn btn-danger" onclick="desabSistemaAdmin()">Close session</button>
 				</div>
 				<div class="col-xs-3"></div>
 			</div>
 			<div class="row" style="text-align:center">
 				<div class="col-xs-12">
-					<h1>Bienvenidos</h1>
-					<h2>Sistema Libreria</h2>
+					<h1>Welcome</h1>
+					<h2>Multiservicios 2000</h2>
 				</div>		
 			</div>
 		</header>
 		<section>
 			<div class="row">
-				<div class="col-xs-4 alert  alert-info" style="text-align:center">
-					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='../inventario.html'">Control de inventario</button>
+				<div class="col-xs-6 alert  alert-info" style="text-align:center">
+					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='../inventario.html'">crud Inventory</button>
 				</div>
-				<div class="col-xs-4 alert  alert-info" style="text-align:center">
-					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='../ventas.html'">Punto de venta</button>
-				</div>
-				<div class="col-xs-4 alert  alert-info" style="text-align:center">
-					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='../reportes.html'">Reporte de ventas</button>
+				<div class="col-xs-6 alert  alert-info" style="text-align:center">
+					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='../ventas.html'">Point of sale</button>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 alert  alert-success" style="text-align:center;" >
-					<button type="button btn-primary" class="btn btn-lg btn-primary" onclick="window.location='../crudCompras.html'"><span class="glyphicon glyphicon-shopping-cart"></span> Compras</button>
+				<div class="col-xs-6 alert  alert-success" style="text-align:center;" >
+					<button type="button btn-primary" class="btn btn-primary btn-lg" onclick="window.location='../reportes.html'">sales report</button>
+					
+				</div>
+				<div class="col-xs-6 alert  alert-success" style="text-align:center;" >
+					<button type="button btn-primary" class="btn btn-lg btn-primary" onclick="window.location='../crudCompras.html'">shoping report</button>
 				</div>
 			</div>
 			

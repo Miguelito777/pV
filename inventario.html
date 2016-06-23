@@ -11,7 +11,7 @@
 			<hr>
 			<div class="row">
 				<div class="col-xs-3">
-					<button type="button" class="btn btn-primary" onclick="window.location='index.html'">Regresar</button>					
+					<button type="button" class="btn btn-primary" onclick="window.location='administracion/index.html'">Regresar</button>					
 				</div>
 				<div class="col-xs-6" style="text-align:center">
 					<h2>SISTEMA DE INVENTARIO</h2>
@@ -254,6 +254,9 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/modelo.js"></script>
 	<script type="text/javascript" src="js/controlador.js"></script>
-	<script>criterios();</script>
+	<script>
+		criterios();
+		verificaCredencialesUsuarioAdminInv();
+	</script>
 </body>
 </html>

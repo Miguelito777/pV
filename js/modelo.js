@@ -44,17 +44,30 @@ Tienda.prototype.verificaLogin = function(opcionV){
 	})
 }
 Tienda.prototype.verificaLoginAdmin = function(){
-	console.log("Jesucrito");
 	$.ajax({
 		data : {"verificarAdmin" : true},
 		url : "../controlador.php",
 		type : "GET",
 		success : function(data){
-			console.log("Hola mundo"+data);
 			if (data == '1')
-				console.log("Bienvenido administrador");
+				console.log("Welcome administrator");
 			else{
 				window.location = '../index.html';
+			}
+		}
+	})
+}
+
+Tienda.prototype.verificaLoginAdminInv = function(){
+	$.ajax({
+		data : {"verificarAdmin" : true},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				console.log("Welcome inventory administrator");
+			else{
+				window.location = 'index.html';
 			}
 		}
 	})
@@ -69,7 +82,19 @@ Tienda.prototype.desabilitarSistema = function(){
 			if (data == '1')
 				alert("Desabilitado Exitosamente");
 			else
-				alert("Error al desabilitar sistema");
+				alert("No  ha iniciado session en el sistema de punto de venta");
+		}
+	})
+}
+
+Tienda.prototype.desabilitarSistemaAdmin = function(){
+	$.ajax({
+		data : {"desabilitarSisAdmin" : true},
+		url : "../controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1')
+				window.location = 'index.html';
 		}
 	})
 }
@@ -907,7 +932,6 @@ Producto.prototype.updateProducto = function(){
 		url : "controladorK.php",
 		type : "POST",
 		success : function (data){
-			console.log(data);
 			var productoModificado = $.parseJSON(data);
 			for (var i in productoModificado) {
 				_this._id = productoModificado[i]["idProducto"];

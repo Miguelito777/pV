@@ -295,28 +295,28 @@
             $hora = date("G:i:s");
             // Obtengo el Id de Marca
             parent:: __construct();
-            $query = "SELECT M.idMarcas from marca M inner join detallecompra DC on M.idMarcas = DC.idMarcas inner join producto P on DC.Producto_idProducto = P.idProducto where P.idProducto = $codigoProductoo group by P.idProducto";
+            $query = "SELECT Marca_idMarcas from producto where idProducto = $codigoProductoo";
             if (!$codMarca = $this->conn->query($query)) {
                 printf("Errormessage: %s\n", $this->conn->error);
             }
             $this->conn->close();
             $codMarca = $codMarca->fetch_assoc();
-            $codMarca = (int)$codMarca['idMarcas'];
+            $codMarca = (int)$codMarca['Marca_idMarcas'];
 
             // Obtengo el Id de Proveedor
             parent::__construct();
-            $query = "SELECT P.idProveedores from proveedores P inner join detallecompra DC on P.idProveedores = DC.idProveedores inner join producto PR on DC.Producto_idProducto = PR.idProducto where PR.idProducto = $codigoProductoo group by PR.idProducto;";
+            $query = "SELECT Proveedores_idProveedores from producto where idProducto = $codigoProductoo";
             $codProveedor = $this->conn->query($query);
             $this->conn->close();
             $codProveedor = $codProveedor->fetch_assoc();
-            $codProveedor = (int)$codProveedor['idProveedores'];
+            $codProveedor = (int)$codProveedor['Proveedores_idProveedores'];
             // Obtengo el Id de Categoria
             parent::__construct();
-            $query = "SELECT C.idCategorias from categoria C inner join detallecompra DC on C.idCategorias = DC.idCategorias inner join producto PR on DC.Producto_idProducto = PR.idProducto where PR.idProducto = $codigoProductoo group by PR.idProducto;";
+            $query = "SELECT Categoria_idCategorias from producto where idProducto = $codigoProductoo";
             $codCategoria = $this->conn->query($query);
             $this->conn->close();
             $codCategoria = $codCategoria->fetch_assoc();
-            $codCategoria = (int)$codCategoria['idCategorias'];
+            $codCategoria = (int)$codCategoria['Categoria_idCategorias'];
             
             // Modifico el producto en inventario
             $query = ("call setModificarProducto('$descripcionProducto',$totalInicial,$precioCosto,$precioVenta,$codigoProductoo)");

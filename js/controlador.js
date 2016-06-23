@@ -755,9 +755,20 @@ function verificaCredencialesUsuario(opcion){
 	var libreria = new Tienda();
 	libreria.verificaLogin(opcion);
 }
+
 function verificaCredencialesUsuarioAdmin(){
 	var libreria = new Tienda();
 	libreria.verificaLoginAdmin();
+}
+
+function verificaCredencialesUsuarioAdminInv(){
+	var libreria = new Tienda();
+	libreria.verificaLoginAdminInv();
+}
+
+function desabSistema(){
+	var libreria = new Tienda();
+	libreria.desabilitarSistema();
 }
 
 function desabSistema(){
@@ -787,4 +798,9 @@ function verificaCredencialesUsuario(opcion){
 function desabSistema(){
 	var libreria = new Tienda();
 	libreria.desabilitarSistema();
+}
+
+function desabSistemaAdmin(){
+	var libreria = new Tienda();
+	libreria.desabilitarSistemaAdmin();
 }

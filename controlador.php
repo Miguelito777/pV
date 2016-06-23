@@ -2,14 +2,37 @@
 	include 'modelo.php';
 	session_start();
 
+	if (isset($_GET["user"])) {
+		$user = (int)$_GET["user"];
+		if ($user == 1){
+			if (isset($_SESSION["usuarioValido"]))
+				header("location:ventas.html");
+			else
+				header("location:index.html");
+		}
+		if ($user == 2) {
+			if (isset($_SESSION["usuarioValidoAdmin"]))
+				header("location:ventas.html");
+			else
+				header("location:index.html");
+		}
+
+	}
 	if (isset($_GET["desabilitarSis"])) {
-		$resultadoDestuccion = session_destroy();
-		if ($resultadoDestuccion)
+		if (isset($_SESSION["usuarioValido"])) {
+			unset($_SESSION["usuarioValido"]);
 			echo true;
+		}
 		else
 			echo false;
 	}
-
+	if (isset($_GET["desabilitarSisAdmin"])) {
+		if (isset($_SESSION["usuarioValidoAdmin"])) {
+			unset($_SESSION["usuarioValidoAdmin"]);
+			echo true;
+		}
+		else echo false;
+	}
 	if (isset($_POST["usuario"]) && isset($_POST["password"]) && isset($_POST["tipo"])) {
 		$typeUser = (int)$_POST["tipo"]; 
 		$libreria = new Tienda();
