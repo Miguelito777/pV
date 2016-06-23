@@ -1020,6 +1020,22 @@ Reporte.prototype.deleteReporte = function(posicionActual){
 	});
 }
 
+Reporte.prototype.deleteReporteCompra = function(posicionActual){
+	_this = this;
+	$.ajax({
+		data : {"deleteReporteCompra" : posicionActual},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == '1') {
+				resultadoDeleteReporteCompra();
+			}
+			else
+				alert("Error al borrar el archivo");
+		}
+	});
+}
+
 Reporte.prototype.updateReporteReporte = function(posicionActual, nuevaCantidad){
 	_this = this;
 	$.ajax({

@@ -110,6 +110,23 @@ class Tienda extends Conexion
 				return false;
 		}
 	}
+	function deleteReporteCompra($id){
+		$idDetalle = (int)$id;
+		parent:: __construct();
+		if (!$this->conexion)
+			echo "Error al conectar a la Base de Datos";
+		else
+		{
+			$query = "call deleteDetalleCompra($idDetalle)";
+			if(!$reportes = $this->conexion->query($query))
+				printf("Errormensage %s\n",$this->conexion->error);
+			$this->conexion->close();
+			if ($reportes)
+				return true;
+			else
+				return false;
+		}
+	}
 
 	function getReporteDiario($fecha){
 		parent:: __construct();

@@ -71,6 +71,18 @@
 		else
 			echo false;
 	}
+	if (isset($_GET["deleteReporteCompra"])) {
+		$libreria = $_SESSION["libreriaa"];
+		$posicionEliminar = (int)$_GET["deleteReporteCompra"];
+		$libreria->deleteReporte($posicionEliminar);
+		$resultado = $libreria->deleteReporteCompra($libreria->reportesA[$posicionEliminar]['idDetalleCompra']);
+		if ($resultado){
+			unset($libreria->reportesA[$posicionEliminar]);
+			echo true;
+		} 	
+		else
+			echo false;
+	}
 
 	if (isset($_GET["updateReporte"]) && isset($_GET["nuevaCantidadComprada"])) {
 		$libreria = $_SESSION["libreriaa"];
