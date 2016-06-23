@@ -85,22 +85,22 @@
 	if (isset($_GET["deleteReporte"])) {
 		$libreria = $_SESSION["libreriaa"];
 		$posicionEliminar = (int)$_GET["deleteReporte"];
-		$libreria->deleteReporte($posicionEliminar);
 		$resultado = $libreria->deleteReporte($libreria->reportesA[$posicionEliminar]['idDetalleVenta']);
 		if ($resultado){
 			unset($libreria->reportesA[$posicionEliminar]);
+			$_SESSION["libreriaa"] = $libreria;
 			echo true;
 		} 	
 		else
 			echo false;
 	}
-	if (isset($_GET["deleteReporteCompra"])) {
+	if (isset($_GET["deleteReporteCompra"])){
 		$libreria = $_SESSION["libreriaa"];
 		$posicionEliminar = (int)$_GET["deleteReporteCompra"];
-		$libreria->deleteReporte($posicionEliminar);
 		$resultado = $libreria->deleteReporteCompra($libreria->reportesA[$posicionEliminar]['idDetalleCompra']);
 		if ($resultado){
 			unset($libreria->reportesA[$posicionEliminar]);
+			$_SESSION["libreriaa"] = $libreria;
 			echo true;
 		} 	
 		else

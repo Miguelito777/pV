@@ -7,6 +7,7 @@ function Tienda(){
 	this.marcas = [];
 	this.proveedores = [];
 	this.reportes = [];
+	this.reportesCompras = [];
 	this.totalVentaDiaria = 0;
 }
 Tienda.prototype.loginUsuario = function(usuario, password, tipo){
@@ -137,7 +138,7 @@ Tienda.prototype.getReporteDiaCompras = function(fecha){
 				var PrecioCosto = parseFloat(reportes[i]['precioCostoCompra']);
 				reporte.totalCompra = CantidadComprada * PrecioCosto;
 				_this.totalVentaDiaria = _this.totalVentaDiaria + reporte.totalCompra;
-				_this.reportes.push(reporte);
+				_this.reportesCompras.push(reporte);
 			}
 			mostrarReportesCompras();
 		}
@@ -1055,7 +1056,7 @@ Reporte.prototype.deleteReporteCompra = function(posicionActual){
 				resultadoDeleteReporteCompra();
 			}
 			else
-				alert("Error al borrar el archivo");
+				alert("Error al borrar reporte de compra");
 		}
 	});
 }

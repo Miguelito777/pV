@@ -490,21 +490,22 @@ function resultadoDeleteReporte(){
 
 function deleteReporteCompra(elementoEliminar){
 	posicionModificar = elementoEliminar;
-	var confirmDeleteReporte = confirm("Desea eliminar esta compra "+reportes.reportes[elementoEliminar].producto);
+	var confirmDeleteReporte = confirm("Desea eliminar esta compra "+reportes.reportesCompras[elementoEliminar].producto);
 	if (confirmDeleteReporte) {
-		reportes.reportes[elementoEliminar].deleteReporteCompra(elementoEliminar);
+		reportes.reportesCompras[elementoEliminar].deleteReporteCompra(elementoEliminar);
 	};
 }
 
 function resultadoDeleteReporteCompra(){
-	reportes.reportes.splice(posicionModificar,1);
-	reportesDia = reportes.reportes;
+	reportes.reportesCompras.splice(posicionModificar,1);
+	reportesDia = reportes.reportesCompras;
 	document.getElementById("comprasDia").innerHTML = "";
 	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th><th>Opcion 1</th><th>Opcion 2</th></tr></table>");
 	for(var i in reportesDia){
-		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadCompra(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrar</button></td></tr>");
+		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].precioCosto+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].marca+"</td><td>"+reportesDia[i].proveedor+"</td><td>"+reportesDia[i].categoria+"</td><td>"+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadCompra(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporteCompra(this.id)'>Borrar</button></td></tr>");
 	}
 	document.getElementById("totalCompra").innerHTML = "<h1>Total: Q. "+reportes.totalVentaDiaria+"</h1>";
+	console.log("Actualize el reporte de compras");
 }
 
 
@@ -727,7 +728,7 @@ function getComprasDia(){
 
 // Muestra el reporte de compras diaria
 function mostrarReportesCompras(){
-	reportesDia = reportes.reportes;
+	reportesDia = reportes.reportesCompras;
 	document.getElementById("comprasDia").innerHTML = "";
 	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th><th>Opcion 1</th><th>Opcion 2</th></tr></table>");
 	for(var i in reportesDia){
