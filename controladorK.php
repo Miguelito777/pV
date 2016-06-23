@@ -479,4 +479,57 @@ if (isset($_GET["idCategorias"]) && isset($_GET["idMarca"]) && isset($_GET["coin
     }
 
 
+    if (isset($_POST["cotizacionCarritoCompra"])) {
+        $carritoCompra = json_decode($_POST["cotizacionCarritoCompra"],true);
+        $descripcion=$carritoCompra['descripcion'];
+        $usuario=$carritoCompra['usuario'];
+        $carrito=$carritoCompra['carrito'];
+        $fecha = date("Y-m-d");
+        $hora = date("G:i:s");
+
+        $_SESSION["carritoCompraCotizacion"] = $carrito;
+        $_SESSION["descripcionCotizacion"] = $descripcion;
+        $_SESSION["usuario"] = $usuario;
+        echo true;
+    }
+
+    if (isset($_GET["cotizacion"])) {
+        if (!isset($_SESSION["carritoCompraCotizacion"])) {
+            echo "<h1>Ocurrio un error durante la cotizacion :( reintentar... de lo contrario consultar a INIT, WebApps</h1>";
+        }
+        else{
+            $libreria = new Tienda();
+            $carrito = $_SESSION["carritoCompraCotizacion"];
+            for ($i=0; $i < count($carrito); $i++) { 
+                $libreria->getDatosProducto($carrito[$i]["_id"],$carrito[$i]["cantidad"]);
+            }
+            $pdf = new PDFC();
+            $pdf->AddPage();
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,10,'Cliente:   ');
+            $pdf->Ln(5);
+            $pdf->Cell(125,10,"Nit:      ");
+            $pdf->Ln(5);
+            $pdf->Cell(50,10,"Direccion:  ");
+            $pdf->Ln(5);
+            $pdf->Cell(50,10,"Monto:    ");
+            $pdf->Ln(15);
+            $headerArray = array('Codigo','Producto','Marca', 'Precio Unitario','Cantidad', 'Sub Total');
+            $pdf->BasicTable($headerArray,$libreria->carritoCompra);
+            $pdf->Ln(3);
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,10,'Total Compra_______________________________________________________________ Q. '.$libreria->totalVenta);
+            $pdf->Ln(15);
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(0,10,'Observaciones______________________________________');
+            $pdf->Ln(5);
+            $pdf->Cell(0,10,'___________________________________________________');
+            $pdf->Ln(20); 
+            $pdf->SetFont('Arial','i',10);
+            $pdf->Cell(0,10,'INIT WebApps, Totonicapan, Guatemala',0,0,'C');
+            $pdf->Ln(5); 
+        }
+        $pdf->Output();
+    }
+
 ?>

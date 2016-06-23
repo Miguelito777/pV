@@ -842,11 +842,16 @@ Coincidencia.prototype.realizarCotizacionCarrito = function(carrito){
 	ventaJS.usuario = "Miguelito";
 	var carritoJson = JSON.stringify(ventaJS);
 	$.ajax({
-		data : {"cotizacionCarritoCompra":carrito},
+		data : {"cotizacionCarritoCompra":carritoJson},
 		url : "controladorK.php",
 		type : "POST",
 		success : function (datos){
-			console.log(datos);
+		console.log(datos);
+			var data = parseInt(datos);
+			if (data == 1)
+				window.location = 'controladorK.php?cotizacion=true';
+			else
+				alert("Error al realizar la cotizacion");
 		} 
 	})
 }

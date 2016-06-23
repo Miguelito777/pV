@@ -380,10 +380,6 @@ function realizarCotizacion(){
 		ventas.push(venta);
 	}
 	apuntadorParametro.realizarCotizacionCarrito(ventas);
-	alert("Cotización realizada correctamente...");
-	document.getElementById("carritoCompra").innerHTML = "";
-	carritoCompra = [];
-	document.getElementById("totalCompra").innerHTML = "<h1>Q.</h1>";
 }
 
 $("#realizarVenta").click(realizarVenta);

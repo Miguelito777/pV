@@ -1,11 +1,7 @@
 <?php
 	include 'modelo.php';
 	session_start();
-
-	if (isset($_GET["factura"])) {
-		echo "<h1>Ahora voy a imprimir su factura</h1>";
-	}
-
+	
 	if (isset($_GET["user"])) {
 		$user = (int)$_GET["user"];
 		if ($user == 1){

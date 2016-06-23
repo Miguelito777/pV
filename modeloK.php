@@ -744,6 +744,69 @@ class PDF extends FPDF
         }
     }
 }
+
+class PDFC extends FPDF
+{
+    // Cabecera de página
+    function Header()
+    {
+        // Logo
+        //$this->Image('images/headindex.png',10,8,33);
+        // Arial bold 15
+        $this->SetFont('Arial','B',15);
+        // Movernos a la derecha
+        $this->Cell(50);
+        // Título
+        $this->Cell(100,10,'Multi Servicios 200',0,0,'C');
+        $this->Ln(5);
+        $this->SetFont('Arial','B',10);
+        $this->Cell(50);
+        $this->Cell(100,10,'Direccion',0,0,'C');
+        $this->Ln(5);
+        $this->SetFont('Arial','B',7);
+        $this->Cell(50);
+        $this->Cell(100,10,'Tel. 7766-7184 / 5699-0471',0,0,'C');
+        $this->Ln(10);
+        $this->SetFont('Arial','B',18);
+        $this->Cell(50);
+        $this->Cell(100,10,'Cotizacion de productos',0,0,'C');
+        // Salto de línea
+        $this->Ln(11);
+    }
+    function BasicTable($header, $data)
+    {
+        // Cabecera
+        $this->SetFont('Arial','B',8);
+        for ($i = 0; $i < count($header); $i++){
+            if ($i == 0)
+                $this->Cell(23,7,$header[$i],1,0,'C');
+            else if ($i == 1) {
+                $this->Cell(50,7,$header[$i],1,0,'C');
+            }
+            else
+                $this->Cell(23,7,$header[$i],1,0,'C');
+        } 
+        $this->Ln();
+        // Datos
+        $this->SetFont('Arial','',7);
+        $unidadesUsadas = count($data);
+        for ($i = 0; $i < count($data); $i++) { 
+            for ($j = 0; $j < count($data[$i]); $j++){
+                if ($j == 0)
+                    $this->Cell(23,7,$data[$i][$j],1,0,'C');
+                else if($j == 1) {
+                    $this->Cell(50,7,$data[$i][$j],1,0,'C');
+                }
+                else if($j == 5) {
+                    $this->Cell(23,7,"Q. ".$data[$i][$j],1,0,'C');
+                }
+                else
+                    $this->Cell(23,7,$data[$i][$j],1,0,'C');
+            }
+            $this->Ln();
+        }
+    }
+}
 ?>
 
 
