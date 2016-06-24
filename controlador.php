@@ -70,38 +70,33 @@
 	}
 
 	if (isset($_GET['diaReporte'])) {
-		$libreria = $_SESSION["libreriaa"];
+		$_SESSION["reportesVentas"] = new Tienda();
 		$diaReporte = $_GET['diaReporte'];
-		$reportes = $libreria->getReporteDiario($diaReporte);
+		$reportes = $_SESSION["reportesVentas"]->getReporteDiario($diaReporte);
 		echo json_encode($reportes);
 	}
 	if (isset($_GET['diaReporteCompra'])) {
-
-		$libreria = $_SESSION["libreriaa"];
+		$_SESSION["reportesCompras"] = new Tienda();
 		$diaReporte = $_GET['diaReporteCompra'];
-		$reportes = $libreria->getReporteDiarioCompras($diaReporte);
+		$reportes = $_SESSION["reportesCompras"]->getReporteDiarioCompras($diaReporte);
 		echo json_encode($reportes);
 	}
 	
 	if (isset($_GET["deleteReporte"])) {
-		$libreria = $_SESSION["libreriaa"];
 		$posicionEliminar = (int)$_GET["deleteReporte"];
-		$resultado = $libreria->deleteReporte($libreria->reportesA[$posicionEliminar]['idDetalleVenta']);
+		$resultado = $_SESSION["reportesVentas"]->deleteReporte($_SESSION["reportesVentas"]->reportesA[$posicionEliminar]['idDetalleVenta']);
 		if ($resultado){
-			array_splice($libreria->reportesA,$posicionEliminar,1);
-			$_SESSION["libreriaa"] = $libreria;
+			array_splice($_SESSION["reportesVentas"]->reportesA,$posicionEliminar,1);
 			echo true;
 		} 	
 		else
 			echo false;
 	}
 	if (isset($_GET["deleteReporteCompra"])){
-		$libreria = $_SESSION["libreriaa"];
 		$posicionEliminar = (int)$_GET["deleteReporteCompra"];
-		$resultado = $libreria->deleteReporteCompra($libreria->reportesCompras[$posicionEliminar]['idDetalleCompra']);
+		$resultado = $_SESSION["reportesCompras"]->deleteReporteCompra($_SESSION["reportesCompras"]->reportesCompras[$posicionEliminar]['idDetalleCompra']);
 		if ($resultado){
-			array_splice($libreria->reportesCompras,$posicionEliminar,1);
-			$_SESSION["libreriaa"] = $libreria;
+			array_splice($_SESSION["reportesCompras"]->reportesCompras,$posicionEliminar,1);
 			echo true;
 		} 	
 		else
@@ -112,16 +107,15 @@
 		$libreria = $_SESSION["libreriaa"];
 		$posicionModificar = (int)$_GET["updateReporte"];
 		$cantidadModificar = (int)$_GET["nuevaCantidadComprada"];
-		$resultado = $libreria->updateReporte($libreria->reportesA[$posicionModificar]['idDetalleVenta'], $cantidadModificar);
+		$resultado = $_SESSION["reportesVentas"]->updateReporte($_SESSION["reportesVentas"]->reportesA[$posicionModificar]['idDetalleVenta'], $cantidadModificar);
 
 		echo json_encode($resultado);
 	}
 
 	if (isset($_GET["updateReporteCompra"]) && isset($_GET["nuevaCantidadComprada"])) {
-		$libreria = $_SESSION["libreriaa"];
 		$posicionModificar = (int)$_GET["updateReporteCompra"];
 		$cantidadModificar = (int)$_GET["nuevaCantidadComprada"];
-		$resultado = $libreria->updateReporteCompra($libreria->reportesA[$posicionModificar]['idDetalleCompra'], $cantidadModificar);
+		$resultado = $_SESSION["reportesCompras"]->updateReporteCompra($_SESSION["reportesCompras"]->reportesCompras[$posicionModificar]['idDetalleCompra'], $cantidadModificar);
 
 		echo json_encode($resultado);
 	}
