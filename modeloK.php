@@ -254,7 +254,6 @@
                 $codProveedor = (int)$id['last_insert_id()'];
             }
             $fecha = date("Y-m-d");
-            $hora = date("G:i:s");
             $query= ("setNames utf8");
             parent:: __construct();
             $this->conn->query($query);
@@ -274,7 +273,7 @@
             }
             array_unshift($productos,$producto);
             $idNuevoProducto = (int)$productos[0]['idProducto'];
-            $query = "call setDetalleCompra('$descripcionProducto', $precioCosto, $codMarca, $codProveedor, $codCategoria, $totalInicial, '$fecha', '$hora', $idNuevoProducto)";
+            $query = "call setDetalleCompra('$descripcionProducto', $precioCosto, $codMarca, $codProveedor, $codCategoria, $totalInicial, '$fecha', $idNuevoProducto)";
             parent:: __construct();
             if (!$this->conn->query($query)) {
                 printf("Errormessage: %s\n", $this->conn->error);
@@ -430,7 +429,7 @@
 
         function crearVenta($descripcion,$fecha, $hora,$usuario,$idCliente){
             parent::__construct();
-            if(!$idProducto = $this->conn->query("call nuevaVenta('$descripcion','$fecha','$hora','$usuario',$idCliente)"))
+            if(!$idProducto = $this->conn->query("call nuevaVenta('$descripcion','$fecha','$usuario',$idCliente)"))
                 printf("Error: %s\n",$this->conn->error);
             $this->conn->close();  
 

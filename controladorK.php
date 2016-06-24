@@ -424,8 +424,7 @@ if (isset($_GET["idCategorias"]) && isset($_GET["idMarca"]) && isset($_GET["coin
         $carrito=$carritoCompra['carrito'];
         $tienda = new Sistema();
         $fecha = date("Y-m-d");
-        $hora = date("G:i:s");
-        $idNuevaVenta=$tienda->crearVenta($descripcion,$fecha,$hora,$usuario,2);
+        $idNuevaVenta=$tienda->crearVenta($descripcion,$fecha,$usuario,2);
         foreach ($idNuevaVenta as $key => $value) {
             $idNV = $value;
         }
