@@ -59,7 +59,8 @@ class Tienda extends Conexion
 		{
 			$reportesA = array();
 			$query = "call updateCantCompDetalleVenta($idDetalle,$cant)";
-			$reportes = $this->conexion->query($query);
+			if(!$reportes = $this->conexion->query($query))
+				printf("Errormensage %s\n",$this->conexion->error);
 			$this->conexion->close();
 			while ($reporte = $reportes->fetch_assoc()) {
 				$reporteA = array();
@@ -103,7 +104,8 @@ class Tienda extends Conexion
 		else
 		{
 			$query = "call deleteDetalleVenta($idDetalle)";
-			$reportes = $this->conexion->query($query);
+			if(!$reportes = $this->conexion->query($query))
+				printf("Errormensage %s\n",$this->conexion->error);
 			$this->conexion->close();
 			if ($reportes)
 				return true;

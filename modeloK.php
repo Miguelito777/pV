@@ -291,7 +291,6 @@
             $precioVenta=$arrayProducto['precioVenta'];
             $codigoProductoo=(int)$arrayProducto['codigoProducto'];
             $fecha = date("Y-m-d");
-            $hora = date("G:i:s");
             // Obtengo el Id de Marca
             parent:: __construct();
             $query = "SELECT Marca_idMarcas from producto where idProducto = $codigoProductoo";
@@ -325,7 +324,7 @@
 
             // Si el usuario desea comprar mas de un producto existente
             if ($totalInicial > 0) {
-                $query = "call setDetalleCompra('$descripcionProducto', $precioCosto, $codMarca, $codProveedor, $codCategoria, $totalInicial, '$fecha', '$hora', $codigoProductoo)";
+                $query = "call setDetalleCompra('$descripcionProducto', $precioCosto, $codMarca, $codProveedor, $codCategoria, $totalInicial, '$fecha', $codigoProductoo)";
                 parent:: __construct();
                 if (!$this->conn->query($query)) {
                     printf("Errormessage: %s\n", $this->conn->error);

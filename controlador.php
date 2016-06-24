@@ -88,7 +88,7 @@
 		$posicionEliminar = (int)$_GET["deleteReporte"];
 		$resultado = $libreria->deleteReporte($libreria->reportesA[$posicionEliminar]['idDetalleVenta']);
 		if ($resultado){
-			unset($libreria->reportesA[$posicionEliminar]);
+			array_splice($libreria->reportesA,$posicionEliminar,1);
 			$_SESSION["libreriaa"] = $libreria;
 			echo true;
 		} 	
@@ -100,7 +100,7 @@
 		$posicionEliminar = (int)$_GET["deleteReporteCompra"];
 		$resultado = $libreria->deleteReporteCompra($libreria->reportesCompras[$posicionEliminar]['idDetalleCompra']);
 		if ($resultado){
-			unset($libreria->reportesCompras[$posicionEliminar]);
+			array_splice($libreria->reportesCompras,$posicionEliminar,1);
 			$_SESSION["libreriaa"] = $libreria;
 			echo true;
 		} 	

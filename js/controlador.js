@@ -473,7 +473,9 @@ function deleteReporte(elementoEliminar){
 	};
 }
 function resultadoDeleteReporte(){
-	reportesDia.splice(posicionModificar,1);
+	reportes.reportes.splice(posicionModificar,1);
+	reportesDia = reportes.reportes;
+	console.log(reportesDia);
 	document.getElementById("espacioReportes").innerHTML = "";
 	reportes.totalVentaDiaria = 0;
 	$("#espacioReportes").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Cantidad <br />Compra</th><th>Producto</th><th>Marca</th><th>Precio Venta</th><th>Existencia</th><th>Subtotal</th><th>Modificar</th><th>Borrar</th></tr></table>");
@@ -482,7 +484,7 @@ function resultadoDeleteReporte(){
 		var PrecioVenta = parseFloat(reportesDia[i].precioVenta);
 		reportesDia[i].totalCompra = CantidadComprada * PrecioVenta;
 		reportes.totalVentaDiaria = reportes.totalVentaDiaria + reportesDia[i].totalCompra;
-		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].marca+"</td><td>Q. "+reportesDia[i].precioVenta+"</td><td>"+reportesDia[i].existencia+"</td><td>Q. "+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadVentaa(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrar</button></td></tr>");
+		$("#tablaReportes").append("<tr><td>"+reportesDia[i].hora+"</td><td>"+reportesDia[i].cantidadComprada+"</td><td>"+reportesDia[i].producto+"</td><td>"+reportesDia[i].marca+"</td><td>Q. "+reportesDia[i].precioVenta+"</td><td>"+reportesDia[i].existencia+"</td><td>Q. "+reportesDia[i].totalCompra+"</td><td><button id ="+i+" type='button' class='btn btn-primary' data-toggle='modal' data-target='#updateCantidadVenta' onclick = 'updateCantidadVentaa(this.id)'>Modificar</button></td><td><button type='button' class='btn btn-danger' id="+i+" onclick='deleteReporte(this.id)'>Borrarr</button></td></tr>");
 	}
 	document.getElementById("totalVentaDia").innerHTML = "<h1>Total: Q. "+reportes.totalVentaDiaria+"</h1>";
 }
@@ -704,7 +706,6 @@ function getComprasDia(){
 
 // Muestra el reporte de compras diaria
 function mostrarReportesCompras(){
-	console.log("Primer camino");
 	reportesDia = reportes.reportesCompras;
 	document.getElementById("comprasDia").innerHTML = "";
 	$("#comprasDia").append("<table class='table table-hover table-striped' id='tablaReportes'><tr><th>Hora</th><th>Compra</th><th>Costo</th><th>Cantidad Comprada</th><th>Marca</th><th>Proveedor</th><th>Categoria</th><th>Subtotal</th><th>Opcion 1</th><th>Opcion 2</th></tr></table>");
@@ -716,7 +717,6 @@ function mostrarReportesCompras(){
 
 // Muestra el reporte de compras diaria
 function resultadoReportesCompras(){
-	console.log("Buen Camino");
 	reportes.reportesCompras.splice(posicionModificar,1);
 	reportesDia = reportes.reportesCompras;
 	document.getElementById("comprasDia").innerHTML = "";
