@@ -427,7 +427,7 @@
                 return false;
         }
 
-        function crearVenta($descripcion,$fecha, $hora,$usuario,$idCliente){
+        function crearVenta($descripcion,$fecha,$usuario,$idCliente){
             parent::__construct();
             if(!$idProducto = $this->conn->query("call nuevaVenta('$descripcion','$fecha','$usuario',$idCliente)"))
                 printf("Error: %s\n",$this->conn->error);
