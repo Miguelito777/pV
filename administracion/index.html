@@ -14,16 +14,44 @@
 					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-1" data-whatever="@mdo">Ingreso punto de venta</button>
 				</div>
 				<div class="col-xs-3" style='text-align: left;'>
-					<button type="button" class="btn btn-success" id="administracion" data-toggle="modal" data-target="#loginAdmon" data-whatever="@mdo"> Ingreso Administrador</button>
+					<button type="button" class="btn btn-success" id="administracion" data-toggle="modal" data-target="#modal-2" data-whatever="@mdo">Cambiar Contraseña </button>
 				</div>
 				<div class="col-xs-3">
 					<button type="button" class="btn btn-danger" onclick="desabSistemaAdmin()">Cerrar la sesión</button>
 				</div>
-				<div class="col-xs-3"></div>
-			</div>
-			<div class="col-xs-2">
-					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-2" data-whatever="@mdo">Cambiar Contraseña</button>
+			<div class="col-xs-3" style='text-align: right;'>
+					
 				</div>
+			</div>
+					<div class="modal fade" id="modal-2">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										<span class="sr-only">Close</span>
+									</button>
+									<h4 class="modal-title">Login Usuario</h4>
+								</div>
+								<div class="modal-body">
+									<label for="passwordUsuario"> Contraseña Actual: </label>
+									<input type="password" name="" class="form-control" required="required" title="" id="passwordActual">
+
+									<label for="passwordUsuario"> Contraseña Nueva: </label>
+									<input type="password" name="" class="form-control" required="required" title="" id="newPassword">
+
+									<label for="passwordUsuario"> Repetir Contraseña: </label>
+									<input type="password" name=""class="form-control" required="required" title="" id="repeatNewPassword">
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal" id="modificarContrasenia">Ingresar</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+
 			<div class="row" style="text-align:center">
 				<div class="col-xs-12">
 					<h1>Bienvenidos</h1>
@@ -67,6 +95,7 @@
 		</footer>
 	</div>
 	<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../js/modelo.js"></script>
 	<script type="text/javascript" src="../js/controlador.js"></script>
 	<script>

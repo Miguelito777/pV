@@ -730,7 +730,6 @@ function resultadoReportesCompras(){
 // Delete reporte compras
 
 function deleteReporteCompra(elementoEliminar){
-	console.log("idAeliminar "+reportes.reportesCompras[elementoEliminar].idDetalle);
 	posicionModificar = elementoEliminar;
 	var confirmDeleteReporte = confirm("Desea eliminar esta compra "+reportes.reportesCompras[elementoEliminar].producto);
 	if (confirmDeleteReporte) {
@@ -805,4 +804,21 @@ function desabSistema(){
 function desabSistemaAdmin(){
 	var libreria = new Tienda();
 	libreria.desabilitarSistemaAdmin();
+}
+
+
+
+
+$("#modificarContrasenia").click(changePassword);
+
+function changePassword(){
+	var actualPassword = document.getElementById("passwordActual").value;
+	var newPassword = document.getElementById("newPassword").value;
+	var repeatNewPassword = document.getElementById("repeatNewPassword").value;
+
+	var libreria = new Tienda();
+
+	libreria.changePaaswordAdmin(actualPassword, newPassword, repeatNewPassword);
+
+
 }

@@ -26,6 +26,38 @@ class Tienda extends Conexion
 		
 	}
 
+	public function setNewPassword($idUsuarioActual, $newPassword){
+		$newPassEncript = sha1($newPassword);
+		$query = "UPDATE usersadmin set password = '$newPassEncript' where idUsuario = $idUsuarioActual";
+		parent:: __construct();
+
+		if (!$resultadoSetPassword = $this->conexion->query($query)) {
+			printf("Erro ",$this->conexion->error);
+			return false;
+			$this->conexion->close();
+		}
+		else{
+			$this->conexion->close();
+			return true;
+		}
+	}
+
+	public function evaluaPasswordActual($passwordActual){
+		$newPassEncript = sha1($passwordActual);
+		$query = "SELECT * from usersadmin where password = '$newPassEncript'";
+		parent:: __construct();
+		if (!$userAdmin = $this->conexion->query($query)){
+			printf("Error %s\n",$this->conexion->error);
+			$this->conexion->close();
+			return false;			
+		}
+		else{
+			$this->conexion->close();
+			$usuarioAdministrador = $userAdmin->fetch_assoc();
+			return $usuarioAdministrador['idUsuario'];
+		}
+	}
+
 	function loginUsuario($usuario, $password, $typeUser){
 		if ($typeUser == 1) {
 			$query = "SELECT * from usuarios where nombreUsuario = '$usuario' and passwordUsuario = '$password'";
@@ -38,7 +70,8 @@ class Tienda extends Conexion
 				false;
 		}
 		if ($typeUser == 2) {
-			$query = "SELECT * from usersadmin where nombre = '$usuario' and password = '$password'";
+			$passwordEncript = sha1($password);
+			$query = "SELECT * from usersadmin where nombre = '$usuario' and password = '$passwordEncript'";
 			parent:: __construct();
 			$result = $this->conexion->query($query);
 			$usuarioEncontrado = $result->num_rows;

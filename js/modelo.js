@@ -10,6 +10,19 @@ function Tienda(){
 	this.reportesCompras = [];
 	this.totalVentaDiaria = 0;
 }
+Tienda.prototype.changePaaswordAdmin = function(actualPassword, newPassword, repeatNewPassword){
+	$.ajax({
+		url : "../controlador.php",
+		data : {"actualPassword" : actualPassword, "newPassword": newPassword, "repeatNewPassword" : repeatNewPassword},
+		type : "POST",
+		success : function(data){
+			if (data == '1')
+				alert("Contrasenia modificada Exitosamente");
+			else
+				alert("Error al modificar contrasenia");
+		}
+	})
+}
 Tienda.prototype.loginUsuario = function(usuario, password, tipo){
 	$.ajax({
 		data : {"usuario":usuario, "password": password, "tipo" : tipo},

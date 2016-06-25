@@ -144,4 +144,29 @@
 
 		echo "$statusDelete";
 	}
+
+
+	if (isset($_POST["actualPassword"]) && isset($_POST["newPassword"]) && isset($_POST["repeatNewPassword"])) {
+		$libreria = new Tienda();
+		$usuarioAcutal = $libreria->evaluaPasswordActual($_POST["actualPassword"]);
+		$resultadoCompracion = strnatcasecmp($_POST["newPassword"], $_POST["repeatNewPassword"]);
+
+		if ($usuarioAcutal){
+			$idUsuarioActual = (int)$usuarioAcutal;
+			if ($resultadoCompracion == 0) {
+				$resultadoSetPassword = $libreria->setNewPassword($idUsuarioActual, $_POST["newPassword"]);
+				if ($resultadoSetPassword)
+					echo true;
+				else
+					false;
+			}
+			else
+				echo false;
+		}
+		else
+			echo false;
+		
+
+
+	}
 ?>
