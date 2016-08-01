@@ -241,6 +241,9 @@ function crearProducto(){
 	var marcaNueva = document.getElementById("nuevaMarca").value;
 	var codigoProveedor = document.getElementsByTagName("select")[5].value;
 	var proveedorNuevo = document.getElementById("nuevoProveedor").value;
+	var telefonoProveedor = document.getElementById("telefonoProveedor").value;
+	var nitProveedor = document.getElementById("nitProveedor").value;
+	var direccionProveedor = document.getElementById("direccionProveedor").value;
 	var totalInicial = document.getElementById("totalInicial").value;
 	var precioCosto = document.getElementById("precioCosto").value;
 	var precioVenta = document.getElementById("precioVenta").value;	
@@ -295,8 +298,12 @@ function crearProducto(){
 		}
 		else{
 			//Solo se ha seleccionada una de las dos opciones para ingresar un proveedor al producto
-			if (proveedorNuevo != '')//Se desea almacenar un proveedor nuevo 
+			if (proveedorNuevo != ''){//Se desea almacenar un proveedor nuevo 
 				nuevoProducto.codigoProveedor = proveedorNuevo;
+				nuevoProducto.telProveedor = telefonoProveedor;
+				nuevoProducto.nitProveedor = nitProveedor;
+				nuevoProducto.dirProveedor = direccionProveedor;	
+			}
 			else//Se desea almacenar un proveedor existente
 				nuevoProducto.codigoProveedor = parseInt(libreria.proveedores[codigoProveedor].getId());
 		}

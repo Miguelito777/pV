@@ -222,6 +222,7 @@
         }      
         
         function crearNuevoProducto($arrayProducto){
+            echo var_dump($arrayProducto);
             $descripcionProducto=$arrayProducto['descripcionProducto'];
             $codCategoria=$arrayProducto['codigoCategoria'];
             if (is_string($codCategoria)) {
@@ -245,9 +246,13 @@
             $precioCosto=(float)$arrayProducto['precioCosto'];
             $precioVenta=$arrayProducto['precioVenta'];
             $codProveedor=$arrayProducto['codigoProveedor'];
+            $telProveedor = $arrayProducto['telProveedor'];
+            $nitProveedor = $arrayProducto['nitProveedor'];
+            $dirProveedor = $arrayProducto['dirProveedor'];
+
             if (is_string($codProveedor)) {
                 parent::__construct();
-                $query = "call setProveedorNP('$codProveedor')";
+                $query = "call setProveedorNP('$codProveedor', '$telProveedor', '$dirProveedor', '$nitProveedor')";
                 $idNCP = $this->conn->query($query);
                 $this->conn->close();
                 $id = $idNCP->fetch_assoc();

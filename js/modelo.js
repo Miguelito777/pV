@@ -920,6 +920,9 @@ function Producto(){
 	this.codigoCategoria;
 	this.codigoMarca;
 	this.codigoProveedor;
+	this.telProveedor;
+	this.nitProveedor;
+	this.dirProveedor;
 }
 
 Producto.prototype.crearNuevo = function(){
@@ -932,7 +935,10 @@ Producto.prototype.crearNuevo = function(){
 	nuevoProducto.totalInicial = this.cantidadTotal;
 	nuevoProducto.precioCosto = this.precioCosto;
 	nuevoProducto.precioVenta = this.precioVenta;
-	console.log(nuevoProducto);
+	nuevoProducto.telProveedor = this.telProveedor;
+	nuevoProducto.nitProveedor = this.nitProveedor;
+	nuevoProducto.dirProveedor = this.dirProveedor;
+
 	var producto_json = JSON.stringify(nuevoProducto);
 	$.ajax({
 		data : {"nuevoProducto":producto_json},
