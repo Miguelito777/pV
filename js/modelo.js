@@ -468,6 +468,19 @@ Tienda.prototype.getProductosCategoriaProveedor = function (idCategoria, idProve
 		}
 	})
 }
+Tienda.prototype.verificarRefIndex = function(){
+	$.ajax({
+		url : "controlador.php",
+		type : "POST",
+		data : {"verificarRefIndex" : true},
+		success : function(data){
+			if (data == "1")
+				redireccionarIndexAdmon();
+			else
+				redireccionarIndexUser();
+		}
+	})
+}
 
 /**
 *clase Categorias

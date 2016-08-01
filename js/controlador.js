@@ -819,6 +819,20 @@ function changePassword(){
 	var libreria = new Tienda();
 
 	libreria.changePaaswordAdmin(actualPassword, newPassword, repeatNewPassword);
+}
 
 
+function verificarIndexRef(){
+
+	var libreria = new Tienda();
+	libreria.verificarRefIndex();
+
+}
+
+function redireccionarIndexAdmon(){
+	window.location = 'administracion/index.html';
+}
+
+function redireccionarIndexUser(){
+	window.location = 'index.html';
 }

@@ -75,8 +75,9 @@ class Tienda extends Conexion
 			parent:: __construct();
 			$result = $this->conexion->query($query);
 			$usuarioEncontrado = $result->num_rows;
-			if($usuarioEncontrado > 0)
+			if($usuarioEncontrado > 0){
 				return 2;
+			}
 			else
 				false;
 		}

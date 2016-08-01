@@ -1,6 +1,18 @@
 <?php
 	include 'modelo.php';
 	session_start();
+
+	/*
+	* Fragmento de codigo para verificar la sesion de usuario administrador
+	*/
+
+	if (isset($_POST["verificarRefIndex"])) {
+		if (isset($_SESSION["usuarioValidoAdmin"]))
+			echo true;
+		else
+			echo false;
+	}
+
 	
 	if (isset($_GET["user"])) {
 		$user = (int)$_GET["user"];
