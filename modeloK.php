@@ -222,7 +222,6 @@
         }      
         
         function crearNuevoProducto($arrayProducto){
-            echo var_dump($arrayProducto);
             $descripcionProducto=$arrayProducto['descripcionProducto'];
             $codCategoria=$arrayProducto['codigoCategoria'];
             if (is_string($codCategoria)) {
