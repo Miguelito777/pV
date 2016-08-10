@@ -223,6 +223,7 @@ $("#crearProducto").click(crearProducto);
 $("#nuevoPro").click(limpiarFormulario);
 
 function limpiarFormulario(){
+
 	document.getElementById("nuevaCategoria").value = "";
 	document.getElementById("nuevaMarca").value = "";
 	document.getElementById("nuevoProveedor").value = "";
@@ -230,9 +231,9 @@ function limpiarFormulario(){
 	document.getElementById("nitProveedor").value = "";
 	document.getElementById("direccionProveedor").value = "";
 	document.getElementById("descripcionProducto").value = "";
-	document.getElementsByTagName("select")[3].value;
-	document.getElementsByTagName("select")[4].value;
-	document.getElementsByTagName("select")[5].value;
+	document.getElementsByTagName("select")[3].selectedIndex = 0;
+	document.getElementsByTagName("select")[4].selectedIndex = 0;
+	document.getElementsByTagName("select")[5].selectedIndex = 0;
 
 	document.getElementById("totalInicial").value = "";
 	document.getElementById("precioCosto").value = "";

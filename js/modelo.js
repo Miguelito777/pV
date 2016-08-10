@@ -212,12 +212,12 @@ Tienda.prototype.getCategorias = function (selects){
 				};
 				//Coloco un selecciona categoria al final del select de cateogrias
 				$("#categoria").append("<option value='' selected>Seleccione Categoria</option>");
+				//Coloco un selecciona categoria al final del select de cateogrias
+				$("#categoriaProductoNuevo").append("<option value='' selected>Seleccione Categoria</option>");
 				//LLeno el select de categorias para crear un nuevo producto con los nombre e ids de los objetos categorias
 				for (var i = 0; i < _this.categorias.length; i++) {
 					$("#categoriaProductoNuevo").append("<option value="+i+">"+_this.categorias[i].getNombre()+"</option>")
 				};
-				//Coloco un selecciona categoria al final del select de cateogrias
-				$("#categoriaProductoNuevo").append("<option value='' selected>Seleccione Categoria</option>");
 			}
 			if (selects == 2) {
 				//LLeno el select de categorias para crear un nuevo producto con los nombre e ids de los objetos categorias
@@ -257,12 +257,12 @@ Tienda.prototype.getMarcas = function (selects){
 				// Agrego un seleccione marca al minal del select marcas
 				$("#marca").append("<option value='' selected>Seleccione Marca</option>");
 			
+				// Agrego un seleccione marca al minal del select marcas
+				$("#marcaNuevoProducto").append("<option value='' selected>Seleccione Marca</option>");
 				//Lleno el select de marcas para crear nuevo producto
 				for (var i = 0; i < _this.marcas.length; i++) {
 					$("#marcaNuevoProducto").append("<option value="+i+">"+_this.marcas[i].getNombre()+"</option>")
 				};
-				// Agrego un seleccione marca al minal del select marcas
-				$("#marcaNuevoProducto").append("<option value='' selected>Seleccione Marca</option>");
 			}
 			if (selects == 2) {
 				//Lleno el select de marcas para crear nuevo producto
@@ -301,12 +301,12 @@ Tienda.prototype.getProveedores = function (select){
 				};
 				// Agrego un seleccione proveedor al minal del select marcas
 				$("#proveedor").append("<option value='' selected>Seleccione Proveedor</option>");
+				// Agrego un seleccione proveedor al minal del select marcas
+				$("#proveedorNuevoProducto").append("<option value='' selected>Seleccione Proveedor</option>");
 				//Lleno el select de nuevo producto de proveedores
 				for (var i = 0; i < _this.proveedores.length; i++) {
 					$("#proveedorNuevoProducto").append("<option value="+i+">"+_this.proveedores[i].getNombre()+"</option>")
 				};
-				// Agrego un seleccione proveedor al minal del select marcas
-				$("#proveedorNuevoProducto").append("<option value='' selected>Seleccione Proveedor</option>");
 			}
 		}
 	})
