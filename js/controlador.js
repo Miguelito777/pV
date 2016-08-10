@@ -223,11 +223,17 @@ $("#crearProducto").click(crearProducto);
 $("#nuevoPro").click(limpiarFormulario);
 
 function limpiarFormulario(){
-	document.getElementById("codigoProducto").value = "";
+	document.getElementById("nuevaCategoria").value = "";
+	document.getElementById("nuevaMarca").value = "";
+	document.getElementById("nuevoProveedor").value = "";
+	document.getElementById("telefonoProveedor").value = "";
+	document.getElementById("nitProveedor").value = "";
+	document.getElementById("direccionProveedor").value = "";
 	document.getElementById("descripcionProducto").value = "";
 	document.getElementsByTagName("select")[3].value;
 	document.getElementsByTagName("select")[4].value;
 	document.getElementsByTagName("select")[5].value;
+
 	document.getElementById("totalInicial").value = "";
 	document.getElementById("precioCosto").value = "";
 	document.getElementById("precioVenta").value = "";
@@ -310,10 +316,9 @@ function crearProducto(){
 		nuevoProducto.cantidadTotal = totalInicial;
 		nuevoProducto.precioCosto = precioCosto;
 		nuevoProducto.precioVenta = precioVenta;
-		posicionModificar = libreria.productos.length;
 		if (!errorEncontrado){
-			libreria.productos.push(nuevoProducto);
-			libreria.productos[posicionModificar].crearNuevo();
+			libreria.productos.unshift(nuevoProducto);
+			libreria.productos[0].crearNuevo();
 		}
 	}
 }
