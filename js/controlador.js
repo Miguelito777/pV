@@ -242,7 +242,32 @@ function limpiarFormulario(){
 
 function verificarCategoria(){
 	var categoriaVerificar = document.getElementById("nuevaCategoria").value;
-	console.log(categoriaVerificar);
+	for (var i = 0; i < libreria.categorias.length; i++) {
+		if (categoriaVerificar === libreria.categorias[i]._nombre){
+			document.getElementsByTagName("select")[3].selectedIndex = i+1;
+			document.getElementById("nuevaCategoria").value = "";
+		}
+	};
+}
+
+function verificarMarca(){
+	var marcaVerificar = document.getElementById("nuevaMarca").value;
+	for (var i = 0; i < libreria.marcas.length; i++) {
+		if (marcaVerificar === libreria.marcas[i]._nombre){
+			document.getElementsByTagName("select")[4].selectedIndex = i+1;
+			document.getElementById("nuevaMarca").value = "";
+		}
+	};
+}
+
+function verificarProveedor(){
+	var proveedorVerificar = document.getElementById("nuevoProveedor").value;
+	for (var i = 0; i < libreria.marcas.length; i++) {
+		if (proveedorVerificar === libreria.proveedores[i]._nombre){
+			document.getElementsByTagName("select")[5].selectedIndex = i+1;
+			document.getElementById("nuevoProveedor").value = "";
+		}
+	};
 }
 
 function crearProducto(){
