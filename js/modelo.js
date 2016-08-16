@@ -347,6 +347,7 @@ Tienda.prototype.getProductos = function (){
 }
 
 Tienda.prototype.getProductosCategoriaMarca = function (idCategoria, idMarca){
+	alert("Voy a buscar los productos por categoria");
 	_this = this;
 	_this.productos = [];
 	$.ajax({
@@ -515,7 +516,7 @@ Categoria.prototype.getProductosCategoria = function (selects){
 	if (selects == 1) {
 		$.ajax({
 			data : {"getProductosCategoria":_this._id},
-			url : "pruebaConexionAnterior/controlador.php",
+			url : "controladorK.php",
 			type : "GET",
 			//dataType: "json",
 			success : function (data){
