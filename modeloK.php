@@ -245,9 +245,12 @@
             $precioCosto=(float)$arrayProducto['precioCosto'];
             $precioVenta=$arrayProducto['precioVenta'];
             $codProveedor=$arrayProducto['codigoProveedor'];
-            $telProveedor = $arrayProducto['telProveedor'];
-            $nitProveedor = $arrayProducto['nitProveedor'];
-            $dirProveedor = $arrayProducto['dirProveedor'];
+            if (isset($arrayProducto['telProveedor']))
+                $telProveedor = $arrayProducto['telProveedor'];
+            if (isset($arrayProducto['nitProveedor']))
+                $nitProveedor = $arrayProducto['nitProveedor'];
+            if (isset($arrayProducto['dirProveedor']))
+                $dirProveedor = $arrayProducto['dirProveedor'];
 
             if (is_string($codProveedor)) {
                 parent::__construct();

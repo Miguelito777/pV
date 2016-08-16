@@ -195,6 +195,7 @@ Tienda.prototype.getCategorias = function (selects){
 		//dataType: "json",
 		success : function (data){
 			var categoriasTodas = $.parseJSON(data);
+			_this.categorias = [];
 			//Obtengo las categorias y creo los objetos, luego las guardo en un arrya que contendra objetos categoria
 			for(var i in categoriasTodas){
 				var categoria = new Categoria();
@@ -239,6 +240,7 @@ Tienda.prototype.getMarcas = function (selects){
 		//dataType: "json",
 		success : function (data){
 			var marcasTodas = $.parseJSON(data);
+			_this.marcas = [];
 			//Obtengo las marcas y creo los objetos, luego las almaceno en un array que conteiene objetos de marca.
 			for(var i in marcasTodas){
 				var marca = new Marca();
@@ -284,6 +286,7 @@ Tienda.prototype.getProveedores = function (select){
 		//dataType: "json",
 		success : function (data){
 			var proveedoresTodos = $.parseJSON(data);
+			_this.proveedores = [];
 			//Obtengo los proveedores y creo los objetos, luego las almaceno en un array que conteiene objetos de proveedores.
 			for(var i in proveedoresTodos){
 				var proveedor = new Proveedor();

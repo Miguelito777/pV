@@ -240,6 +240,11 @@ function limpiarFormulario(){
 	document.getElementById("precioVenta").value = "";
 }
 
+function verificarCategoria(){
+	var categoriaVerificar = document.getElementById("nuevaCategoria").value;
+	console.log(categoriaVerificar);
+}
+
 function crearProducto(){
 	var descripcionProducto = document.getElementById("descripcionProducto").value;
 	var codigoCategoria = document.getElementsByTagName("select")[3].value;
@@ -266,8 +271,8 @@ function crearProducto(){
 			nuevoProducto.precioCosto = precioCosto;
 			nuevoProducto.precioVenta = precioVenta;
 			posicionModificar = libreria.productos.length;
-			libreria.productos.push(nuevoProducto);
-			libreria.productos[posicionModificar].crearNuevo();
+			libreria.productos.unshift(nuevoProducto);
+			libreria.productos[0].crearNuevo();
 		}
 		else
 			alert("Por favor de llenar todos los campos disponibles");
@@ -324,7 +329,20 @@ function crearProducto(){
 	}
 }
 
-function insertarNuevoProductoTabla(productoAlmacenadoNuevo){
+function insertarNuevoProductoTabla(){
+
+	document.getElementsByTagName("select")[3].options.length = 0;
+	document.getElementsByTagName("select")[4].options.length = 0;
+	document.getElementsByTagName("select")[5].options.length = 0;
+	document.getElementsByTagName("select")[0].options.length = 0;
+	document.getElementsByTagName("select")[1].options.length = 0;
+	document.getElementsByTagName("select")[2].options.length = 0;
+
+	selects = 1;	
+	libreria.getCategorias(selects);
+	libreria.getMarcas(selects);
+	libreria.getProveedores(selects);
+
 	document.getElementById("resultadosInventario").innerHTML = "";
 	// Creo tabla para mostrar productos
 	$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
