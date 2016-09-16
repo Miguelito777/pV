@@ -19,17 +19,36 @@
 				</div>
 			</div>
 		</header>
+		<hr>
 		<section>
 			<div class="row">
-				<div class="col-xs-5">
+				<div class="col-xs-3">
 					<label for="coincidenciaCategoria"></label>
-					<input type="text" id="coincidenciaCategoria" placeholder="Coincidencia"><br><br>
-					<button type='btn'> Nueva Categoria</button>
+					<input type="text" id="coincidenciaCategoria" placeholder="Coincidencia" onkeyup="coincidenciaCategoria(this.value);">
 				</div>
-				<div class="col-xs-7 alert alert-success">
+				<div class="col-xs-3">
+					<button type='btn' class="btn btn-primary" data-toggle="modal" data-target="#modal-1" onclick="startNewCategoria();"> Nueva Categoria</button>
+				</div>
+				<div class="col-xs-3">
+					
+
+				</div>
+				<div class="col-xs-3">
+
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-xs-2" style="text-align:center;">
+
+				</div>
+				<div class="col-xs-8 alert-info" style="text-align:center;">
 					<div class="row" id="rCategorias">
 						
 					</div>
+				</div>
+				<div class="col-xs-2 " style="text-align:center;">
+
 				</div>
 			</div>
 		</section>
@@ -49,9 +68,61 @@
 
 	<script type="text/javascript" src="js/modelo.js"></script>
 	<script type="text/javascript" src="js/controlador.js"></script>
-
+	
 	<script>getCategorias();
 	verificaCredencialesUsuarioAdminInv();
 	</script>
-</body>
+
+
+
+
+			<div class="modal fade" id="modal-1">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Nueva Categoria</h4>
+						</div>
+						<div class="modal-body" id="newCat">
+
+						</div>
+						<div class="modal-footer" id="okMensajeNewCat">
+
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<div class="modal fade" id="optionsCategoria">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="titleOptions"></h4>
+						</div>
+						<div class="modal-body">
+							<strong>Modificar...</strong>
+							<div class="alert alert-warning" style="text-align:center;">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								<label for="nombreCat">Categoria:</label>
+								<input type="text" id="nombreCat">
+								<br><br>
+								<button type="button" class="btn btn-warning" data-dismiss="modal" onclick="updateCategoria();">Modificar</button>
+							</div>
+							<hr>
+							<strong>Eliminar...</strong>
+							<div class="alert alert-danger" style="text-align:center;">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								<button type="button" class="btn btn-danger" onclick="deleteCategoriaa();">    Eliminar    </button>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+						</div>
+					</div>
+				</div>
+			</div>
 </html>

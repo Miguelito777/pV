@@ -549,6 +549,15 @@ function resultadoDeleteReporte(){
 /**
 *------------ Script para controlar los crud de Categoria, Marca y proveedor---------------------------------------------------
 */
+function startNewCategoria(){
+	document.getElementById("newCat").innerHTML = "<label for='nombreCategoria'>Nombre Categoria Nueva:       </label><input type='text' placeholder='Ingresar nombre Categoria' id='nombreCategoria'>";
+	document.getElementById("okMensajeNewCat").innerHTML = "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancelar</button><button type='button' class='btn btn-primary' onclick='newCategoria();'>Crear</button>";
+}
+function newCategoria(){
+	var nuevaCategoria = document.getElementById("nombreCategoria").value;
+	libreria.newCategoria(nuevaCategoria);
+	document.getElementById("newCat").innerHTML = "<img src='img/ajax-loader.gif'>";
+}
 function getCategorias(){
 	selects = 3;
 	libreria = new Tienda();
@@ -557,62 +566,93 @@ function getCategorias(){
 }
 
 function rCategorias(){
+	document.getElementById("rCategorias").innerHTML = "";
+	$("#rCategorias").append("<table class='table table-hover table-striped' id='tableCatRead'><thead><tr><th>Codigo</th><th>Nombre</th></tr></table>");
+
 	// Creo un array con las categorias(objetos) de la libreria(objeto)
 	for(var i in libreria.categorias){
-		var categoria = [];
-		categoria.push(libreria.categorias[i].getId());
-		categoria.push(libreria.categorias[i].getNombre());
-		categoria.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteCategoria(this.id)'>borrar</button>");
-		crudCategorias.push(categoria);
+		$("#tableCatRead").append("<tr><td>"+libreria.categorias[i].getId()+"</td><td>"+libreria.categorias[i].getNombre()+"</td></tr>");
 	}
+	var table = document.getElementById("tableCatRead");
+	var rows = table.getElementsByTagName("tr");
 
-	// Creo una nueva ventana editable para los datos
-	obj = { width: 675, height: 447, title: "Categorias",resizable:false,draggable:false };
-	// Establesco la estructura de las columnas
-	obj.colModel = 
-		[
-			{ title: "Codigo", width: 25, dataType: "string", align: "center", editable: false},
-			{ title: "Categoria", width: 273, dataType: "string", align: "center", editable: true},
-			{ title: "Opcion", width: 100, dataType: "string", align: "center", editable: false}
-		];
-	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
-	obj.dataModel = { data: crudCategorias};
-
-	// Muestro la tabla con los datos
-	var $grid = $("#rCategorias").pqGrid(obj);
-	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
-
-	$grid.on( "pqgridcellsave", function(){
-		console.log();
-		/*obj.dataModel = { data: curso.tareas_array};
-		var $grid = $("#tareasAsignadas").pqGrid(obj);
-		$("#tareasAsignadas").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});*/
-	});
-
+	for (var i = 0; i < rows.length; i++) {
+		//var idCategoria = libreria.categorias[i].getNombre();
+		var currentRow = table.rows[i+1];
+		var createClickHandler = 
+			function (j) {
+				return function(){
+					optionsCategoria(j);
+				}
+			};
+		currentRow.onclick = createClickHandler(i);	
+	};
 }
 
-function deleteCategoria(categoriaEliminar){
-	posicionModificar = categoriaEliminar;
-	var statusDelete = confirm("¿Eliminar la categoria "+libreria.categorias[categoriaEliminar].getNombre()+"?");
-	if (statusDelete)
-		libreria.categorias[categoriaEliminar].deleteCategoria();
+function optionsCategoria(posicion){
+	posicionModificar = posicion;
+	document.getElementById("titleOptions").innerHTML="Opciones para categoria <strong>"+libreria.categorias[posicionModificar].getNombre();+"</strong>";
+	$("#optionsCategoria").modal('show');
+	document.getElementById("nombreCat").value = libreria.categorias[posicion].getNombre();
+}
+
+
+function coincidenciaCategoria(str){
+	if(str == '')
+		libreria.getCategorias(3);
+	else{
+		var str = document.getElementById("coincidenciaCategoria").value;
+		libreria.searchCategorias(str);
+	}
+}
+
+function deleteCategoriaa(){
+	libreria.categorias[posicionModificar].deleteCategoria();
 }
 function updateTableCategoria(){
-	crudCategorias.splice(posicionModificar,1);
+	$("#optionsCategoria").modal('hide');
+	libreria.categorias.splice(posicionModificar,1);
+	document.getElementById("rCategorias").innerHTML = "";
+	$("#rCategorias").append("<table class='table table-hover table-striped' id='tableCatRead'><thead><tr><th>Codigo</th><th>Nombre</th></tr></table>");
 
-	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
-	obj.dataModel = { data: crudCategorias};
+	// Creo un array con las categorias(objetos) de la libreria(objeto)
+	for(var i in libreria.categorias){
+		$("#tableCatRead").append("<tr><td>"+libreria.categorias[i].getId()+"</td><td>"+libreria.categorias[i].getNombre()+"</td></tr>");
+	}
+	var table = document.getElementById("tableCatRead");
+	var rows = table.getElementsByTagName("tr");
 
-	// Muestro la tabla con los datos
-	var $grid = $("#rCategorias").pqGrid(obj);
-	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+	for (var i = 0; i < rows.length; i++) {
+		var currentRow = table.rows[i+1];
+		var createClickHandler = 
+			function (j) {
+				return function(){
+					optionsCategoria(j);
+				}
+			};
+		currentRow.onclick = createClickHandler(i);	
+	};
 
+}
+
+function updateCategoria(){
+	var newNameCategoria = document.getElementById("nombreCat").value;
+	libreria.categorias[posicionModificar].updateCategoria(newNameCategoria);
 }
 
 
 /**
 * Control de marcas
 */
+function startNewMarca(){
+	document.getElementById("newCat").innerHTML = "<label for='nombreMarca'>Marca Nueva:       </label><input type='text' placeholder='Ingresar nombre Marca' id='nombreMarca'>";
+	document.getElementById("okMensajeNewCat").innerHTML = "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancelar</button><button type='button' class='btn btn-primary' onclick='newMarca();'>Crear</button>";
+}
+function newMarca(){
+	var nuevaMarca = document.getElementById("nombreMarca").value;
+	libreria.newMarca(nuevaMarca);
+	document.getElementById("newCat").innerHTML = "<img src='img/ajax-loader.gif'>";
+}
 function getMarcas(){
 	selects = 3;
 	libreria = new Tienda();
@@ -621,63 +661,90 @@ function getMarcas(){
 }
 
 function rMarcas(){
-	// Creo un array con las categorias(objetos) de la libreria(objeto)
+	document.getElementById("rCategorias").innerHTML = "";
+	$("#rCategorias").append("<table class='table table-hover table-striped' id='tableCatRead'><thead><tr><th>Codigo</th><th>Nombre</th></tr></table>");
+
+	// Creo un array con las marcas(objetos) de la libreria(objeto)
 	for(var i in libreria.marcas){
-		var marca = [];
-		marca.push(libreria.marcas[i].getId());
-		marca.push(libreria.marcas[i].getNombre());
-		marca.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteMarca(this.id)'>borrar</button>");
-		crudMarcas.push(marca);
+		$("#tableCatRead").append("<tr><td>"+libreria.marcas[i].getId()+"</td><td>"+libreria.marcas[i].getNombre()+"</td></tr>");
 	}
+	var table = document.getElementById("tableCatRead");
+	var rows = table.getElementsByTagName("tr");
 
-	// Creo una nueva ventana editable para los datos
-	objM = { width: 675, height: 447, title: "Marcas",resizable:false,draggable:false };
-	// Establesco la estructura de las columnas
-	objM.colModel = 
-		[
-			{ title: "Codigo", width: 25, dataType: "string", align: "center", editable: false},
-			{ title: "Marca", width: 273, dataType: "string", align: "center", editable: true},
-			{ title: "Opcion", width: 100, dataType: "string", align: "center", editable: false}
-		];
-	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
-	objM.dataModel = { data: crudMarcas};
-
-	// Muestro la tabla con los datos
-	var $grid = $("#rCategorias").pqGrid(objM);
-	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
-
-	$grid.on( "pqgridcellsave", function(){
-		console.log('click en las marcas');
-		/*obj.dataModel = { data: curso.tareas_array};
-		var $grid = $("#tareasAsignadas").pqGrid(obj);
-		$("#tareasAsignadas").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});*/
-	});
-
+	for (var i = 0; i < rows.length; i++) {
+		//var idCategoria = libreria.marcas[i].getNombre();
+		var currentRow = table.rows[i+1];
+		var createClickHandler = 
+			function (j) {
+				return function(){
+					optionsMarca(j);
+				}
+			};
+		currentRow.onclick = createClickHandler(i);	
+	};
 }
 
-function deleteMarca(marcaDelete){
-	posicionModificar = marcaDelete;
-	var statusDelete = confirm("¿Eliminar la marca "+libreria.marcas[posicionModificar].getNombre()+"?");
-	if (statusDelete)
-		libreria.marcas[posicionModificar].deleteMarca();
+function optionsMarca(posicion){
+	posicionModificar = posicion;
+	document.getElementById("titleOptions").innerHTML="Opciones para Marca <strong>"+libreria.marcas[posicionModificar].getNombre();+"</strong>";
+	$("#optionsMarca").modal('show');
+	document.getElementById("nombreCat").value = libreria.marcas[posicion].getNombre();
+}
+
+function deleteMarca(){
+	libreria.marcas[posicionModificar].deleteMarca();
 }
 function updateTableMarcas(){
-	crudMarcas.splice(posicionModificar,1);
+	$("#optionsMarca").modal('hide');
+	libreria.marcas.splice(posicionModificar,1);
+	document.getElementById("rCategorias").innerHTML = "";
+	$("#rCategorias").append("<table class='table table-hover table-striped' id='tableCatRead'><thead><tr><th>Codigo</th><th>Nombre</th></tr></table>");
 
-	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
-	objM.dataModel = { data: crudMarcas};
+	// Creo un array con las categorias(objetos) de la libreria(objeto)
+	for(var i in libreria.marcas){
+		$("#tableCatRead").append("<tr><td>"+libreria.marcas[i].getId()+"</td><td>"+libreria.marcas[i].getNombre()+"</td></tr>");
+	}
+	var table = document.getElementById("tableCatRead");
+	var rows = table.getElementsByTagName("tr");
 
-	// Muestro la tabla con los datos
-	var $grid = $("#rCategorias").pqGrid(objM);
-	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+	for (var i = 0; i < rows.length; i++) {
+		var currentRow = table.rows[i+1];
+		var createClickHandler = 
+			function (j) {
+				return function(){
+					optionsMarca(j);
+				}
+			};
+		currentRow.onclick = createClickHandler(i);	
+	};
 
 }
 
-
+function updateMarca(){
+	var newNameMarca = document.getElementById("nombreCat").value;
+	libreria.marcas[posicionModificar].updateMarca(newNameMarca);
+}
+function coincidenciaMarcaa(str){
+	if(str == '')
+		libreria.getMarcas(3);
+	else{
+		var str = document.getElementById("coincidenciaMarca").value;
+		libreria.searchMarcas(str);
+	}
+}
 
 /**
 * Control de Proveedores
 */
+function startNewProveedor(){
+	document.getElementById("newCat").innerHTML = "<label for='nombreProveedor'>Proveedor Nuevo:       </label><input type='text' placeholder='Ingresar nombre Proveedor' id='nombreProveedor'>";
+	document.getElementById("okMensajeNewCat").innerHTML = "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancelar</button><button type='button' class='btn btn-primary' onclick='newProveedor();'>Crear</button>";
+}
+function newProveedor(){
+	var nuevoProveedor = document.getElementById("nombreProveedor").value;
+	libreria.newProveedor(nuevoProveedor);
+	document.getElementById("newCat").innerHTML = "<img src='img/ajax-loader.gif'>";
+}
 function getProveedores(){
 	selects = 3;
 	libreria = new Tienda();
@@ -686,55 +753,78 @@ function getProveedores(){
 }
 
 function rProveedor(){
+	document.getElementById("rCategorias").innerHTML = "";
+	$("#rCategorias").append("<table class='table table-hover table-striped' id='tableCatRead'><thead><tr><th>Codigo</th><th>Nombre</th></tr></table>");
+
+	// Creo un array con las marcas(objetos) de la libreria(objeto)
+	for(var i in libreria.proveedores){
+		$("#tableCatRead").append("<tr><td>"+libreria.proveedores[i].getId()+"</td><td>"+libreria.proveedores[i].getNombre()+"</td></tr>");
+	}
+	var table = document.getElementById("tableCatRead");
+	var rows = table.getElementsByTagName("tr");
+
+	for (var i = 0; i < rows.length; i++) {
+		//var idCategoria = libreria.marcas[i].getNombre();
+		var currentRow = table.rows[i+1];
+		var createClickHandler = 
+			function (j) {
+				return function(){
+					optionsProveedor(j);
+				}
+			};
+		currentRow.onclick = createClickHandler(i);	
+	};
+}
+
+
+function coincidenciaProveedorr(str){
+	if(str == '')
+		libreria.getProveedores(3);
+	else{
+		var str = document.getElementById("coincidenciaProveedor").value;
+		libreria.searchProveedores(str);
+	}
+}
+
+function optionsProveedor(posicion){
+	posicionModificar = posicion;
+	document.getElementById("titleOptions").innerHTML="Opciones para Proveedor <strong>"+libreria.proveedores[posicionModificar].getNombre();+"</strong>";
+	$("#optionsProveedor").modal('show');
+	document.getElementById("nombreCat").value = libreria.proveedores[posicion].getNombre();
+}
+
+function updateProveedor(){
+	var newProveedor = document.getElementById("nombreCat").value;
+	libreria.proveedores[posicionModificar].updateProveedor(newProveedor);
+}
+
+function deleteProveedor(){
+	libreria.proveedores[posicionModificar].deleteProveedor();
+}
+
+function updateTableProveedores(){
+	$("#optionsProveedor").modal('hide');
+	libreria.proveedores.splice(posicionModificar,1);
+	document.getElementById("rCategorias").innerHTML = "";
+	$("#rCategorias").append("<table class='table table-hover table-striped' id='tableCatRead'><thead><tr><th>Codigo</th><th>Nombre</th></tr></table>");
+
 	// Creo un array con las categorias(objetos) de la libreria(objeto)
 	for(var i in libreria.proveedores){
-		var proveedor = [];
-		proveedor.push(libreria.proveedores[i].getId());
-		proveedor.push(libreria.proveedores[i].getNombre());
-		proveedor.push("<button type='button' class='btn btn-link' id="+i+" onclick='deleteProveedor(this.id)'>borrar</button>");
-		crudProveedores.push(proveedor);
+		$("#tableCatRead").append("<tr><td>"+libreria.proveedores[i].getId()+"</td><td>"+libreria.proveedores[i].getNombre()+"</td></tr>");
 	}
+	var table = document.getElementById("tableCatRead");
+	var rows = table.getElementsByTagName("tr");
 
-	// Creo una nueva ventana editable para los datos
-	objP = { width: 675, height: 447, title: "Proveedores",resizable:false,draggable:false };
-	// Establesco la estructura de las columnas
-	objP.colModel = 
-		[
-			{ title: "Codigo", width: 25, dataType: "string", align: "center", editable: false},
-			{ title: "Proveedor", width: 273, dataType: "string", align: "center", editable: true},
-			{ title: "Opcion", width: 100, dataType: "string", align: "center", editable: false}
-		];
-	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
-	objP.dataModel = { data: crudProveedores};
-
-	// Muestro la tabla con los datos
-	var $grid = $("#rCategorias").pqGrid(objP);
-	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
-
-	$grid.on( "pqgridcellsave", function(){
-		console.log('click en las marcas');
-		/*obj.dataModel = { data: curso.tareas_array};
-		var $grid = $("#tareasAsignadas").pqGrid(obj);
-		$("#tareasAsignadas").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});*/
-	});
-
-}
-
-function deleteProveedor(proveedorDelete){
-	posicionModificar = proveedorDelete;
-	var statusDelete = confirm("¿Eliminar la marca "+libreria.proveedores[posicionModificar].getNombre()+"?");
-	if (statusDelete)
-		libreria.proveedores[posicionModificar].deleteProveedor();
-}
-function updateTableProveedores(){
-	crudProveedores.splice(posicionModificar,1);
-
-	//Ingreso datos a la tabla, tiene que ser array asociativo numerico
-	objP.dataModel = { data: crudProveedores};
-
-	// Muestro la tabla con los datos
-	var $grid = $("#rCategorias").pqGrid(objP);
-	$("#rCategorias").pqGrid({editModel:{clicksToEdit: 1,saveKey:13 }});
+	for (var i = 0; i < rows.length; i++) {
+		var currentRow = table.rows[i+1];
+		var createClickHandler = 
+			function (j) {
+				return function(){
+					optionsProveedor(j);
+				}
+			};
+		currentRow.onclick = createClickHandler(i);	
+	};
 
 }
 
@@ -821,6 +911,7 @@ function verificaCredencialesUsuarioAdmin(){
 function verificaCredencialesUsuarioAdminInv(){
 	var libreria = new Tienda();
 	libreria.verificaLoginAdminInv();
+	libreria.iniciarTiendaServidor();
 }
 
 function desabSistema(){

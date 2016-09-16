@@ -186,6 +186,82 @@ Tienda.prototype.getReporteDia = function(fecha){
 	})
 }
 
+Tienda.prototype.newCategoria = function(nombreCategoria){
+	var _this = this;
+	$.ajax({
+		url : "controlador.php",
+		data : {"newCategoria" : nombreCategoria},
+		type : "GET",
+		success : function(data){
+			var newCategoria = $.parseJSON(data);
+			var categoria = new Categoria();
+			categoria.setId(newCategoria["idCategorias"]);
+			categoria.setNombre(newCategoria["CategoriaNombre"]);
+			_this.categorias.unshift(categoria);
+			document.getElementById("newCat").innerHTML = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Buena!</strong> Categoria Creada exitosamente</div>";
+			document.getElementById("okMensajeNewCat").innerHTML = "<button type='button' class='btn btn-info' data-dismiss='modal'>Aceptar</button>";
+			rCategorias();
+		}
+	})
+}
+
+Tienda.prototype.searchCategorias = function(str){
+	var _this = this;
+	_this.categorias = [];
+	$.ajax({
+		url : "controlador.php",
+		type : "GET",
+		data : {"searchCategorias" : str},
+		success : function(data){
+			var categorias = $.parseJSON(data);
+			for(var i in categorias){
+				var categoria = new Categoria();
+				categoria.setId(categorias[i]["idCategorias"]);
+				categoria.setNombre(categorias[i]["CategoriaNombre"]);
+				_this.categorias.unshift(categoria);
+			}
+			rCategorias();
+		}
+	})
+}
+Tienda.prototype.searchMarcas = function(str){
+	var _this = this;
+	_this.marcas = [];
+	$.ajax({
+		url : "controlador.php",
+		type : "GET",
+		data : {"searchMarcas" : str},
+		success : function(data){
+			var marcas = $.parseJSON(data);
+			for(var i in marcas){
+				var marca = new Marca();
+				marca.setId(marcas[i]["idMarcas"]);
+				marca.setNombre(marcas[i]["MarcaNombre"]);
+				_this.marcas.unshift(marca);
+			}
+			rMarcas();
+		}
+	})
+}
+Tienda.prototype.searchProveedores = function(str){
+	var _this = this;
+	_this.proveedores = [];
+	$.ajax({
+		url : "controlador.php",
+		type : "GET",
+		data : {"searchProveedores" : str},
+		success : function(data){
+			var proveedores = $.parseJSON(data);
+			for(var i in proveedores){
+				var proveedor = new Proveedor();
+				proveedor.setId(proveedores[i]["idProveedores"]);
+				proveedor.setNombre(proveedores[i]["ProveedoresNombre"]);
+				_this.proveedores.unshift(proveedor);
+			}
+			rProveedor();
+		}
+	})
+}
 Tienda.prototype.getCategorias = function (selects){
 	_this	 = this;
 	$.ajax({
@@ -201,7 +277,7 @@ Tienda.prototype.getCategorias = function (selects){
 				var categoria = new Categoria();
 				categoria.setId(categoriasTodas[i][0]);
 				categoria.setNombre(categoriasTodas[i][1]);
-				_this.categorias.push(categoria);
+				_this.categorias.unshift(categoria);
 			}
 			if (selects == 3) {
 				rCategorias();
@@ -246,7 +322,7 @@ Tienda.prototype.getMarcas = function (selects){
 				var marca = new Marca();
 				marca.setId(marcasTodas[i][0]);
 				marca.setNombre(marcasTodas[i][1]);
-				_this.marcas.push(marca);
+				_this.marcas.unshift(marca);
 			}
 			if (selects == 3) {
 				rMarcas();
@@ -277,6 +353,26 @@ Tienda.prototype.getMarcas = function (selects){
 		}
 	})
 }
+
+Tienda.prototype.newMarca = function(nombreMarca){
+	var _this = this;
+	$.ajax({
+		url : "controlador.php",
+		data : {"newMarca" : nombreMarca},
+		type : "GET",
+		success : function(data){
+			var newMarca = $.parseJSON(data);
+			var marca = new Marca();
+			marca.setId(newMarca["idMarcas"]);
+			marca.setNombre(newMarca["MarcaNombre"]);
+			_this.marcas.unshift(marca);
+			document.getElementById("newCat").innerHTML = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Buena!</strong> Marca Creada exitosamente</div>";
+			document.getElementById("okMensajeNewCat").innerHTML = "<button type='button' class='btn btn-info' data-dismiss='modal'>Aceptar</button>";
+			rMarcas();
+		}
+	})
+}
+
 Tienda.prototype.getProveedores = function (select){
 	_this = this;
 	$.ajax({
@@ -292,7 +388,7 @@ Tienda.prototype.getProveedores = function (select){
 				var proveedor = new Proveedor();
 				proveedor.setId(proveedoresTodos[i][0]);
 				proveedor.setNombre(proveedoresTodos[i][1]);
-				_this.proveedores.push(proveedor);
+				_this.proveedores.unshift(proveedor);
 			}
 			if (select == 3) {
 				rProveedor();
@@ -311,6 +407,24 @@ Tienda.prototype.getProveedores = function (select){
 					$("#proveedorNuevoProducto").append("<option value="+i+">"+_this.proveedores[i].getNombre()+"</option>")
 				};
 			}
+		}
+	})
+}
+Tienda.prototype.newProveedor = function(nombreProveedor){
+	var _this = this;
+	$.ajax({
+		url : "controlador.php",
+		data : {"newProveedor" : nombreProveedor},
+		type : "GET",
+		success : function(data){
+			var newProveedor = $.parseJSON(data);
+			var proveedor = new Marca();
+			proveedor.setId(newProveedor["idProveedores"]);
+			proveedor.setNombre(newProveedor["ProveedoresNombre"]);
+			_this.proveedores.unshift(proveedor);
+			document.getElementById("newCat").innerHTML = "<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Buena!</strong> Proveedor Creado exitosamente</div>";
+			document.getElementById("okMensajeNewCat").innerHTML = "<button type='button' class='btn btn-info' data-dismiss='modal'>Aceptar</button>";
+			rProveedor();
 		}
 	})
 }
@@ -578,6 +692,25 @@ Categoria.prototype.deleteCategoria = function (){
 	})
 }
 
+Categoria.prototype.updateCategoria = function(newName){
+	var _this = this;
+	$.ajax({
+		data : {"updateCategoria":_this._id, "newName":newName},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == "0")
+				alert("Error al modificar el archivo");
+			else{
+				var categoriaUpdate = $.parseJSON(data);
+				_this._id = categoriaUpdate["idCategorias"];
+				_this._nombre = categoriaUpdate["CategoriaNombre"];
+				rCategorias();
+			}
+		}
+	})
+}
+
 
 /**
 *Clase marca
@@ -667,7 +800,25 @@ Marca.prototype.deleteMarca = function (){
 			if (data == '1')
 				updateTableMarcas();
 			else
-				alert("Error al eliminar la Marca "+_this._nombre);
+				alert("Error al eliminar la categoria "+_this._nombre);
+		}
+	})
+}
+Marca.prototype.updateMarca = function(newName){
+	var _this = this;
+	$.ajax({
+		data : {"updateMarca":_this._id, "newName":newName},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == "0")
+				alert("Error al modificar el archivo");
+			else{
+				var marcaUpdate = $.parseJSON(data);
+				_this._id = marcaUpdate["idMarcas"];
+				_this._nombre = marcaUpdate["MarcaNombre"];
+				rMarcas();
+			}
 		}
 	})
 }
@@ -736,6 +887,24 @@ Proveedor.prototype.deleteProveedor = function (){
 				updateTableProveedores();
 			else
 				alert("Error al eliminar al proveedor "+_this._nombre);
+		}
+	})
+}
+Proveedor.prototype.updateProveedor = function(newName){
+	var _this = this;
+	$.ajax({
+		data : {"updateProveedor":_this._id, "newName":newName},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			if (data == "0")
+				alert("Error al modificar el archivo");
+			else{
+				var proveedorUpdate = $.parseJSON(data);
+				_this._id = proveedorUpdate["idProveedores"];
+				_this._nombre = proveedorUpdate["ProveedoresNombre"];
+				rProveedor();
+			}
 		}
 	})
 }

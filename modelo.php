@@ -20,6 +20,9 @@ class Tienda extends Conexion
 {
 	public $reportesA = array();
 	public $reportesCompras = array();
+	public $newsCategorias = array();
+	public $newsMarcas = array();
+	public $newsProveedores = array();
 
 	function __construct()
 	{
@@ -207,6 +210,94 @@ class Tienda extends Conexion
 		return $this->reportesCompras;
 	}
 
+	public function newCategoria($nombreCategoria){
+		$query = "call newCategoria('$nombreCategoria')";
+		parent:: __construct();
+		if ($newCategoria = $this->conexion->query($query)) {
+			$newCategoriaA = array();			
+			foreach ($newCategoria->fetch_assoc() as $key => $value) {
+				$newCategoriaA[$key] = $value;
+			}
+			array_unshift($this->newsCategorias, $newCategoriaA);
+			return $newCategoriaA;
+		}
+		else
+			echo "Error al ingresar una nueva categoria";
+	}
+	public function newMarca($nombreMarca){
+		$query = "call newMarca('$nombreMarca')";
+		parent:: __construct();
+		if ($newMarca = $this->conexion->query($query)) {
+			$newMarcaA = array();			
+			foreach ($newMarca->fetch_assoc() as $key => $value) {
+				$newMarcaA[$key] = $value;
+			}
+			array_unshift($this->newsMarcas, $newMarcaA);
+			return $newMarcaA;
+		}
+		else
+			echo "Error al ingresar una nueva categoria";
+	}
+	public function newProveedor($nombreProveedor){
+		$query = "call newProveedor('$nombreProveedor')";
+		parent:: __construct();
+		if ($newProveedor = $this->conexion->query($query)) {
+			$newProveedorA = array();			
+			foreach ($newProveedor->fetch_assoc() as $key => $value) {
+				$newProveedorA[$key] = $value;
+			}
+			array_unshift($this->newsProveedores, $newProveedorA);
+			return $newProveedorA;
+		}
+		else
+			echo "Error al ingresar una nueva categoria";
+	}
+
+	public function searchCategorias($str){
+		$query = "SELECT * from categoria where CategoriaNombre like '%$str%'";
+		parent:: __construct();
+		$resultadosSearchCategorias = $this->conexion->query($query);
+		$this->conexion->close();
+		$this->newsCategorias = array();
+		while ($categoriaSearch = $resultadosSearchCategorias->fetch_assoc()) {
+			$categoriaSearchA = array();
+			foreach ($categoriaSearch as $key => $value) {
+				$categoriaSearchA[$key] = $value;
+			}
+			array_unshift($this->newsCategorias, $categoriaSearchA);
+		}
+		return $this->newsCategorias;
+	}
+	public function searchMarcas($str){
+		$query = "SELECT * from marca where MarcaNombre like '%$str%'";
+		parent:: __construct();
+		$resultadosSearchMarcas = $this->conexion->query($query);
+		$this->conexion->close();
+		$this->newsMarcas = array();
+		while ($marcaSearch = $resultadosSearchMarcas->fetch_assoc()) {
+			$marcaSearchA = array();
+			foreach ($marcaSearch as $key => $value) {
+				$marcaSearchA[$key] = $value;
+			}
+			array_unshift($this->newsMarcas, $marcaSearchA);
+		}
+		return $this->newsMarcas;
+	}
+	public function searchProveedor($str){
+		$query = "SELECT * from proveedores where ProveedoresNombre like '%$str%'";
+		parent:: __construct();
+		$resultadoSearchProveedor = $this->conexion->query($query);
+		$this->conexion->close();
+		$this->newsProveedores = array();
+		while ($proveedorSearch = $resultadoSearchProveedor->fetch_assoc()) {
+			$proveedorSearchA = array();
+			foreach ($proveedorSearch as $key => $value) {
+				$proveedorSearchA[$key] = $value;
+			}
+			array_unshift($this->newsProveedores, $proveedorSearchA);
+		}
+		return $this->newsProveedores;
+	}
 	function deleteCategoria($idCategoria){
 		$query = "DELETE from categoria where idCategorias = $idCategoria";
 		parent:: __construct();
@@ -229,7 +320,54 @@ class Tienda extends Conexion
 		$statusDelete = $this->conexion->query($query);
 		$this->conexion->close();
 		return $statusDelete;
+	}
+
+	function updateCategoria($idCategoria, $newName){
+		$query = "call updateCategoria($idCategoria, '$newName')";
+		parent:: __construct();
+		$statusUpdate = $this->conexion->query($query);
+		$this->conexion->close();
+		if ($newNameCategoria = $statusUpdate->fetch_assoc()){
+			$newCategoria = array();
+			foreach ($newNameCategoria as $key => $value) {
+				$newCategoria[$key] = $value;
+			}
+			return $newCategoria; 
+		}
+		else
+			return false;
 	}	
+	function updateMarca($idMarca, $newName){
+		$query = "call updateMarca($idMarca, '$newName')";
+		parent:: __construct();
+		$statusUpdate = $this->conexion->query($query);
+		$this->conexion->close();
+		if ($newNameMarca = $statusUpdate->fetch_assoc()){
+			$newMarca = array();
+			foreach ($newNameMarca as $key => $value) {
+				$newMarca[$key] = $value;
+			}
+			return $newMarca; 
+		}
+		else
+			return false;
+	}
+	function updateProveedor($idProveedor, $newName){
+		$query = "call updateProveedor($idProveedor, '$newName')";
+		parent:: __construct();
+		$statusUpdate = $this->conexion->query($query);
+		$this->conexion->close();
+		if ($nameNewProveedor = $statusUpdate->fetch_assoc()){
+			$newProveedor = array();
+			foreach ($nameNewProveedor as $key => $value) {
+				$newProveedor[$key] = $value;
+			}
+			return $newProveedor; 
+		}
+		else
+			return false;
+	}
+
 }
 
 ?>

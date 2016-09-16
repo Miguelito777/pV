@@ -2,6 +2,52 @@
 	include 'modelo.php';
 	session_start();
 
+// Control de categorias
+	if(isset($_GET["updateCategoria"]) && isset($_GET["newName"])) {
+		$idCategoriaUpdate = (int)$_GET["updateCategoria"];
+		$libreria = new Tienda();
+		$statusUpdate = $libreria->updateCategoria($idCategoriaUpdate,$_GET["newName"]);
+		if ($statusUpdate)
+			echo json_encode($statusUpdate);
+		else
+			echo "0";
+	}
+	if(isset($_GET["updateMarca"]) && isset($_GET["newName"])) {
+		$idMarcaUpdate = (int)$_GET["updateMarca"];
+		$libreria = new Tienda();
+		$statusUpdate = $libreria->updateMarca($idMarcaUpdate,$_GET["newName"]);
+		if ($statusUpdate)
+			echo json_encode($statusUpdate);
+		else
+			echo "0";
+	}
+	if(isset($_GET["updateProveedor"]) && isset($_GET["newName"])) {
+		$idMarcaUpdate = (int)$_GET["updateProveedor"];
+		$libreria = new Tienda();
+		$statusUpdate = $libreria->updateProveedor($idMarcaUpdate,$_GET["newName"]);
+		if ($statusUpdate)
+			echo json_encode($statusUpdate);
+		else
+			echo "0";
+	}
+	if(isset($_GET["searchCategorias"])){
+		if (!isset($_SESSION["libreria"]))
+			$_SESSION["libreria"] = new Tienda();
+		$resultadosSearchCategorias = $_SESSION["libreria"]->searchCategorias($_GET["searchCategorias"]);
+		echo json_encode($resultadosSearchCategorias);
+	}
+	if(isset($_GET["searchMarcas"])){
+		if (!isset($_SESSION["libreria"]))
+			$_SESSION["libreria"] = new Tienda();
+		$resultadosSearchCategorias = $_SESSION["libreria"]->searchMarcas($_GET["searchMarcas"]);
+		echo json_encode($resultadosSearchCategorias);
+	}
+	if(isset($_GET["searchProveedores"])){
+		if (!isset($_SESSION["libreria"]))
+			$_SESSION["libreria"] = new Tienda();
+		$resultadoSearchProveedor = $_SESSION["libreria"]->searchProveedor($_GET["searchProveedores"]);
+		echo json_encode($resultadoSearchProveedor);
+	}
 	/*
 	* Fragmento de codigo para verificar la sesion de usuario administrador
 	*/
@@ -140,6 +186,7 @@
 
 		echo "$statusDelete";
 	}
+
 	if (isset($_GET["deleteMarca"])) {
 		$idMarcaDelete = (int)$_GET["deleteMarca"];
 		$libreria = new Tienda();
@@ -153,10 +200,8 @@
 		$libreria = new Tienda();
 
 		$statusDelete = $libreria->deleteProveedor($idProveedorDelete);
-
 		echo "$statusDelete";
 	}
-
 
 	if (isset($_POST["actualPassword"]) && isset($_POST["newPassword"]) && isset($_POST["repeatNewPassword"])) {
 		$libreria = new Tienda();
@@ -177,8 +222,42 @@
 		}
 		else
 			echo false;
-		
+	}
 
-
+	if (isset($_GET["newCategoria"])) {
+		if (isset($_SESSION["usuarioValidoAdmin"])) {
+			if (isset($_SESSION["libreriaa"])) {
+				$nuevaCat = $_SESSION["libreriaa"]->newCategoria($_GET["newCategoria"]);
+				echo json_encode($nuevaCat);
+			}
+			else
+				echo "0";
+		}
+		else
+			echo "0";
+	}
+	if (isset($_GET["newMarca"])) {
+		if (isset($_SESSION["usuarioValidoAdmin"])) {
+			if (isset($_SESSION["libreriaa"])) {
+				$nuevaMarca = $_SESSION["libreriaa"]->newMarca($_GET["newMarca"]);
+				echo json_encode($nuevaMarca);
+			}
+			else
+				echo "0";
+		}
+		else
+			echo "0";
+	}
+	if (isset($_GET["newProveedor"])) {
+		if (isset($_SESSION["usuarioValidoAdmin"])) {
+			if (isset($_SESSION["libreriaa"])) {
+				$newProveedor = $_SESSION["libreriaa"]->newProveedor($_GET["newProveedor"]);
+				echo json_encode($newProveedor);
+			}
+			else
+				echo "0";
+		}
+		else
+			echo "0";
 	}
 ?>
