@@ -10,8 +10,11 @@
 		<header>
 			<hr>
 			<div class="row">
-				<div class="col-xs-3">
+				<div class="col-xs-1">
 					<button type="button" class="btn btn-primary" onclick="window.location='administracion/index.html'">Regresar</button>					
+				</div>
+				<div class="col-xs-2">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="nuevoPro">Nuevo producto</button>					
 				</div>
 				<div class="col-xs-6" style="text-align:center">
 					<h2>SISTEMA DE INVENTARIO</h2>
@@ -27,9 +30,11 @@
 					<input class ="form-control" type="text" placeholder="Coincidencia" id="coincidencia" onkeyup="coincidenciaProducto(this.value)">
 					<br>
 				</div>
-				<div class="col-xs-4"></div>
-				<div class="col-xs-4">
-					<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="nuevoPro">Nuevo producto</button>
+				<div class="col-xs-4" style="text-align:right;">
+					<p class="lead">Capital Comprometido</p>
+				</div>
+				<div class="col-xs-4" id="capitalComprometido">
+					
 				</div>
 			</div>
 			<div class="row">

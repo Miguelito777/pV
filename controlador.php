@@ -260,4 +260,10 @@
 		else
 			echo "0";
 	}
+	if (isset($_POST["verCompras"])) {
+		if (isset($_SESSION["usuarioValidoAdmin"])){
+			$diasCompra = $_SESSION["libreriaa"]->verCompras($_POST["verCompras"]);
+			echo json_encode($diasCompra);
+		}
+	}
 ?>

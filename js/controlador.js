@@ -841,14 +841,28 @@ function getComprasDia(){
 	})
 	.on("changeDate", function(e){
 		$('#example1').datepicker('hide');
-
 		document.getElementById("comprasDia").innerHTML = "<img src='img/ajax-loader.gif'>";
 		reportes = new Tienda();
 		reportes.iniciarTiendaServidor();
 		var fecha = document.getElementById("example1").value;
-		reportes.getReporteDiaCompras(fecha);
+		var x = fecha.split('/');
+		var verCompras = x[1] + "-" +x[0];	
+		reportes.verCompras(verCompras);
 	});
 }
+function showCompras(diasCompras){
+	document.getElementById("diasCompras").innerHTML = " ";
+	document.getElementById("diasCompras").innerHTML = "<table class='table'><tr id='diasComprass'></tr></table>";
+	for(var i in diasCompras){
+		var x = diasCompras[i].split('-');
+		$("#diasComprass").append("<th>"+x[2]+"</th>");
+	}
+	reportes = new Tienda();
+	reportes.iniciarTiendaServidor();
+	var fecha = document.getElementById("example1").value;
+	reportes.getReporteDiaCompras(fecha);
+}
+
 
 // Muestra el reporte de compras diaria
 function mostrarReportesCompras(){

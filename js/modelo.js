@@ -10,6 +10,28 @@ function Tienda(){
 	this.reportesCompras = [];
 	this.totalVentaDiaria = 0;
 }
+Tienda.prototype.parseCant = function(nStr){
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;	
+}
+Tienda.prototype.verCompras = function(verCompras){
+	$.ajax({
+		data : {"verCompras":verCompras},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			var diasCompras = $.parseJSON(data);
+			showCompras(diasCompras);
+		}
+	})
+}
 Tienda.prototype.changePaaswordAdmin = function(actualPassword, newPassword, repeatNewPassword){
 	$.ajax({
 		url : "../controlador.php",
@@ -453,15 +475,19 @@ Tienda.prototype.getProductos = function (){
 			}
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }
 
 Tienda.prototype.getProductosCategoriaMarca = function (idCategoria, idMarca){
-	alert("Voy a buscar los productos por categoria");
 	_this = this;
 	_this.productos = [];
 	$.ajax({
@@ -486,9 +512,14 @@ Tienda.prototype.getProductosCategoriaMarca = function (idCategoria, idMarca){
 			}
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }
@@ -517,9 +548,14 @@ Tienda.prototype.getProductosMarcaProveedor = function (idMarca, idProveedor){
 			}
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }
@@ -548,9 +584,14 @@ Tienda.prototype.getProductosCategoriaMarcaProveedor = function (idCategoria, id
 			}
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }
@@ -580,9 +621,14 @@ Tienda.prototype.getProductosCategoriaProveedor = function (idCategoria, idProve
 			}
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }
@@ -607,6 +653,17 @@ function Categoria (){
 	Tienda.prototype.constructor.call(this);
 	this._id;
 	this._nombre;
+}
+Categoria.prototype.parseCant = function(nStr){
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;	
 }
 Categoria.prototype = new Tienda();
 
@@ -648,9 +705,14 @@ Categoria.prototype.getProductosCategoria = function (selects){
 				document.getElementById("resultadosInventario").innerHTML = "";
 				// Creo tabla para mostrar productos
 				$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
-				for (var i = 0; i < _this.productos.length; i++) {
-					$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
-				};
+			var capitalComprometido = 0;
+			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
+				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
+			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 			}
 		})
 	}
@@ -761,9 +823,14 @@ Marca.prototype.getProductosMarca = function (modulo){
 				document.getElementById("resultadosInventario").innerHTML = "";
 				// Creo tabla para mostrar productos
 				$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
-				for (var i = 0; i < _this.productos.length; i++) {
-					$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
-				};
+			var capitalComprometido = 0;
+			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
+				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
+			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 			}
 		})
 	}
@@ -870,9 +937,14 @@ Proveedor.prototype.getProductosProveedor = function (){
 			document.getElementById("resultadosInventario").innerHTML = "";
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }
@@ -954,9 +1026,14 @@ Coincidencia.prototype.getProductosCoincidencia = function (str){
 			document.getElementById("resultadosInventario").innerHTML = "";
 			// Creo tabla para mostrar productos
 			$("#resultadosInventario").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Codigo</th><th>Existencia</th><th>Descripcion</th><th>Cantidad Total</th><th>Precio Costo</th><th>Precio Venta</th><th>Modificar</th><th>Borrar</th></tr></table>");
+			var capitalComprometido = 0;
 			for (var i = 0; i < _this.productos.length; i++) {
+				var totalProducto = _this.productos[i].existencia * _this.productos[i].precioCosto;
+				capitalComprometido = capitalComprometido + totalProducto;
 				$("#tablaProductos").append("<tr><td>"+_this.productos[i]._id+"</td><td>"+_this.productos[i].existencia+"</td><td>"+_this.productos[i].descripcion+"</td><td>"+_this.productos[i].cantidadTotal+"</td><td>"+_this.productos[i].precioCosto+"</td><td>"+_this.productos[i].precioVenta+"</td><td><button type='button' class='btn btn-link' id="+i+" data-toggle='modal' data-target='#updateProducto' onclick = 'updateProducto(this.id)'>modificar</button></td><td><button type='button' class='btn btn-link' id="+i+" onclick = 'deleteProducto(this.id)'>Borrar</button></td></tr>");
 			};
+			var newCant = _this.parseCant(capitalComprometido);
+			document.getElementById("capitalComprometido").innerHTML = "<p class='lead'> Q. "+newCant+"</p>";
 		}
 	})
 }

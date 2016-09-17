@@ -29,6 +29,18 @@ class Tienda extends Conexion
 		
 	}
 
+	public function verCompras($verCompras){
+		$query = "SELECT fecha FROM detallecompra WHERE date_format(fecha, '%m-%Y') = '$verCompras' group by fecha;";
+		parent:: __construct();
+		$fechasCompras = $this->conexion->query($query);
+		$this->conexion->close();
+		$fechasComprasA = array();
+		while($fechaCompra = $fechasCompras->fetch_assoc()){
+			array_push($fechasComprasA, $fechaCompra["fecha"]);
+		}
+		return $fechasComprasA;			
+	}
+
 	public function setNewPassword($idUsuarioActual, $newPassword){
 		$newPassEncript = sha1($newPassword);
 		$query = "UPDATE usersadmin set password = '$newPassEncript' where idUsuario = $idUsuarioActual";
