@@ -56,7 +56,6 @@ if (isset($_GET["getCategorias"])){
   }   
 
 if (isset($_GET["getMarcas"])){
-  
     $sistema = new Sistema();
     $sistema->consultarMarcasIdNombre();
     $marcasIdNombreTodas=array();
@@ -81,7 +80,6 @@ if (isset($_GET["getMarcas"])){
 }
 
 if (isset($_GET["getProveedores"])){
-
     $sistema = new Sistema();
     $sistema->consultarProveedoresIdNombre();
     $proveedoresIdNombreTodos=array();
@@ -99,13 +97,12 @@ if (isset($_GET["getProveedores"])){
            // $dato = $proveedoresIdNombreTodos[$i][$j];
               // echo "$dato";
             }
-
     }
     echo json_encode($proveedoresIdNombreTodos);
 }
 
 
-   if (isset($_GET["getProductosCategoria"])){
+if (isset($_GET["getProductosCategoria"])){
     $id= $_GET["getProductosCategoria"];
     $sistema = new sistema();
     $sistema->consultarProductosCategoria($id);
@@ -124,12 +121,39 @@ if (isset($_GET["getProveedores"])){
           // $dato = $productosCatTodos[$i][$j];
            // echo "$dato";
             }
-
     }
     echo json_encode($productosCatTodos);
 }
-
-
+if (isset($_POST["getProductosCatCoin"])){
+    $getProductosCatCoin = json_decode($_POST["getProductosCatCoin"],true);
+    $sistema = new Sistema();
+    $getProductosCatCoin = $sistema->getProductosCatCoin($getProductosCatCoin["idCategoria"],$getProductosCatCoin["coincidencia"]);
+    echo "$getProductosCatCoin";
+}
+if (isset($_POST["getProductosCatMarCoin"])){
+    $getProductosCatMarCoin = json_decode($_POST["getProductosCatMarCoin"],true);
+    $sistema = new Sistema();
+    $getProductosCatMarCoin = $sistema->getProductosCatMarCoin($getProductosCatMarCoin["idCategoria"],$getProductosCatMarCoin["idMarca"],$getProductosCatMarCoin["coincidencia"]);
+    echo "$getProductosCatMarCoin";
+}
+if (isset($_POST["getProductosCatMarProCoin"])){
+    $getProductosCatMarProCoin = json_decode($_POST["getProductosCatMarProCoin"],true);
+    $sistema = new Sistema();
+    $getProductosCatMarProCoin = $sistema->getProductosCatMarProCoin($getProductosCatMarProCoin["idCategoria"],$getProductosCatMarProCoin["idMarca"],$getProductosCatMarProCoin["idProveedor"],$getProductosCatMarProCoin["coincidencia"]);
+    echo "$getProductosCatMarProCoin";
+}
+if (isset($_POST["getProductosCatProCoin"])){
+    $getProductosCatProCoin = json_decode($_POST["getProductosCatProCoin"],true);
+    $sistema = new Sistema();
+    $getProductosCatProCoin = $sistema->getProductosCatProCoin($getProductosCatProCoin["idCategoria"],$getProductosCatProCoin["idProveedor"],$getProductosCatProCoin["coincidencia"]);
+    echo "$getProductosCatProCoin";
+}
+if (isset($_POST["getProductosMarProCoin"])){
+    $getProductosMarProCoin = json_decode($_POST["getProductosMarProCoin"],true);
+    $sistema = new Sistema();
+    $getProductosMarProCoin = $sistema->getProductosMarProCoin($getProductosMarProCoin["idMarca"],$getProductosMarProCoin["idProveedor"],$getProductosMarProCoin["coincidencia"]);
+    echo "$getProductosMarProCoin";
+}
    if (isset($_GET["getProductosMarca"])){
      $marca= $_GET["getProductosMarca"];
         $sistema = new sistema();
@@ -529,6 +553,13 @@ if (isset($_GET["idCategorias"]) && isset($_GET["idMarca"]) && isset($_GET["coin
             $pdf->Ln(5); 
         }
         $pdf->Output();
+    }
+
+    if (isset($_GET["getParametros"])) {
+        $idProducto = $_GET["getParametros"];
+        $sistema = new Sistema();
+        $parametros = $sistema->getParametros($idProducto);
+        echo "$parametros";
     }
 
 ?>

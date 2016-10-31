@@ -16,11 +16,74 @@
         public $proveedores;
         public $venta;
         public $detalleventa;
-        
-        
+
         function __construct(){
             
         }
+
+        public function getProductosCatCoin($idCategoria, $coinProducto){
+            $query = "SELECT * from producto where Categoria_idCategorias = $idCategoria and ProductoDescripcion like '%$coinProducto%'";
+            parent:: __construct();
+            $productosCatCoin = $this->conn->query($query);
+            $this->conn->close();
+            $productosCatCoinA = array();
+            while($productoCatCoinA = $productosCatCoin->fetch_assoc()){
+                array_push($productosCatCoinA, $productoCatCoinA);
+            }
+            return json_encode($productosCatCoinA);
+        }
+        public function getProductosCatMarCoin($idCategoria,$idMarca, $coinProducto){
+            $query = "SELECT * from producto where Categoria_idCategorias = $idCategoria and Marca_idMarcas = $idMarca and ProductoDescripcion like '%$coinProducto%'";
+            parent:: __construct();
+            $productosCatMarCoin = $this->conn->query($query);
+            $this->conn->close();
+            $productosCatMarCoinA = array();
+            while($productoCatMarCoinA = $productosCatMarCoin->fetch_assoc()){
+                array_push($productosCatMarCoinA, $productoCatMarCoinA);
+            }
+            return json_encode($productosCatMarCoinA);
+        }
+        public function getProductosCatMarProCoin($idCategoria, $idMarca, $idProveedor, $coinProducto){
+            $query = "SELECT * from producto where Categoria_idCategorias = $idCategoria and Marca_idMarcas = $idMarca and Proveedores_idProveedores = $idProveedor and ProductoDescripcion like '%$coinProducto%'";
+            parent:: __construct();
+            $productosCatMarCatCoin = $this->conn->query($query);
+            $this->conn->close();
+            $productosCatMarProCoinA = array();
+            while($productoCatMarProCoinA = $productosCatMarCatCoin->fetch_assoc()){
+                array_push($productosCatMarProCoinA, $productoCatMarProCoinA);
+            }
+            return json_encode($productosCatMarProCoinA);
+        }
+        public function getProductosCatProCoin($idCategoria, $idProveedor, $coinProducto){
+            $query = "SELECT * from producto where Categoria_idCategorias = $idCategoria and Proveedores_idProveedores = $idProveedor and ProductoDescripcion like '%$coinProducto%'";
+            parent:: __construct();
+            $productosCatProCoin = $this->conn->query($query);
+            $this->conn->close();
+            $productosCatProCoinA = array();
+            while($productoCatProCoinA = $productosCatProCoin->fetch_assoc()){
+                array_push($productosCatProCoinA, $productoCatProCoinA);
+            }
+            return json_encode($productosCatProCoinA);
+        }        
+        public function getProductosMarProCoin($idMarca, $idProveedor, $coinProducto){
+            $query = "SELECT * from producto where Marca_idMarcas = $idMarca and Proveedores_idProveedores = $idProveedor and ProductoDescripcion like '%$coinProducto%'";
+            parent:: __construct();
+            $productosMarProCoin = $this->conn->query($query);
+            $this->conn->close();
+            $productosMarProCoinA = array();
+            while($productoMarProCoinA = $productosMarProCoin->fetch_assoc()){
+                array_push($productosMarProCoinA, $productoMarProCoinA);
+            }
+            return json_encode($productosMarProCoinA);
+        }           
+        public function getParametros($idProducto){
+            $query = "SELECT Categoria_idCategorias, Marca_idMarcas, Proveedores_idProveedores from producto where idProducto = $idProducto";
+            parent:: __construct();
+            $parametros = $this->conn->query($query);
+            $this->conn->close();
+            $parametros = $parametros->fetch_assoc();
+            return json_encode($parametros);
+        }        
 
         function deleteProducto($id){
             parent:: __construct();
@@ -95,7 +158,7 @@
         }
         function consultarProductosCategoria($id){
             parent::__construct();
-            $this->productos = $this->conn->query("SELECT *from producto where Categoria_idCategorias ='$id'");
+            $this->productos = $this->conn->query("SELECT * from producto where Categoria_idCategorias ='$id'");
             $this->conn->close();
         }   
 
@@ -108,7 +171,7 @@
         
         function consultarProductosMarcas($marca){
             parent::__construct();
-            $this->marcas=$this->conn->query("SELECT *from Producto where Marca_IdMarcas ='$marca'");
+            $this->marcas=$this->conn->query("SELECT * from producto where Marca_IdMarcas ='$marca'");
             $this->conn->close();
         }
 
@@ -121,7 +184,7 @@
         
         function consultarProductosProveedores($prov){
             parent::__construct();
-            $this->proveedores=$this->conn->query("SELECT *from Producto where Proveedores_idProveedores = $prov");
+            $this->proveedores=$this->conn->query("SELECT * from producto where Proveedores_idProveedores = $prov");
             $this->conn->close();
         }
 
@@ -292,39 +355,18 @@
 
 
         function modificarNuevoProducto($arrayProducto){
-            $descripcionProducto=$arrayProducto['descripcionProducto'];          
-            $totalInicial=$arrayProducto['totalInicial'];
-            $precioCosto=(float)$arrayProducto['precioCosto'];
-            $precioVenta=$arrayProducto['precioVenta'];
-            $codigoProductoo=(int)$arrayProducto['codigoProducto'];
+            $descripcionProducto = $arrayProducto['descripcionProducto'];          
+            $totalInicial = $arrayProducto['totalInicial'];
+            $precioCosto = (float)$arrayProducto['precioCosto'];
+            $precioVenta = $arrayProducto['precioVenta'];
+            $codigoProductoo = (int)$arrayProducto['codigoProducto'];
+            $codCategoria = $arrayProducto['codigoCategoria'];
+            $codMarca = $arrayProducto['codigoMarca'];
+            $codProveedor = $arrayProducto['codigoProveedor'];
             $fecha = date("Y-m-d");
-            // Obtengo el Id de Marca
-            parent:: __construct();
-            $query = "SELECT Marca_idMarcas from producto where idProducto = $codigoProductoo";
-            if (!$codMarca = $this->conn->query($query)) {
-                printf("Errormessage: %s\n", $this->conn->error);
-            }
-            $this->conn->close();
-            $codMarca = $codMarca->fetch_assoc();
-            $codMarca = (int)$codMarca['Marca_idMarcas'];
 
-            // Obtengo el Id de Proveedor
-            parent::__construct();
-            $query = "SELECT Proveedores_idProveedores from producto where idProducto = $codigoProductoo";
-            $codProveedor = $this->conn->query($query);
-            $this->conn->close();
-            $codProveedor = $codProveedor->fetch_assoc();
-            $codProveedor = (int)$codProveedor['Proveedores_idProveedores'];
-            // Obtengo el Id de Categoria
-            parent::__construct();
-            $query = "SELECT Categoria_idCategorias from producto where idProducto = $codigoProductoo";
-            $codCategoria = $this->conn->query($query);
-            $this->conn->close();
-            $codCategoria = $codCategoria->fetch_assoc();
-            $codCategoria = (int)$codCategoria['Categoria_idCategorias'];
-            
             // Modifico el producto en inventario
-            $query = ("call setModificarProducto('$descripcionProducto',$totalInicial,$precioCosto,$precioVenta,$codigoProductoo)");
+            $query = "call setModificarProducto('$descripcionProducto',$totalInicial,$precioCosto,$precioVenta,$codigoProductoo,$codCategoria, $codMarca, $codProveedor)";
             parent:: __construct();
             $this->productos= $this->conn->query($query);
             $this->conn->close();
@@ -346,9 +388,9 @@
                     return $producto;
            else
                      return false;
-    }
+        }
      
-    function concultarNuevaVenta($arrayVenta){
+        function concultarNuevaVenta($arrayVenta){
             $ventaDescripcion=$arrayVenta['ventaDescripcion'];          
             $ventaFecha=$arrayVenta['ventaFecha'];
             $ventaHora=$arrayVenta['ventaHora'];
@@ -494,71 +536,6 @@
             $this->conn->close();
             return $estadoDelete;
         }
-/*
-            function modificarProveedores($arrayProveedores){
-            $idProveedores=$arrayProveedores['idProveedores'];          
-            $ProveedoresNombre=$arrayProveedores['ProveedoresNombre'];
-            parent::__construct();
-            $query = ("()");
-            $this->categorias= $this->conn->query($query);
-            $this->conn->close();
-            
-        }  
-            function obtenerNuevoProveedor(){
-            if($Proveedores = $this->proveedores->fetch_assoc())
-                    return $proveedores;
-            else
-                     return false;
-            }
-
-            function deleteProveedores($id){
-            parent:: __construct();
-            $query = ("deleteProveedores($id)");
-            $estadoDelete = $this->conn->query($query);
-            $this->conn->close();
-            return $estadoDelete;
-        }
-
-            function modificarMarcas($arrayMarcas){
-            $idMarcas=$arrayMarcas['idMarcas'];          
-            $marcaNombre=$arrayMarcas['MarcaNombre'];
-            parent::__construct();
-            $query = ("()");
-            $this->marcas= $this->conn->query($query);
-            $this->conn->close();
-            
-        }  
-            function obtenerNuevaMarca(){
-            if($Marca= $this->marcas->fetch_assoc())
-                    return $marcas;
-            else
-                     return false;
-            }
-
-            function deleteMarcas($id){
-            parent:: __construct();
-            $query = ("deleteMarcas($id)");
-            $estadoDelete = $this->conn->query($query);
-            $this->conn->close();
-            return $estadoDelete;
-        }
-
-        */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }

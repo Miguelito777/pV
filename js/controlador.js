@@ -85,59 +85,101 @@ function setProductosCategoriaVentas(){
 function cambiaSelect(){
 	var categoria = document.getElementsByTagName("select")[0].value;
 	var marca = document.getElementsByTagName("select")[1].value;
-	var proveedor = document.getElementsByTagName("select")[2].value;
-	if (marca == '' && proveedor == '' && categoria != '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria.categorias[categoria];
-		libreria.categorias[categoria].getProductosCategoria(selects);
-	};
-	if (marca != '' && proveedor == '' && categoria == '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria.marcas[marca];
-		libreria.marcas[marca].getProductosMarca(selects);
-	};
-	if (marca == '' && proveedor != '' && categoria == '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria.proveedores[proveedor];
-		libreria.proveedores[proveedor].getProductosProveedor();
-	};
-	if (marca != '' && proveedor == '' && categoria != '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria;
-		libreria.getProductosCategoriaMarca(libreria.categorias[categoria].getId(),libreria.marcas[marca].getId());
-	};
-	if (marca != '' && proveedor != '' && categoria == '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria;
-		libreria.getProductosMarcaProveedor(libreria.marcas[marca].getId(),libreria.proveedores[proveedor].getId());
-	};
-	if (marca == '' && proveedor != '' && categoria != '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria;
-		libreria.getProductosCategoriaProveedor(libreria.categorias[categoria].getId(),libreria.proveedores[proveedor].getId());
-	};
-	if (marca != '' && proveedor != '' && categoria != '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria;
-		libreria.getProductosCategoriaMarcaProveedor(libreria.categorias[categoria].getId(),libreria.marcas[marca].getId(), libreria.proveedores[proveedor].getId());
-	};
-	if (marca == '' && proveedor == '' && categoria == '') {
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
-		apuntadorParametro = libreria;
-		libreria.getProductos();	
-	};
+	var proveedor = document.getElementsByTagName("select")[2].value;	
+	var coincidencia = document.getElementById("coincidencia").value;
+	if (coincidencia == "") {
+		if (marca == '' && proveedor == '' && categoria != '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria.categorias[categoria];
+			libreria.categorias[categoria].getProductosCategoria(selects);
+		};
+		if (marca != '' && proveedor == '' && categoria == '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria.marcas[marca];
+			libreria.marcas[marca].getProductosMarca(selects);
+		};
+		if (marca == '' && proveedor != '' && categoria == '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria.proveedores[proveedor];
+			libreria.proveedores[proveedor].getProductosProveedor();
+		};
+		if (marca != '' && proveedor == '' && categoria != '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria;
+			libreria.getProductosCategoriaMarca(libreria.categorias[categoria].getId(),libreria.marcas[marca].getId());
+		};
+		if (marca != '' && proveedor != '' && categoria == '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria;
+			libreria.getProductosMarcaProveedor(libreria.marcas[marca].getId(),libreria.proveedores[proveedor].getId());
+		};
+		if (marca == '' && proveedor != '' && categoria != '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria;
+			libreria.getProductosCategoriaProveedor(libreria.categorias[categoria].getId(),libreria.proveedores[proveedor].getId());
+		};
+		if (marca != '' && proveedor != '' && categoria != '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria;
+			libreria.getProductosCategoriaMarcaProveedor(libreria.categorias[categoria].getId(),libreria.marcas[marca].getId(), libreria.proveedores[proveedor].getId());
+		};
+		if (marca == '' && proveedor == '' && categoria == '') {
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando productos...</h1>";
+			apuntadorParametro = libreria;
+			libreria.getProductos();	
+		};	
+	}
+	else{
+		if (categoria != "" && marca == "" && proveedor == "") {
+			libreria.getProductosCatCoin(libreria.categorias[categoria]._id, coincidencia);
+		};
+		if (categoria != "" && marca != "" && proveedor == "") {
+			libreria.getProductosCatMarCoin(libreria.categorias[categoria]._id,libreria.marcas[marca]._id, coincidencia);
+		};
+		if (categoria != "" && marca != "" && proveedor != "") {
+			libreria.getProductosCatMarProCoin(libreria.categorias[categoria]._id,libreria.marcas[marca]._id, libreria.proveedores[proveedor]._id, coincidencia);
+		};
+		if (categoria != "" && marca == "" && proveedor != "") {
+			libreria.getProductosCatProCoin(libreria.categorias[categoria]._id, libreria.proveedores[proveedor]._id, coincidencia);
+		};		
+		if (categoria == "" && marca != "" && proveedor != "") {
+			libreria.getProductosMarProCoin(libreria.marcas[marca]._id, libreria.proveedores[proveedor]._id, coincidencia);
+		};
+	}
 }
 
 // Controlador de coincidencias de inventario
 function coincidenciaProducto(str){
-	if (str != ""){
-		document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando resultados...</h1>";
-		apuntadorParametro = coin;
-		coin.getProductosCoincidencia(str);
+	var categoria = document.getElementsByTagName("select")[0].value;
+	var marca = document.getElementsByTagName("select")[1].value;
+	var proveedor = document.getElementsByTagName("select")[2].value;
+	if (categoria == "" && marca == "" && proveedor == "") {
+		if (str != ""){
+			document.getElementById("resultadosInventario").innerHTML = "<h1>Buscando resultados...</h1>";
+			apuntadorParametro = coin;
+			coin.getProductosCoincidencia(str);
+		}
+		else{
+			libreria.getProductos();
+			apuntadorParametro = libreria;
+		}
 	}
 	else{
-		libreria.getProductos();
-		apuntadorParametro = libreria;
+		if (categoria != "" && marca == "" && proveedor == "") {
+			libreria.getProductosCatCoin(libreria.categorias[categoria]._id, str);
+		};
+		if (categoria != "" && marca != "" && proveedor == "") {
+			libreria.getProductosCatMarCoin(libreria.categorias[categoria]._id,libreria.marcas[marca]._id, str);
+		};
+		if (categoria != "" && marca != "" && proveedor != "") {
+			libreria.getProductosCatMarProCoin(libreria.categorias[categoria]._id,libreria.marcas[marca]._id, libreria.proveedores[proveedor]._id, str);
+		};
+		if (categoria != "" && marca == "" && proveedor != "") {
+			libreria.getProductosCatProCoin(libreria.categorias[categoria]._id, libreria.proveedores[proveedor]._id, str);
+		};		
+		if (categoria == "" && marca != "" && proveedor != "") {
+			libreria.getProductosMarProCoin(libreria.marcas[marca]._id, libreria.proveedores[proveedor]._id, str);
+		};
 	}
 }
 // control de coincidencia de ventas
@@ -382,6 +424,30 @@ function updateProducto(posicionProducto){
 	document.getElementById("totalInicialU").value = '';
 	document.getElementById("precioCostoU").value = apuntadorParametro.productos[posicionProducto].precioCosto;
 	document.getElementById("precioVentaU").value = apuntadorParametro.productos[posicionProducto].precioVenta;
+	apuntadorParametro.productos[posicionProducto].getParametros();
+}
+function showParameter(parameters){
+	document.getElementsByTagName("select")[6].options.length = 0;
+	document.getElementsByTagName("select")[7].options.length = 0;
+	document.getElementsByTagName("select")[8].options.length = 0;
+	for(var i in libreria.categorias){
+		if (libreria.categorias[i]._id == parameters["Categoria_idCategorias"])
+			$("#categoriaSelect").append("<option value="+libreria.categorias[i]._id+" selected>"+libreria.categorias[i]._nombre+"</option>");
+		else
+			$("#categoriaSelect").append("<option value="+libreria.categorias[i]._id+">"+libreria.categorias[i]._nombre+"</option>");
+	}
+	for(var i in libreria.marcas){
+		if (libreria.marcas[i]._id == parameters["Marca_idMarcas"])
+			$("#marcaSelect").append("<option value="+libreria.marcas[i]._id+" selected>"+libreria.marcas[i]._nombre+"</option>");
+		else
+			$("#marcaSelect").append("<option value="+libreria.marcas[i]._id+">"+libreria.marcas[i]._nombre+"</option>");
+	}
+	for(var i in libreria.proveedores){
+		if (libreria.proveedores[i]._id == parameters["Proveedores_idProveedores"])
+			$("#proveedorSelect").append("<option value="+libreria.proveedores[i]._id+" selected>"+libreria.proveedores[i]._nombre+"</option>");
+		else
+			$("#proveedorSelect").append("<option value="+libreria.proveedores[i]._id+">"+libreria.proveedores[i]._nombre+"</option>");
+	}
 }
 
 $("#updateProductoConfirm").click(updateProductoConfirmBD);
@@ -391,6 +457,15 @@ function updateProductoConfirmBD(){
 	apuntadorParametro.productos[posicionModificar].cantidadTotal = document.getElementById("totalInicialU").value;
 	apuntadorParametro.productos[posicionModificar].precioCosto = document.getElementById("precioCostoU").value;
 	apuntadorParametro.productos[posicionModificar].precioVenta = document.getElementById("precioVentaU").value;
+	var categoria = document.getElementById("categoriaSelect");
+	var marca = document.getElementById("marcaSelect");
+	var proveedor = document.getElementById("proveedorSelect");	
+	var newCat = categoria.options[categoria.selectedIndex].value;	
+	var newMar = marca.options[marca.selectedIndex].value;
+	var newPro = proveedor.options[proveedor.selectedIndex].value;
+	apuntadorParametro.productos[posicionModificar].codigoCategoria = newCat;
+	apuntadorParametro.productos[posicionModificar].codigoMarca = newMar;
+	apuntadorParametro.productos[posicionModificar].codigoProveedor = newPro;
 	apuntadorParametro.productos[posicionModificar].updateProducto();
 }
 
