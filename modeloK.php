@@ -5,7 +5,7 @@
 
 
         function __construct(){
-            $this->conn = new mysqli("localhost","root","Jesus8","puntoventalibreria");
+            $this->conn = new mysqli("192.168.1.7","root","Jesus8","puntoventalibreria");
             }
         }
 
@@ -676,11 +676,11 @@ class PDF extends FPDF
         // Movernos a la derecha
         $this->Cell(50);
         // Título
-        $this->Cell(100,10,'Multi Servicios 200',0,0,'C');
+        $this->Cell(100,10,'Libreria y Papeleria',0,0,'C');
         $this->Ln(5);
         $this->SetFont('Arial','B',10);
         $this->Cell(50);
-        $this->Cell(100,10,'Direccion',0,0,'C');
+        $this->Cell(100,10,'Suenos de Papel',0,0,'C');
         $this->Ln(5);
         $this->SetFont('Arial','B',7);
         $this->Cell(50);
@@ -688,7 +688,7 @@ class PDF extends FPDF
         $this->Ln(10);
         $this->SetFont('Arial','B',18);
         $this->Cell(50);
-        $this->Cell(100,10,'Factura electronica',0,0,'C');
+        $this->Cell(100,10,'Factura',0,0,'C');
         // Salto de línea
         $this->Ln(11);
     }
@@ -739,11 +739,11 @@ class PDFC extends FPDF
         // Movernos a la derecha
         $this->Cell(50);
         // Título
-        $this->Cell(100,10,'Multi Servicios 200',0,0,'C');
+        $this->Cell(100,10,'Libreria y Papeleria',0,0,'C');
         $this->Ln(5);
         $this->SetFont('Arial','B',10);
         $this->Cell(50);
-        $this->Cell(100,10,'Direccion',0,0,'C');
+        $this->Cell(100,10,'Suenos de Papel',0,0,'C');
         $this->Ln(5);
         $this->SetFont('Arial','B',7);
         $this->Cell(50);
@@ -751,7 +751,7 @@ class PDFC extends FPDF
         $this->Ln(10);
         $this->SetFont('Arial','B',18);
         $this->Cell(50);
-        $this->Cell(100,10,'Cotizacion de productos',0,0,'C');
+        $this->Cell(100,10,'Cotizacion',0,0,'C');
         // Salto de línea
         $this->Ln(11);
     }

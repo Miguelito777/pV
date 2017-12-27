@@ -26,6 +26,7 @@ function criteriosVentas(){
 	apuntadorParametro = coin;
 	coin.getCategorias(selects);
 	coin.getMarcas(selects);
+	console.log("Ventas preparado");
 }
 
 function criterios(){
@@ -54,13 +55,14 @@ function selectsVentas(){
 	var coincidencia = document.getElementById("coincidenciaPV").value;
 	if (categoria != '' && marca == '' && coincidencia == ''){
 		apuntadorParametro = coin;
-		apuntadorParametro.categorias[categoria].getProductosCategoria(selects);
-		apuntadorParametro = apuntadorParametro.categorias[categoria];
+		apuntadorParametro.categorias[categoria].getProductosCategoria(selects,categoria);
+		apuntadorParametro.productos = apuntadorParametro.categorias[categoria].productos;
+		//console.log(apuntadorParametro);
 	}
 	if (categoria == '' && marca != '' && coincidencia == ''){
 		apuntadorParametro = coin;
 		apuntadorParametro.marcas[marca].getProductosMarca(selects);
-		apuntadorParametro = apuntadorParametro.marcas[marca];
+		apuntadorParametro.productos = apuntadorParametro.marcas[marca].productos;
 	}
 	if (categoria != '' && marca != '' && coincidencia == ''){
 		apuntadorParametro = coin;
@@ -193,7 +195,7 @@ function coincidenciaProductoV(str){
 		document.getElementById("resultadosBusqueda").innerHTML = "<h1>Aqui se mostrarán los resultados de las busquedas...</h1>";
 	}
 }
-function setProductosCoincidenciaV(){
+function setProductosCoincidenciaV(categoria){
 	document.getElementById("resultadosBusqueda").innerHTML = "";
 	// Creo tabla para mostrar productos
 	$("#resultadosBusqueda").append("<table class='table table-striped table-condensed' id='tablaProductos'><tr class='success'><th>Categoria</th><th>Descripcion</th><th>Marca</th><th>Precio Venta</th><th>Existencia</th><th>Agregar</th></tr></table>");

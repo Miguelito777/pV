@@ -494,8 +494,8 @@ if (isset($_GET["idCategorias"]) && isset($_GET["idMarca"]) && isset($_GET["coin
             $pdf->Ln(5);
             $pdf->Cell(0,10,'___________________________________________________');
             $pdf->Ln(20); 
-            $pdf->SetFont('Arial','i',10);
-            $pdf->Cell(0,10,'INIT WebApps, Totonicapan, Guatemala',0,0,'C');
+            $pdf->SetFont('Arial','i',8);
+            $pdf->Cell(0,10,'init WebApps, Totonicapan, Guatemala',0,0,'C');
             $pdf->Ln(5); 
         }
         $pdf->Output();
@@ -548,8 +548,8 @@ if (isset($_GET["idCategorias"]) && isset($_GET["idMarca"]) && isset($_GET["coin
             $pdf->Ln(5);
             $pdf->Cell(0,10,'___________________________________________________');
             $pdf->Ln(20); 
-            $pdf->SetFont('Arial','i',10);
-            $pdf->Cell(0,10,'INIT WebApps, Totonicapan, Guatemala',0,0,'C');
+            $pdf->SetFont('Arial','i',8);
+            $pdf->Cell(0,10,'init WebApps, Totonicapan, Guatemala',0,0,'C');
             $pdf->Ln(5); 
         }
         $pdf->Output();

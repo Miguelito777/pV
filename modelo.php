@@ -9,7 +9,7 @@ class Conexion
 
 	function __construct()
 	{
-		$this->conexion = new mysqli("localhost","root","Jesus8","puntoventalibreria");		
+		$this->conexion = new mysqli("192.168.1.7","root","Jesus8","puntoventalibreria");		
 	}
 }
 
@@ -85,7 +85,7 @@ class Tienda extends Conexion
 				false;
 		}
 		if ($typeUser == 2) {
-			$passwordEncript = sha1($password);
+			$passwordEncript = $password; //sha1($password);
 			$query = "SELECT * from usersadmin where nombre = '$usuario' and password = '$passwordEncript'";
 			parent:: __construct();
 			$result = $this->conexion->query($query);

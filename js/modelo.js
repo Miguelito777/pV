@@ -886,7 +886,7 @@ Categoria.prototype.setId = function(id){
 Categoria.prototype.setNombre = function(nombre){
 	this._nombre = nombre;
 }
-Categoria.prototype.getProductosCategoria = function (selects){
+Categoria.prototype.getProductosCategoria = function (selects, categoria){
 	_this = this;
 	_this.productos = [];
 	if (selects == 1) {
@@ -939,7 +939,7 @@ Categoria.prototype.getProductosCategoria = function (selects){
 					productoCategoriaVenta.existencia = productos[i]["ProductoExistencia"];
 					_this.productos.push(productoCategoriaVenta);
 				}
-				setProductosCoincidenciaV();
+				setProductosCoincidenciaV(categoria);
 			}
 		})
 	}
