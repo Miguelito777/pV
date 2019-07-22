@@ -9,7 +9,7 @@ class Conexion
 
 	function __construct()
 	{
-		$this->conexion = new mysqli("localhost","root","","puntoventalibreria");		
+		$this->conexion = new mysqli("localhost","root","Jesus8+","puntoventalibreria");		
 	}
 }
 

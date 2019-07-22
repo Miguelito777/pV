@@ -5,7 +5,7 @@
 
 
         function __construct(){
-            $this->conn = new mysqli("localhost","root","","puntoventalibreria");
+            $this->conn = new mysqli("localhost","root","Jesus8+","puntoventalibreria");
             }
         }
 
