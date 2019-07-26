@@ -9,6 +9,7 @@ function Tienda(){
 	this.reportes = [];
 	this.reportesCompras = [];
 	this.totalVentaDiaria = 0;
+	this.usuarioLogeado='';
 }
 Tienda.prototype.parseCant = function(nStr){
     nStr += '';
@@ -1208,6 +1209,22 @@ Coincidencia.prototype.setId = function(id){
 Coincidencia.prototype.setNombre = function(nombre){
 	this._nombre = nombre;
 }
+
+Coincidencia.prototype.getUsuarioLogged = function (str){
+	_this = this;
+	_this.usuario = '';
+	$.ajax({
+		data : {"getUsuarioLogged":str},
+		url : "controladorK.php",
+		type : "GET",
+		//dataType: "json",
+		success : function (data){
+			var usuarioLogged = $.parseJSON(data);
+			_this.usuarioLogeado = usuarioLogged;
+		}
+	})
+}
+
 Coincidencia.prototype.getProductosCoincidencia = function (str){
 	_this = this;
 	_this.productos = [];
@@ -1320,7 +1337,7 @@ Coincidencia.prototype.realizarCotizacionCarrito = function(carrito){
 	var ventaJS = {};
 	ventaJS.carrito = carrito;
 	ventaJS.descripcion = "Ningun comentario";
-	ventaJS.usuario = "Miguelito";
+	ventaJS.usuario = this.usuarioLogeado;
 	var carritoJson = JSON.stringify(ventaJS);
 	$.ajax({
 		data : {"cotizacionCarritoCompra":carritoJson},
@@ -1340,7 +1357,7 @@ Coincidencia.prototype.realizarVentaCarrito = function(carrito){
 	var ventaJS = {};
 	ventaJS.carrito = carrito;
 	ventaJS.descripcion = "Ningun comentario";
-	ventaJS.usuario = "Miguelito";
+	ventaJS.usuario = this.usuarioLogeado;
 	var carritoJson = JSON.stringify(ventaJS);
 	$.ajax({
 		data : {"ventaCarritoCompra":carritoJson},

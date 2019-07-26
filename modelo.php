@@ -85,7 +85,7 @@ class Tienda extends Conexion
 				false;
 		}
 		if ($typeUser == 2) {
-			$passwordEncript = $password; //sha1($password);
+			$passwordEncript = sha1($password);
 			$query = "SELECT * from usersadmin where nombre = '$usuario' and password = '$passwordEncript'";
 			parent:: __construct();
 			$result = $this->conexion->query($query);

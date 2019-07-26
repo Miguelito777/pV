@@ -39,6 +39,11 @@ function utf8_encode_recursive ($array)
             return $result;
         }
 
+        if (isset($_GET["getUsuarioLogged"])){     
+            $usr = $_SESSION["loginUser"]; 
+           echo json_encode($usr);
+      } 
+
 if (isset($_GET["getCategorias"])){     
         $sistema = new Sistema();
         $sistema->consultarCategoriasIdNombre();

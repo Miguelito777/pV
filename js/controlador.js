@@ -26,6 +26,8 @@ function criteriosVentas(){
 	apuntadorParametro = coin;
 	coin.getCategorias(selects);
 	coin.getMarcas(selects);
+	coin.getUsuarioLogged(true);
+	
 	console.log("Ventas preparado");
 }
 

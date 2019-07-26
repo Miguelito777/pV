@@ -99,6 +99,7 @@
 
 		if ($result == 1){
 			$_SESSION["usuarioValido"] = true;
+			$_SESSION["loginUser"] = $_POST["usuario"];
 			echo 1;
 		}
 		else if ($result == 2){
