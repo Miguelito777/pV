@@ -147,10 +147,44 @@ Tienda.prototype.iniciarTiendaServidor = function(){
 		url : "controlador.php",
 		type : "GET",
 		success : function(data){
-			console.log(data);
+			//console.log(data);
 		}
-	})
+	});
 }
+Tienda.prototype.getUsuariosVenta = function(){
+_this = this;
+$.ajax({
+	data : {"usuariosVenta" : true},
+	url : "controlador.php",
+	type : "GET",
+	success : function(data){
+		var reportes = $.parseJSON(data);
+		for (var i = 0; i < reportes.length; i++) {
+			//console.log(reportes[i]['nombreUsuario']);
+			$("#usuarioReporte").append("<option value="+reportes[i]['nombreUsuario']+">"+reportes[i]['nombreUsuario']+"</option>")
+		};
+		$("#usuarioReporte").append("<option value='' selected>Seleccione usuario</option>");
+		/*for(var i in reportes){
+			var reporte = new Reporte();
+			reporte.hora = reportes[i]['hora'];
+			reporte.cantidadComprada = reportes[i]['cantidadComprada'];
+			reporte.producto = reportes[i]['descripcionCompra'];
+			reporte.marca = reportes[i]['MarcaNombre'];
+			reporte.proveedor = reportes[i]['ProveedoresNombre'];
+			reporte.categoria = reportes[i]['CategoriaNombre'];
+			reporte.precioCosto = reportes[i]['precioCostoCompra'];
+			reporte.idDetalle = reportes[i]['idDetalleCompra'];
+			var CantidadComprada = parseInt(reportes[i]['cantidadComprada']);
+			var PrecioCosto = parseFloat(reportes[i]['precioCostoCompra']);
+			reporte.totalCompra = CantidadComprada * PrecioCosto;
+			_this.totalVentaDiaria = _this.totalVentaDiaria + reporte.totalCompra;
+			_this.reportesCompras.push(reporte);
+		}
+		mostrarReportesCompras();*/
+	}
+})
+}
+
 
 Tienda.prototype.getReporteDiaCompras = function(fecha){
 	_this = this;
@@ -178,13 +212,41 @@ Tienda.prototype.getReporteDiaCompras = function(fecha){
 			}
 			mostrarReportesCompras();
 		}
-	})
+	});
 }
 
 Tienda.prototype.getReporteDia = function(fecha){
 	_this = this;
 	$.ajax({
 		data : {"diaReporte" : fecha},
+		url : "controlador.php",
+		type : "GET",
+		success : function(data){
+			var reportes = $.parseJSON(data);
+			for(var i in reportes){
+				var reporte = new Reporte();
+				reporte.hora = reportes[i]['ventaHora'];
+				reporte.cantidadComprada = reportes[i]['cantidadComprada'];
+				reporte.producto = reportes[i]['ProductoDescripcion'];
+				reporte.marca = reportes[i]['MarcaNombre'];
+				reporte.precioVenta = reportes[i]['ProductocoPrecioVenta'];
+				reporte.existencia = reportes[i]['ProductoExistencia'];
+				reporte.idDetalle = reportes[i]['idDetalleVenta'];
+				var CantidadComprada = parseInt(reportes[i]['cantidadComprada']);
+				var PrecioVenta = parseFloat(reportes[i]['ProductocoPrecioVenta']);
+				reporte.totalCompra = CantidadComprada * PrecioVenta;
+				_this.totalVentaDiaria = _this.totalVentaDiaria + reporte.totalCompra;
+				_this.reportes.push(reporte);
+			}
+			mostrarReportes();
+		}
+	})
+}
+
+Tienda.prototype.getReporteDiaUsr = function(fecha, usr){
+	_this = this;
+	$.ajax({
+		data : {"diaReporteUsr" : fecha, "usr":usr},
 		url : "controlador.php",
 		type : "GET",
 		success : function(data){
@@ -1328,7 +1390,7 @@ Coincidencia.prototype.getProductosCategoriaMarcaVentaC = function (idCategoria,
 				_this.productos.push(productoCatMar);
 			}
 			setProductosCoincidenciaV();*/
-			console.log(data);
+			//console.log(data);
 		}
 	})
 }
@@ -1344,7 +1406,7 @@ Coincidencia.prototype.realizarCotizacionCarrito = function(carrito){
 		url : "controladorK.php",
 		type : "POST",
 		success : function (datos){
-		console.log(datos);
+		//console.log(datos);
 			var data = parseInt(datos);
 			if (data == 1)
 				window.location = 'controladorK.php?cotizacion=true';

@@ -123,6 +123,12 @@
 			false;
 	}
 
+	if (isset($_GET['usuariosVenta'])) {
+		$_SESSION["reportesVentas"] = new Tienda();
+		$reportes = $_SESSION["reportesVentas"]->getUsuariosVentas();
+		echo json_encode($reportes);
+	}
+
 	if (isset($_GET['iniciarTienda'])) {
 		$libreria = new Tienda();
 		$_SESSION["libreriaa"] = $libreria;
@@ -134,6 +140,16 @@
 		$reportes = $_SESSION["reportesVentas"]->getReporteDiario($diaReporte);
 		echo json_encode($reportes);
 	}
+
+	if (isset($_GET['diaReporteUsr']) && isset($_GET['usr'])) {
+		$_SESSION["reportesVentas"] = new Tienda();
+		$diaReporte = $_GET['diaReporteUsr'];
+		$usr = $_GET['usr'];
+		$reportes = $_SESSION["reportesVentas"]->getReporteDiarioUsr($diaReporte,$usr);
+		echo json_encode($reportes);
+	}
+
+
 	if (isset($_GET['diaReporteCompra'])) {
 		$_SESSION["reportesCompras"] = new Tienda();
 		$diaReporte = $_GET['diaReporteCompra'];

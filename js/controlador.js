@@ -49,6 +49,7 @@ $("#marca").change(cambiaSelect);
 $("#proveedor").change(cambiaSelect);
 $("#categoriaVentas").change(selectsVentas);
 $("#marcaVentas").change(selectsVentas);
+$("#usuarioReporte").change(reporteVentasUsr);
 
 // controla los selects del modulo de ventas
 function selectsVentas(){
@@ -544,8 +545,22 @@ function reporteVentas(){
 		reportes = new Tienda();
 		reportes.iniciarTiendaServidor();
 		var fecha = document.getElementById("example1").value;
-		reportes.getReporteDia(fecha);
+		if(document.getElementsByTagName("select")[0].value != ''){
+			reportes.getReporteDiaUsr(fecha, document.getElementsByTagName("select")[0].value);
+		}else{
+			reportes.getReporteDia(fecha);
+		}
 	});
+}
+
+function reporteVentasUsr(){
+	reportes = new Tienda();
+	reportes.iniciarTiendaServidor();
+	//reportes.getReporteDia(fecha);
+	if(document.getElementById("example1").value != ''){
+		reportes.getReporteDiaUsr(document.getElementById("example1").value, document.getElementsByTagName("select")[0].value);
+	};
+	//console.log();
 }
 
 // Muestra el reporte de Ventas diaria
@@ -1005,6 +1020,7 @@ function verificaCredencialesUsuarioAdminInv(){
 	var libreria = new Tienda();
 	libreria.verificaLoginAdminInv();
 	libreria.iniciarTiendaServidor();
+	libreria.getUsuariosVenta();
 }
 
 function desabSistema(){

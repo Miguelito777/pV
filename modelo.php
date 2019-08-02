@@ -9,7 +9,7 @@ class Conexion
 
 	function __construct()
 	{
-		$this->conexion = new mysqli("localhost","root","Jesus8+","puntoventalibreria");		
+		$this->conexion = new mysqli("13.92.235.252","root","Jesus8+","puntoventalibreria");		
 	}
 }
 
@@ -19,6 +19,7 @@ class Conexion
 class Tienda extends Conexion
 {
 	public $reportesA = array();
+	public $usuariosA = array();
 	public $reportesCompras = array();
 	public $newsCategorias = array();
 	public $newsMarcas = array();
@@ -200,6 +201,50 @@ class Tienda extends Conexion
 			}
 		}
 		return $this->reportesA;
+	}
+
+	function getReporteDiarioUsr($fecha, $usuario){
+		parent:: __construct();
+		if (!$this->conexion)
+			echo "Error al conectar a la Base de Datos";
+		else
+		{
+			$query = "call reporteVentaUsr('$fecha','$usuario')";
+			if(!$reportes = $this->conexion->query($query))
+				printf("Error: %s\n",$this->conexion->error);
+			
+			$this->conexion->close();
+			while ($reporte = $reportes->fetch_assoc()) {
+				$reporteA = array();
+				foreach ($reporte as $key => $value) {
+					$reporteA[$key] = $value;
+				}
+				array_unshift($this->reportesA, $reporteA);
+			}
+		}
+		return $this->reportesA;
+	}
+
+	function getUsuariosVentas(){
+		parent:: __construct();
+		if (!$this->conexion)
+			echo "Error al conectar a la Base de Datos";
+		else
+		{
+			$query = "SELECT ventaUsuario FROM usuarios";
+			if(!$usuarios = $this->conexion->query($query))
+				printf("Error: %s\n",$this->conexion->error);
+			
+			$this->conexion->close();
+			while ($usuario = $usuarios->fetch_assoc()) {
+				$usuarioA = array();
+				foreach ($usuario as $key => $value) {
+					$usuarioA[$key] = $value;
+				}
+				array_unshift($this->usuariosA, $usuarioA);
+			}
+		}
+		return $this->usuariosA;
 	}
 
 	function getReporteDiarioCompras($fecha){
