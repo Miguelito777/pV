@@ -231,7 +231,7 @@ class Tienda extends Conexion
 			echo "Error al conectar a la Base de Datos";
 		else
 		{
-			$query = "SELECT ventaUsuario FROM usuarios";
+			$query = "SELECT nombreUsuario FROM usuarios";
 			if(!$usuarios = $this->conexion->query($query))
 				printf("Error: %s\n",$this->conexion->error);
 			
